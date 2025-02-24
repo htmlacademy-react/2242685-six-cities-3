@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Сергей Сергеев](https://up.htmlacademy.ru/react-individual/3/user/2242685).
-* Наставник: `Профи`.
+* Наставник: [Артём Новоселов](https://htmlacademy.ru/profile/id1195129).
 
 ---
 

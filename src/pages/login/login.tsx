@@ -1,4 +1,4 @@
-function Login(): JSX.Element {
+function Login() {
   return (
     <div className="page page--gray page--login">
       <header className="header">

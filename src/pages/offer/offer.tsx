@@ -1,4 +1,4 @@
-function Offer(): JSX.Element {
+function Offer() {
   return (
     <div className="page">
       <header className="header">

@@ -5,7 +5,7 @@ type PrivateRouteProps = {
 };
 
 function PrivateRoute({children}: PrivateRouteProps) {
-  const hasAccess = false;
+  const hasAccess = true;
 
   return hasAccess ? children : <Navigate to={'/Login'} />;
 }

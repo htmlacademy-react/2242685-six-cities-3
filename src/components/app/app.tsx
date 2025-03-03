@@ -5,6 +5,7 @@ import Favorites from '../../pages/favorites/favorites';
 import Offer from '../../pages/offer/offer';
 import Page404 from '../../pages/page404/page404';
 import PrivateRoute from '../private-route/private-route';
+import Layout from '../layout/layout';
 
 type AppProps = {
   placesCount: number;
@@ -14,7 +15,7 @@ function App({placesCount}: AppProps) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/">
+        <Route path="/" element={<Layout />}>
           <Route index element={<Main placesCount={placesCount} />} />
           <Route path="login" element={<Login />} />
           <Route path='favorites' element={

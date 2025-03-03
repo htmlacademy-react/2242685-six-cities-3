@@ -1,6 +1,6 @@
 import {Outlet} from 'react-router-dom';
 
-function layout () {
+function Layout () {
   return (
     <div className="page">
       <header className="header">
@@ -46,4 +46,4 @@ function layout () {
   );
 }
 
-export default layout;
+export default Layout;

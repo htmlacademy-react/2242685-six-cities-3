@@ -1,3 +1,4 @@
+import {Page} from '../../const.ts';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
@@ -17,14 +18,14 @@ function App({placesCount}: AppProps) {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Main placesCount={placesCount} />} />
-          <Route path="login" element={<Login />} />
-          <Route path='favorites' element={
+          <Route path={Page.LOGIN} element={<Login />} />
+          <Route path={Page.FAVORITES} element={
             <PrivateRoute>
               <Favorites />
             </PrivateRoute>
           }
           />
-          <Route path="offer/:id" element={<Offer />} />
+          <Route path={`${Page.OFFER}/:id`} element={<Offer />} />
           <Route path="*" element={<Page404 />} />
         </Route>
       </Routes>

@@ -1,4 +1,5 @@
 import Card from '../../components/card/card';
+import { CITIES } from '../../const';
 
 type MainProps = {
   placesCount: number;
@@ -12,36 +13,15 @@ function Main({placesCount}: MainProps) {
       <div className="tabs">
         <section className="locations container">
           <ul className="locations__list tabs__list">
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Paris</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Cologne</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Brussels</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item tabs__item--active">
-                <span>Amsterdam</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Hamburg</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Dusseldorf</span>
-              </a>
-            </li>
+            {CITIES.map((city, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <li key={index} className="locations__item">
+                <a className="locations__item-link tabs__item" href="#">
+                  <span>{city}</span>
+                </a>
+              </li>
+            )
+            )}
           </ul>
         </section>
       </div>

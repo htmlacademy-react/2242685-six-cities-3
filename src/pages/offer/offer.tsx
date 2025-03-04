@@ -1,5 +1,4 @@
 function Offer() {
-  //<div className="page">
   return (
     <main className="page__main page__main--offer">
       <section className="offer">

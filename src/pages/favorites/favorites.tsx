@@ -1,5 +1,4 @@
 function Favorites() {
-  //<div className="page">
   return (
     <>
       <main className="page__main page__main--favorites">

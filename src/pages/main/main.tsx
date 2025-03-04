@@ -1,21 +1,19 @@
 import Card from '../../components/card/card';
-import { CITIES } from '../../const';
+import { CITIES, CARDS_PER_PAGE } from '../../const';
 
 type MainProps = {
   placesCount: number;
 }
 
 function Main({placesCount}: MainProps) {
-  //<div className="page page--gray page--main">
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
           <ul className="locations__list tabs__list">
-            {CITIES.map((city, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <li key={index} className="locations__item">
+            {CITIES.map((city) => (
+              <li key={city} className="locations__item">
                 <a className="locations__item-link tabs__item" href="#">
                   <span>{city}</span>
                 </a>
@@ -46,11 +44,11 @@ function Main({placesCount}: MainProps) {
               </ul>
             </form>
             <div className="cities__places-list places__list tabs__content">
-              {Card()}
-              {Card()}
-              {Card()}
-              {Card()}
-              {Card()}
+              {Array.from({ length: CARDS_PER_PAGE }).map((_item, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <Card key={index} />
+              )
+              )}
             </div>
           </section>
           <div className="cities__right-section">

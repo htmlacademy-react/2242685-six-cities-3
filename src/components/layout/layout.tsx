@@ -1,8 +1,23 @@
-import {Outlet} from 'react-router-dom';
+import {Outlet, useLocation} from 'react-router-dom';
+import {Page} from '../../const';
 
 function Layout () {
+  const location = useLocation();
+  const pathname = location.pathname.slice(1); //pathname без '/'
+
+  let topDivClassName = 'page';
+
+  switch (pathname) {
+    case Page.MAIN:
+      topDivClassName += ' page--gray page--main';
+      break;
+    case Page.LOGIN:
+      topDivClassName += ' page--gray page--login';
+      break;
+  }
+
   return (
-    <div className="page">
+    <div className={topDivClassName}>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">

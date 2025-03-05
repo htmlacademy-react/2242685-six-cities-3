@@ -1,5 +1,6 @@
 const PLACES_COUNT = 13;
 const CARDS_PER_PAGE = 5;
+
 const CITIES = [
   'Paris',
   'Cologne',

@@ -1,11 +1,14 @@
 import Card from '../../components/card/card';
 import { CITIES, CARDS_PER_PAGE } from '../../const';
+import { Offers } from '../../types/offer';
+
 
 type MainProps = {
   placesCount: number;
+  offers: Offers;
 }
 
-function Main({placesCount}: MainProps) {
+function Main({placesCount, offers}: MainProps) {
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>

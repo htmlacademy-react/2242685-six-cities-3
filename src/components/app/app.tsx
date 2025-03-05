@@ -7,17 +7,19 @@ import Offer from '../../pages/offer/offer';
 import Page404 from '../../pages/page404/page404';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
+import { Offers } from '../../types/offer.ts';
 
 type AppProps = {
   placesCount: number;
+  offers: Offers;
 }
 
-function App({placesCount}: AppProps) {
+function App({placesCount, offers}: AppProps) {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Main placesCount={placesCount} />} />
+          <Route index element={<Main placesCount={placesCount} offers={offers} />} />
           <Route path={Page.LOGIN} element={<Login />} />
           <Route path={Page.FAVORITES} element={
             <PrivateRoute>

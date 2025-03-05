@@ -6,7 +6,7 @@ function Layout () {
   const pathname = location.pathname.slice(1); //pathname без лидирующего '/'
 
   let topDivClassName = 'page';
-  let isLoginPage = false;
+  let isRenderHeaderNav = true;
 
   switch (pathname) {
     case Page.MAIN:
@@ -14,7 +14,7 @@ function Layout () {
       break;
     case Page.LOGIN:
       topDivClassName += ' page--gray page--login';
-      isLoginPage = true;
+      isRenderHeaderNav = false;
       break;
   }
 
@@ -35,7 +35,7 @@ function Layout () {
               </a>
             </div>
             {
-              !isLoginPage ? (
+              isRenderHeaderNav ? (
                 <nav className="header__nav">
                   <ul className="header__nav-list">
                     <li className="header__nav-item user">

@@ -1,5 +1,5 @@
 import Card from '../../components/card/card';
-import { CITIES, CARDS_PER_PAGE } from '../../const';
+import { CITIES } from '../../const';
 import { Offers } from '../../types/offer';
 
 
@@ -47,9 +47,8 @@ function Main({placesCount, offers}: MainProps) {
               </ul>
             </form>
             <div className="cities__places-list places__list tabs__content">
-              {Array.from({ length: CARDS_PER_PAGE }).map((_item, index) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <Card key={index} />
+              {offers.map((offer) => (
+                <Card key={offer.id} offer={offer} />
               )
               )}
             </div>

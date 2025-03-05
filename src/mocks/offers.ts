@@ -3,45 +3,45 @@ import { Offers } from '../types/offer';
 const offers: Offers =
 [
   {
-    'id': 'eaafac5b-8374-4a2c-bfb7-d4aa09493e84',
-    'title': 'Amazing and Extremely Central Flat',
-    'type': 'apartment',
-    'price': 271,
-    'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/20.jpg',
+    'id': '354c9df2-59a4-4755-8a74-3ae98a7d448e',
+    'title': 'The house among olive ',
+    'type': 'room',
+    'price': 246,
+    'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/17.jpg',
     'city': {
-      'name': 'Paris',
+      'name': 'Cologne',
       'location': {
-        'latitude': 48.85661,
-        'longitude': 2.351499,
+        'latitude': 50.938361,
+        'longitude': 6.959974,
         'zoom': 13
       }
     },
     'location': {
-      'latitude': 48.868610000000004,
-      'longitude': 2.342499,
+      'latitude': 50.960361,
+      'longitude': 6.9509739999999995,
       'zoom': 16
     },
     'isFavorite': false,
-    'isPremium': true,
-    'rating': 3.2
+    'isPremium': false,
+    'rating': 4
   },
   {
-    'id': '2974c72e-8355-41bb-b707-add90a55456f',
-    'title': 'The Pondhouse - A Magical Place',
-    'type': 'hotel',
-    'price': 335,
-    'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/11.jpg',
+    'id': '0d83c217-18d2-43dd-bcc6-dedad75c082f',
+    'title': 'Beautiful & luxurious apartment at great location',
+    'type': 'house',
+    'price': 685,
+    'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/12.jpg',
     'city': {
-      'name': 'Paris',
+      'name': 'Cologne',
       'location': {
-        'latitude': 48.85661,
-        'longitude': 2.351499,
+        'latitude': 50.938361,
+        'longitude': 6.959974,
         'zoom': 13
       }
     },
     'location': {
-      'latitude': 48.858610000000006,
-      'longitude': 2.330499,
+      'latitude': 50.918461,
+      'longitude': 6.969974,
       'zoom': 16
     },
     'isFavorite': false,
@@ -49,51 +49,51 @@ const offers: Offers =
     'rating': 2.6
   },
   {
-    'id': '32852580-861d-406b-b28c-4ffce770b2f3',
-    'title': 'Amazing and Extremely Central Flat',
-    'type': 'house',
-    'price': 626,
-    'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/2.jpg',
+    'id': '6cf205e5-ff4c-46ce-87ed-b5f1e4244cba',
+    'title': 'Loft Studio in the Central Area',
+    'type': 'room',
+    'price': 238,
+    'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/5.jpg',
     'city': {
-      'name': 'Paris',
+      'name': 'Cologne',
       'location': {
-        'latitude': 48.85661,
-        'longitude': 2.351499,
+        'latitude': 50.938361,
+        'longitude': 6.959974,
         'zoom': 13
       }
     },
     'location': {
-      'latitude': 48.834610000000005,
-      'longitude': 2.335499,
+      'latitude': 50.957361,
+      'longitude': 6.9509739999999995,
       'zoom': 16
     },
     'isFavorite': false,
     'isPremium': false,
-    'rating': 1.9
+    'rating': 3.7
   },
   {
-    'id': '9183a2a4-cf40-40fc-bfba-3fa270a41681',
-    'title': 'Amazing and Extremely Central Flat',
-    'type': 'house',
-    'price': 211,
-    'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/9.jpg',
+    'id': '4616445a-5de4-4fbc-a129-a9d402063db5',
+    'title': 'Canal View Prinsengracht',
+    'type': 'hotel',
+    'price': 341,
+    'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/7.jpg',
     'city': {
-      'name': 'Paris',
+      'name': 'Cologne',
       'location': {
-        'latitude': 48.85661,
-        'longitude': 2.351499,
+        'latitude': 50.938361,
+        'longitude': 6.959974,
         'zoom': 13
       }
     },
     'location': {
-      'latitude': 48.85761,
-      'longitude': 2.358499,
+      'latitude': 50.951361,
+      'longitude': 6.944974,
       'zoom': 16
     },
     'isFavorite': false,
     'isPremium': true,
-    'rating': 3
+    'rating': 1.8
   }
 ];
 
-export {offers};
+export { offers };

@@ -1,5 +1,5 @@
-import {Page} from '../../const.ts';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { Page } from '../../const.ts';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';

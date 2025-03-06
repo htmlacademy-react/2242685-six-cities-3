@@ -23,7 +23,7 @@ function App({placesCount, offers}: AppProps) {
           <Route path={Page.LOGIN} element={<Login />} />
           <Route path={Page.FAVORITES} element={
             <PrivateRoute>
-              <Favorites />
+              <Favorites offers={offers.filter((offer) => offer.isFavorite)}/>
             </PrivateRoute>
           }
           />

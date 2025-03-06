@@ -6,15 +6,15 @@ function Layout () {
   const pathname = location.pathname.slice(1); //pathname без лидирующего '/'
 
   let topDivClassName = 'page';
-  let isRenderHeaderNav = true;
+  let shouldRenderHeaderNav = true;
 
   switch (pathname) {
-    case Page.MAIN:
+    case Page.Main:
       topDivClassName += ' page--gray page--main';
       break;
-    case Page.LOGIN:
+    case Page.Login:
       topDivClassName += ' page--gray page--login';
-      isRenderHeaderNav = false;
+      shouldRenderHeaderNav = false;
       break;
   }
 
@@ -35,7 +35,7 @@ function Layout () {
               </a>
             </div>
             {
-              isRenderHeaderNav ? (
+              shouldRenderHeaderNav ? (
                 <nav className="header__nav">
                   <ul className="header__nav-list">
                     <li className="header__nav-item user">

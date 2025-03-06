@@ -11,11 +11,11 @@ const CITIES = [
 ];
 
 enum Page {
-  MAIN = 'main',
-  OFFER = 'offer',
-  LOGIN = 'login',
-  FAVORITES = 'favorites',
-  PAGE404 = 'page404'
+  Main = 'main',
+  Offer = 'offer',
+  Login = 'login',
+  Favorites = 'favorites',
+  Page404 = 'page404'
 }
 
 export {PLACES_COUNT, CARDS_PER_PAGE, CITIES, Page};

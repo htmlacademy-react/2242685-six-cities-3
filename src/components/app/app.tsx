@@ -20,14 +20,14 @@ function App({placesCount, offers}: AppProps) {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Main placesCount={placesCount} offers={offers} />} />
-          <Route path={Page.LOGIN} element={<Login />} />
-          <Route path={Page.FAVORITES} element={
+          <Route path={Page.Login} element={<Login />} />
+          <Route path={Page.Favorites} element={
             <PrivateRoute>
               <Favorites offers={offers.filter((offer) => offer.isFavorite)}/>
             </PrivateRoute>
           }
           />
-          <Route path={`${Page.OFFER}/:id`} element={<Offer />} />
+          <Route path={`${Page.Offer}/:id`} element={<Offer />} />
           <Route path="*" element={<Page404 />} />
         </Route>
       </Routes>

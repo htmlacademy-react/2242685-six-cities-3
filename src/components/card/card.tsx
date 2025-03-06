@@ -1,4 +1,6 @@
 import { Offer } from '../../types/offer';
+import { useLocation } from 'react-router-dom';
+import { Page } from '../../const';
 
 type CardProps = {
   offer: Offer;
@@ -11,10 +13,32 @@ function percentsRating(rating: number) {
 }
 
 function Card({offer, onMouseOver, onMouseLeave}: CardProps) {
-  //сделать универсальным для Main и Favorites!!!
+  const location = useLocation();
+  const pathname = location.pathname.slice(1); //pathname без лидирующего '/'
+
+  let articleClassName = 'place-card';
+  let divImageClassName = 'place-card__image-wrapper';
+  let imageWidth = 260;
+  let imageHeight = 200;
+
+  switch (pathname) {
+    case Page.Main:
+      articleClassName = `cities__card ${articleClassName}`;
+      divImageClassName = `cities__image-wrapper ${divImageClassName}`;
+      imageWidth = 260;
+      imageHeight = 200;
+      break;
+    case Page.Favorites:
+      articleClassName = `favorites__card ${articleClassName}`;
+      divImageClassName = `favorites__image-wrapper ${divImageClassName}`;
+      imageWidth = 150;
+      imageHeight = 110;
+      break;
+  }
+
   return (
     <article
-      className="cities__card place-card"
+      className={articleClassName}
       id={offer.id}
       onMouseOver={() => onMouseOver?.(offer.id)}
       onMouseLeave={() => onMouseLeave?.()}
@@ -26,9 +50,9 @@ function Card({offer, onMouseOver, onMouseLeave}: CardProps) {
           </div>
           : null
       }
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={divImageClassName}>
         <a href="#">
-          <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
+          <img className="place-card__image" src={offer.previewImage} width={imageWidth} height={imageHeight} alt="Place image"/>
         </a>
       </div>
       <div className="place-card__info">

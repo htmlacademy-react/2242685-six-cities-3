@@ -11,7 +11,7 @@ const CITIES = [
 ];
 
 enum Page {
-  Main = 'main',
+  Main = '', //main
   Offer = 'offer',
   Login = 'login',
   Favorites = 'favorites',

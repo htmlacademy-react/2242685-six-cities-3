@@ -1,6 +1,6 @@
-import Card from '../../components/card/card';
 import { CITIES } from '../../const';
 import { Offers } from '../../types/offer';
+import OffersList from '../../components/offers-list/offers-list';
 
 
 type MainProps = {
@@ -46,12 +46,7 @@ function Main({placesCount, offers}: MainProps) {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <div className="cities__places-list places__list tabs__content">
-              {offers.map((offer) => (
-                <Card key={offer.id} offer={offer} />
-              )
-              )}
-            </div>
+            <OffersList offers={offers} />
           </section>
           <div className="cities__right-section">
             <section className="cities__map map"></section>

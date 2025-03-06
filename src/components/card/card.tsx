@@ -2,15 +2,22 @@ import { Offer } from '../../types/offer';
 
 type CardProps = {
   offer: Offer;
+  onMouseOver: (offerId: string) => void;
+  onMouseLeave: () => void;
 }
 
 function percentsRating(rating: number) {
   return Math.round(rating) * 20;
 }
 
-function Card({offer}: CardProps) {
+function Card({offer, onMouseOver, onMouseLeave}: CardProps) {
   return (
-    <article className="cities__card place-card">
+    <article
+      className="cities__card place-card"
+      id={offer.id}
+      onMouseOver={() => onMouseOver(offer.id)}
+      onMouseLeave={() => onMouseLeave()}
+    >
       {
         offer.isPremium ?
           <div className="place-card__mark">

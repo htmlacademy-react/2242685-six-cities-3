@@ -27,7 +27,7 @@ function App({placesCount, offers}: AppProps) {
             </PrivateRoute>
           }
           />
-          <Route path={`${Page.Offer}/:id`} element={<Offer />} />
+          <Route path={`${Page.Offer}/:id`} element={<Offer offers={offers} />} />
           <Route path="*" element={<Page404 />} />
         </Route>
       </Routes>

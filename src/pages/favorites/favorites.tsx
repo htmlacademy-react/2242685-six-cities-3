@@ -1,5 +1,6 @@
 import { Offers } from '../../types/offer';
 import FavoritesList from './favorites-list';
+import { Link } from 'react-router-dom';
 
 type FavoritesProps = {
   offers: Offers;
@@ -17,7 +18,7 @@ function Favorites({offers}: FavoritesProps) {
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
+        <Link className="footer__logo-link" to="/">
           <img
             className="footer__logo"
             src="img/logo.svg"
@@ -25,7 +26,7 @@ function Favorites({offers}: FavoritesProps) {
             width={64}
             height={33}
           />
-        </a>
+        </Link>
       </footer>
     </>
   );

@@ -2,7 +2,6 @@ import { Offers } from '../../types/offer';
 import Card from '../../components/card/card';
 import { CITIES } from '../../const';
 
-
 type FavoritesListProps = {
   offers: Offers;
 }

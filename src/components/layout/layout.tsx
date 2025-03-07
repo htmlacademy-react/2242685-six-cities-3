@@ -1,5 +1,6 @@
 import {Outlet, useLocation} from 'react-router-dom';
 import {Page} from '../../const';
+import { Link } from 'react-router-dom';
 
 function Layout () {
   const location = useLocation();
@@ -24,7 +25,7 @@ function Layout () {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
+              <Link className="header__logo-link" to="/" >
                 <img
                   className="header__logo"
                   src="img/logo.svg"
@@ -32,7 +33,7 @@ function Layout () {
                   width={81}
                   height={41}
                 />
-              </a>
+              </Link>
             </div>
             {
               shouldRenderHeaderNav ? (

@@ -1,6 +1,7 @@
 import { Offer } from '../../types/offer';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { Page } from '../../const';
+import { percentsRating } from '../../utils/utils';
 
 type CardProps = {
   offer: Offer;
@@ -8,13 +9,11 @@ type CardProps = {
   onMouseLeave?: () => void;
 }
 
-function percentsRating(rating: number) {
-  return Math.round(rating) * 20;
-}
 
 function Card({offer, onMouseOver, onMouseLeave}: CardProps) {
   const location = useLocation();
   const pathname = location.pathname.slice(1); //pathname без лидирующего '/'
+  const offerLink = `${Page.Offer}/${offer.id}`;
 
   let articleClassName = 'place-card';
   let divImageClassName = 'place-card__image-wrapper';
@@ -51,9 +50,9 @@ function Card({offer, onMouseOver, onMouseLeave}: CardProps) {
           : null
       }
       <div className={divImageClassName}>
-        <a href="#">
+        <Link to={offerLink}>
           <img className="place-card__image" src={offer.previewImage} width={imageWidth} height={imageHeight} alt="Place image"/>
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -75,7 +74,7 @@ function Card({offer, onMouseOver, onMouseLeave}: CardProps) {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{offer.title}</a>
+          <Link to={offerLink}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>

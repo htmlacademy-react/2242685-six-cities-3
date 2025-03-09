@@ -6,9 +6,23 @@ import ReviewsForm from './reviews-form';
 
 type ReviewsProps = {
   offerId: string;
+  isAuth: boolean;
 }
+
 type ReviewsItemProps = {
   comment: Comment;
+}
+
+type ReviewDateProps = {
+  reviewDate: string;
+}
+
+function ReviewDate({reviewDate}: ReviewDateProps) {
+  return (
+    <>
+      {dayjs(reviewDate).format('MMMM YYYY')}
+    </>
+  );
 }
 
 function ReviewsItem ({comment}: ReviewsItemProps) {
@@ -37,15 +51,16 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
           {comment.comment}
         </p>
         <time className="reviews__time" dateTime={comment.date}>
-          {dayjs(comment.date).format('MMMM YYYY')}
+          <ReviewDate reviewDate={comment.date} />
         </time>
       </div>
     </li>
   );
 }
 
-function Reviews ({offerId}: ReviewsProps) {
+function Reviews ({offerId, isAuth}: ReviewsProps) {
   const offerComments: Comments = comments.filter((comment) => comment.id === offerId);
+  // const isAuth = currentAuthStatus === AuthStatus.Auth;
   return (
     <section className="offer__reviews reviews">
       <h2 className="reviews__title">
@@ -57,7 +72,7 @@ function Reviews ({offerId}: ReviewsProps) {
         ))}
       </ul>
 
-      <ReviewsForm />
+      {isAuth && <ReviewsForm />}
 
     </section>
   );

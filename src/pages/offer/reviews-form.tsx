@@ -1,4 +1,4 @@
-// import { useState } from 'react';
+import { useState, ReactEventHandler } from 'react';
 
 type Star = {
   defaultValue: number;
@@ -8,7 +8,10 @@ type Star = {
 
 type StarItemProps = {
   star: Star;
+  onStarClick: ReactEventHandler;
 }
+
+type TChangeHandler = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
 const Stars: Star[] = [
   {
@@ -38,7 +41,7 @@ const Stars: Star[] = [
   },
 ];
 
-function StarItem ({star}: StarItemProps) {
+function StarItem ({star, onStarClick}: StarItemProps) {
   return (
     <>
       <input
@@ -47,6 +50,7 @@ function StarItem ({star}: StarItemProps) {
         defaultValue={star.defaultValue}
         id={star.id}
         type="radio"
+        onChange={onStarClick}
       />
       <label
         htmlFor={star.id}
@@ -61,9 +65,14 @@ function StarItem ({star}: StarItemProps) {
   );
 }
 
+
 function ReviewsForm () {
-  // const [rating, setRating] = useState(0);
-  // const [text, setText] = useState('');
+  const [review, setReview] = useState({rating: 0, review: ''});
+
+  const handleReviewChange: TChangeHandler = (evt) => {
+    const {name, value} = evt.currentTarget;
+    setReview({...review, [name]: value});
+  };
 
   return (
     <form className="reviews__form form" action="#" method="post">
@@ -73,7 +82,7 @@ Your review
       <div className="reviews__rating-form form__rating">
 
         {Stars.map((star) => (
-          <StarItem key={star.defaultValue} star={star} />
+          <StarItem key={star.defaultValue} star={star} onStarClick={handleReviewChange}/>
         ))}
 
       </div>
@@ -83,6 +92,7 @@ Your review
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         defaultValue={''}
+        onChange={handleReviewChange}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -94,7 +104,7 @@ your stay with at least{' '}
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={false} //???
+          disabled={review.rating === 0 || review.review.length < 50}
         >
 Submit
         </button>

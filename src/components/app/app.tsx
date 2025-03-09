@@ -12,9 +12,11 @@ import { Offers } from '../../types/offer.ts';
 type AppProps = {
   placesCount: number;
   offers: Offers;
+  isAuth: boolean;
 }
 
-function App({placesCount, offers}: AppProps) {
+function App({placesCount, offers, isAuth}: AppProps) {
+  // const isAuth = currentAuthStatus === AuthStatus.Auth;
   return (
     <BrowserRouter>
       <Routes>
@@ -22,12 +24,12 @@ function App({placesCount, offers}: AppProps) {
           <Route index element={<Main placesCount={placesCount} offers={offers} />} />
           <Route path={Page.Login} element={<Login />} />
           <Route path={Page.Favorites} element={
-            <PrivateRoute>
-              <Favorites offers={offers.filter((offer) => offer.isFavorite)}/>
+            <PrivateRoute isAuth={isAuth}>
+              <Favorites offers={offers.filter((offer) => offer.isFavorite)} />
             </PrivateRoute>
           }
           />
-          <Route path={`${Page.Offer}/:id`} element={<Offer offers={offers} />} />
+          <Route path={`${Page.Offer}/:id`} element={<Offer offers={offers} isAuth={isAuth} />} />
           <Route path="*" element={<Page404 />} />
         </Route>
       </Routes>

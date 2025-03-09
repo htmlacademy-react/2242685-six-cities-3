@@ -18,4 +18,10 @@ enum Page {
   Page404 = 'page404'
 }
 
-export {PLACES_COUNT, CARDS_PER_PAGE, CITIES, Page};
+enum AuthStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
+export {PLACES_COUNT, CARDS_PER_PAGE, CITIES, Page, AuthStatus};

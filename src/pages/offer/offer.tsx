@@ -5,11 +5,12 @@ import Reviews from './reviews';
 
 type OfferProps = {
   offers: Offers;
+  isAuth: boolean;
 }
 
 const OFFER_IMGS_COUNT = 6;
 
-function Offer({offers}: OfferProps) {
+function Offer({offers, isAuth}: OfferProps) {
   const params = useParams();
   const offer = offers.find((item) => item.id === params.id);
   if (!offer) {
@@ -117,7 +118,7 @@ function Offer({offers}: OfferProps) {
               </div>
             </div>
 
-            <Reviews offerId={offer.id} />
+            <Reviews offerId={offer.id} isAuth={isAuth} />
 
           </div>
         </div>

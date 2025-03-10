@@ -4,6 +4,8 @@ import { percentsRating } from '../../utils/utils';
 import dayjs from 'dayjs';
 import ReviewsForm from './reviews-form';
 
+const MAX_COMMENTS = 10;
+
 type ReviewsProps = {
   offerId: string;
   isAuth: boolean;
@@ -60,11 +62,14 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
 
 function Reviews ({offerId, isAuth}: ReviewsProps) {
   const offerComments: Comments = comments.filter((comment) => comment.id === offerId);
-  // const isAuth = currentAuthStatus === AuthStatus.Auth;
+  const reviewsAmount = offerComments.length;
+  offerComments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  offerComments.slice(0, MAX_COMMENTS);
+
   return (
     <section className="offer__reviews reviews">
       <h2 className="reviews__title">
-      Reviews · <span className="reviews__amount">{offerComments.length}</span>
+      Reviews · <span className="reviews__amount">{reviewsAmount}</span>
       </h2>
       <ul className="reviews__list">
         {offerComments.map((comment) => (

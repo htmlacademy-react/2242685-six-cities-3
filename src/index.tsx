@@ -5,7 +5,7 @@ import { PLACES_COUNT } from './const';
 import { offers } from './mocks/offers';
 import { AuthStatus } from './const';
 
-const currentAuthStatus = AuthStatus.NoAuth;
+const currentAuthStatus = AuthStatus.Auth;
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

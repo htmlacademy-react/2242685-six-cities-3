@@ -16,7 +16,6 @@ type AppProps = {
 }
 
 function App({placesCount, offers, isAuth}: AppProps) {
-  // const isAuth = currentAuthStatus === AuthStatus.Auth;
   return (
     <BrowserRouter>
       <Routes>

@@ -3,12 +3,12 @@ import { Offers } from '../../types/offer';
 import { percentsRating } from '../../utils/utils';
 import Reviews from './reviews';
 
+const OFFER_IMGS_COUNT = 6;
+
 type OfferProps = {
   offers: Offers;
   isAuth: boolean;
 }
-
-const OFFER_IMGS_COUNT = 6;
 
 function Offer({offers, isAuth}: OfferProps) {
   const params = useParams();
@@ -27,7 +27,7 @@ function Offer({offers, isAuth}: OfferProps) {
               <div key={index} className="offer__image-wrapper">
                 <img
                   className="offer__image"
-                  src={offer.previewImage}
+                  src={offer.previewImage} // заменить на реальные данные
                   alt="Photo studio"
                 />
               </div>

@@ -1,19 +1,19 @@
 import { useState, ReactEventHandler } from 'react';
 
-type Star = {
+type Rating = {
   defaultValue: number;
   id: string;
   title: string;
 }
 
-type StarItemProps = {
-  star: Star;
+type RatingItemProps = {
+  rating: Rating;
   onStarClick: ReactEventHandler;
 }
 
 type TChangeHandler = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
-const Stars: Star[] = [
+const RATINGS: Rating[] = [
   {
     defaultValue: 5,
     id: '5-stars',
@@ -41,21 +41,21 @@ const Stars: Star[] = [
   },
 ];
 
-function StarItem ({star, onStarClick}: StarItemProps) {
+function RatingItem ({rating, onStarClick}: RatingItemProps) {
   return (
     <>
       <input
         className="form__rating-input visually-hidden"
         name="rating"
-        defaultValue={star.defaultValue}
-        id={star.id}
+        defaultValue={rating.defaultValue}
+        id={rating.id}
         type="radio"
         onChange={onStarClick}
       />
       <label
-        htmlFor={star.id}
+        htmlFor={rating.id}
         className="reviews__rating-label form__rating-label"
-        title={star.title}
+        title={rating.title}
       >
         <svg className="form__star-image" width={37} height={33}>
           <use xlinkHref="#icon-star" />
@@ -81,8 +81,8 @@ Your review
       </label>
       <div className="reviews__rating-form form__rating">
 
-        {Stars.map((star) => (
-          <StarItem key={star.defaultValue} star={star} onStarClick={handleReviewChange}/>
+        {RATINGS.map((rating) => (
+          <RatingItem key={rating.defaultValue} rating={rating} onStarClick={handleReviewChange}/>
         ))}
 
       </div>
@@ -104,7 +104,7 @@ your stay with at least{' '}
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={review.rating === 0 || review.review.length < 50}
+          disabled={review.rating === 0 || review.review.length < 50 || review.review.length > 300}
         >
 Submit
         </button>

@@ -1,47 +1,28 @@
-import Card from '../../components/card/card';
+import { CITIES } from '../../const';
+import { Offers } from '../../types/offer';
+import OffersList from '../../components/offers-list/offers-list';
+
 
 type MainProps = {
   placesCount: number;
+  offers: Offers;
 }
 
-function Main({placesCount}: MainProps) {
-  //<div className="page page--gray page--main">
+function Main({placesCount, offers}: MainProps) {
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
           <ul className="locations__list tabs__list">
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Paris</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Cologne</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Brussels</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item tabs__item--active">
-                <span>Amsterdam</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Hamburg</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Dusseldorf</span>
-              </a>
-            </li>
+            {CITIES.map((city) => (
+              <li key={city} className="locations__item">
+                <a className="locations__item-link tabs__item" href="#">
+                  <span>{city}</span>
+                </a>
+              </li>
+            )
+            )}
           </ul>
         </section>
       </div>
@@ -65,13 +46,7 @@ function Main({placesCount}: MainProps) {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <div className="cities__places-list places__list tabs__content">
-              {Card()}
-              {Card()}
-              {Card()}
-              {Card()}
-              {Card()}
-            </div>
+            <OffersList offers={offers} />
           </section>
           <div className="cities__right-section">
             <section className="cities__map map"></section>

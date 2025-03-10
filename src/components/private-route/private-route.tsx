@@ -1,13 +1,14 @@
-import {Navigate} from 'react-router-dom';
+import { ReactNode } from 'react';
+import { Navigate } from 'react-router-dom';
+import { Page } from '../../const';
 
 type PrivateRouteProps = {
-  children: JSX.Element;
+  children: ReactNode;
+  isAuth: boolean;
 };
 
-function PrivateRoute({children}: PrivateRouteProps) {
-  const hasAccess = true;
-
-  return hasAccess ? children : <Navigate to={'/Login'} />;
+function PrivateRoute({children, isAuth}: PrivateRouteProps) {
+  return isAuth ? children : <Navigate to={`/${Page.Login}`} />;
 }
 
 export default PrivateRoute;

@@ -1,64 +1,53 @@
-function Offer() {
-  //<div className="page">
+import { useParams } from 'react-router-dom';
+import { Offers } from '../../types/offer';
+import { percentsRating } from '../../utils/utils';
+import Reviews from './reviews';
+
+const OFFER_IMGS_COUNT = 6;
+
+type OfferProps = {
+  offers: Offers;
+  isAuth: boolean;
+}
+
+function Offer({offers, isAuth}: OfferProps) {
+  const params = useParams();
+  const offer = offers.find((item) => item.id === params.id);
+  if (!offer) {
+    return '';
+  }
+
   return (
     <main className="page__main page__main--offer">
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
-            <div className="offer__image-wrapper">
-              <img
-                className="offer__image"
-                src="img/room.jpg"
-                alt="Photo studio"
-              />
-            </div>
-            <div className="offer__image-wrapper">
-              <img
-                className="offer__image"
-                src="img/apartment-01.jpg"
-                alt="Photo studio"
-              />
-            </div>
-            <div className="offer__image-wrapper">
-              <img
-                className="offer__image"
-                src="img/apartment-02.jpg"
-                alt="Photo studio"
-              />
-            </div>
-            <div className="offer__image-wrapper">
-              <img
-                className="offer__image"
-                src="img/apartment-03.jpg"
-                alt="Photo studio"
-              />
-            </div>
-            <div className="offer__image-wrapper">
-              <img
-                className="offer__image"
-                src="img/studio-01.jpg"
-                alt="Photo studio"
-              />
-            </div>
-            <div className="offer__image-wrapper">
-              <img
-                className="offer__image"
-                src="img/apartment-01.jpg"
-                alt="Photo studio"
-              />
-            </div>
+            {Array.from({ length: OFFER_IMGS_COUNT }).map((_, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <div key={index} className="offer__image-wrapper">
+                <img
+                  className="offer__image"
+                  src={offer.previewImage} // заменить на реальные данные
+                  alt="Photo studio"
+                />
+              </div>
+            ))}
           </div>
         </div>
         <div className="offer__container container">
           <div className="offer__wrapper">
-            <div className="offer__mark">
-              <span>Premium</span>
-            </div>
+            {
+              offer.isPremium ?
+                <div className="offer__mark">
+                  <span>Premium</span>
+                </div>
+                : null
+            }
             <div className="offer__name-wrapper">
               <h1 className="offer__name">
-              Beautiful &amp; luxurious studio at great location
+                {offer.title}
               </h1>
-              <button className="offer__bookmark-button button" type="button">
+              <button className={`offer__bookmark-button ${offer.isFavorite ? 'offer__bookmark-button--active' : ''} button`} type="button">
                 <svg className="offer__bookmark-icon" width={31} height={33}>
                   <use xlinkHref="#icon-bookmark" />
                 </svg>
@@ -67,13 +56,13 @@ function Offer() {
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
-                <span style={{ width: '80%' }} />
+                <span style={{ width: `${percentsRating(offer.rating)}%` }} />
                 <span className="visually-hidden">Rating</span>
               </div>
-              <span className="offer__rating-value rating__value">4.8</span>
+              <span className="offer__rating-value rating__value">{offer.rating}</span>
             </div>
-            <ul className="offer__features">
-              <li className="offer__feature offer__feature--entire">Apartment</li>
+            <ul className="offer__features"> {/* отрисовать из данных */}
+              <li className="offer__feature offer__feature--entire">{offer.type}</li>
               <li className="offer__feature offer__feature--bedrooms">
               3 Bedrooms
               </li>
@@ -82,12 +71,12 @@ function Offer() {
               </li>
             </ul>
             <div className="offer__price">
-              <b className="offer__price-value">€120</b>
+              <b className="offer__price-value">&euro;{offer.price}</b>
               <span className="offer__price-text">&nbsp;night</span>
             </div>
             <div className="offer__inside">
-              <h2 className="offer__inside-title">What&aposs inside</h2>
-              <ul className="offer__inside-list">
+              <h2 className="offer__inside-title">What&apos;s inside</h2>
+              <ul className="offer__inside-list"> {/* отрисовать из данных */}
                 <li className="offer__inside-item">Wi-Fi</li>
                 <li className="offer__inside-item">Washing machine</li>
                 <li className="offer__inside-item">Towels</li>
@@ -128,152 +117,9 @@ function Offer() {
                 </p>
               </div>
             </div>
-            <section className="offer__reviews reviews">
-              <h2 className="reviews__title">
-              Reviews · <span className="reviews__amount">1</span>
-              </h2>
-              <ul className="reviews__list">
-                <li className="reviews__item">
-                  <div className="reviews__user user">
-                    <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                      <img
-                        className="reviews__avatar user__avatar"
-                        src="img/avatar-max.jpg"
-                        width={54}
-                        height={54}
-                        alt="Reviews avatar"
-                      />
-                    </div>
-                    <span className="reviews__user-name">Max</span>
-                  </div>
-                  <div className="reviews__info">
-                    <div className="reviews__rating rating">
-                      <div className="reviews__stars rating__stars">
-                        <span style={{ width: '80%' }} />
-                        <span className="visually-hidden">Rating</span>
-                      </div>
-                    </div>
-                    <p className="reviews__text">
-                    A quiet cozy and picturesque that hides behind a a river by
-                    the unique lightness of Amsterdam. The building is green and
-                    from 18th century.
-                    </p>
-                    <time className="reviews__time" dateTime="2019-04-24">
-                    April 2019
-                    </time>
-                  </div>
-                </li>
-              </ul>
-              <form className="reviews__form form" action="#" method="post">
-                <label className="reviews__label form__label" htmlFor="review">
-                Your review
-                </label>
-                <div className="reviews__rating-form form__rating">
-                  <input
-                    className="form__rating-input visually-hidden"
-                    name="rating"
-                    defaultValue={5}
-                    id="5-stars"
-                    type="radio"
-                  />
-                  <label
-                    htmlFor="5-stars"
-                    className="reviews__rating-label form__rating-label"
-                    title="perfect"
-                  >
-                    <svg className="form__star-image" width={37} height={33}>
-                      <use xlinkHref="#icon-star" />
-                    </svg>
-                  </label>
-                  <input
-                    className="form__rating-input visually-hidden"
-                    name="rating"
-                    defaultValue={4}
-                    id="4-stars"
-                    type="radio"
-                  />
-                  <label
-                    htmlFor="4-stars"
-                    className="reviews__rating-label form__rating-label"
-                    title="good"
-                  >
-                    <svg className="form__star-image" width={37} height={33}>
-                      <use xlinkHref="#icon-star" />
-                    </svg>
-                  </label>
-                  <input
-                    className="form__rating-input visually-hidden"
-                    name="rating"
-                    defaultValue={3}
-                    id="3-stars"
-                    type="radio"
-                  />
-                  <label
-                    htmlFor="3-stars"
-                    className="reviews__rating-label form__rating-label"
-                    title="not bad"
-                  >
-                    <svg className="form__star-image" width={37} height={33}>
-                      <use xlinkHref="#icon-star" />
-                    </svg>
-                  </label>
-                  <input
-                    className="form__rating-input visually-hidden"
-                    name="rating"
-                    defaultValue={2}
-                    id="2-stars"
-                    type="radio"
-                  />
-                  <label
-                    htmlFor="2-stars"
-                    className="reviews__rating-label form__rating-label"
-                    title="badly"
-                  >
-                    <svg className="form__star-image" width={37} height={33}>
-                      <use xlinkHref="#icon-star" />
-                    </svg>
-                  </label>
-                  <input
-                    className="form__rating-input visually-hidden"
-                    name="rating"
-                    defaultValue={1}
-                    id="1-star"
-                    type="radio"
-                  />
-                  <label
-                    htmlFor="1-star"
-                    className="reviews__rating-label form__rating-label"
-                    title="terribly"
-                  >
-                    <svg className="form__star-image" width={37} height={33}>
-                      <use xlinkHref="#icon-star" />
-                    </svg>
-                  </label>
-                </div>
-                <textarea
-                  className="reviews__textarea form__textarea"
-                  id="review"
-                  name="review"
-                  placeholder="Tell how was your stay, what you like and what can be improved"
-                  defaultValue={''}
-                />
-                <div className="reviews__button-wrapper">
-                  <p className="reviews__help">
-                  To submit review please make sure to set{' '}
-                    <span className="reviews__star">rating</span> and describe
-                  your stay with at least{' '}
-                    <b className="reviews__text-amount">50 characters</b>.
-                  </p>
-                  <button
-                    className="reviews__submit form__submit button"
-                    type="submit"
-                    disabled={false} //???
-                  >
-                  Submit
-                  </button>
-                </div>
-              </form>
-            </section>
+
+            <Reviews offerId={offer.id} isAuth={isAuth} />
+
           </div>
         </div>
         <section className="offer__map map" />

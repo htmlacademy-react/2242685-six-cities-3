@@ -7,7 +7,6 @@ type Rating = {
 }
 
 type RatingItemProps = {
-  rating: Rating;
   onStarClick: ReactEventHandler;
 }
 
@@ -41,30 +40,33 @@ const RATINGS: Rating[] = [
   },
 ];
 
-function RatingItem ({rating, onStarClick}: RatingItemProps) {
+function ReviewsRatingForm ({onStarClick}: RatingItemProps) {
   return (
-    <>
-      <input
-        className="form__rating-input visually-hidden"
-        name="rating"
-        defaultValue={rating.defaultValue}
-        id={rating.id}
-        type="radio"
-        onChange={onStarClick}
-      />
-      <label
-        htmlFor={rating.id}
-        className="reviews__rating-label form__rating-label"
-        title={rating.title}
-      >
-        <svg className="form__star-image" width={37} height={33}>
-          <use xlinkHref="#icon-star" />
-        </svg>
-      </label>
-    </>
+    <div className="reviews__rating-form form__rating">
+      {RATINGS.map((rating) => (
+        <>
+          <input
+            className="form__rating-input visually-hidden"
+            name="rating"
+            defaultValue={rating.defaultValue}
+            id={rating.id}
+            type="radio"
+            onChange={onStarClick}
+          />
+          <label
+            htmlFor={rating.id}
+            className="reviews__rating-label form__rating-label"
+            title={rating.title}
+          >
+            <svg className="form__star-image" width={37} height={33}>
+              <use xlinkHref="#icon-star" />
+            </svg>
+          </label>
+        </>
+      ))}
+    </div>
   );
 }
-
 
 function ReviewsForm () {
   const [review, setReview] = useState({rating: 0, review: ''});
@@ -77,15 +79,11 @@ function ReviewsForm () {
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">
-Your review
+        Your review
       </label>
-      <div className="reviews__rating-form form__rating">
 
-        {RATINGS.map((rating) => (
-          <RatingItem key={rating.defaultValue} rating={rating} onStarClick={handleReviewChange}/>
-        ))}
+      <ReviewsRatingForm onStarClick={handleReviewChange} />
 
-      </div>
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
@@ -96,9 +94,8 @@ Your review
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-To submit review please make sure to set{' '}
-          <span className="reviews__star">rating</span> and describe
-your stay with at least{' '}
+          To submit review please make sure to set{' '}
+          <span className="reviews__star">rating</span> and describe your stay with at least{' '}
           <b className="reviews__text-amount">50 characters</b>.
         </p>
         <button

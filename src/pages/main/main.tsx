@@ -1,6 +1,7 @@
 import { CITIES } from '../../const';
 import { Offers } from '../../types/offer';
 import OffersList from '../../components/offers-list/offers-list';
+import Map from '../../components/map/map';
 
 
 type MainProps = {
@@ -9,6 +10,19 @@ type MainProps = {
 }
 
 function Main({placesCount, offers}: MainProps) {
+  const {selectedCity, points} = props;
+
+  const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(
+    undefined
+  );
+
+  const handleListItemHover = (listItemName: string) => {
+    const currentPoint = points.find((point) => point.title === listItemName);
+
+    setSelectedPoint(currentPoint);
+  };
+
+
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -49,7 +63,9 @@ function Main({placesCount, offers}: MainProps) {
             <OffersList offers={offers} />
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <section className="cities__map map">
+              <Map city={selectedCity} points={points} selectedPoint={selectedPoint} />
+            </section>
           </div>
         </div>
       </div>

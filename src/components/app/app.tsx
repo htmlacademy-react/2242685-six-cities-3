@@ -7,7 +7,7 @@ import Offer from '../../pages/offer/offer';
 import Page404 from '../../pages/page404/page404';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
-import { Offers } from '../../types/offer.ts';
+import { Offers } from '../../types/types';
 
 type AppProps = {
   placesCount: number;
@@ -16,6 +16,7 @@ type AppProps = {
 }
 
 function App({placesCount, offers, isAuth}: AppProps) {
+
   return (
     <BrowserRouter>
       <Routes>

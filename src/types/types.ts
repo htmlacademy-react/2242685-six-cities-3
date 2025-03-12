@@ -23,3 +23,19 @@ export type Offer = {
 }
 
 export type Offers = Offer[];
+
+export type User = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+
+export type Comment = {
+  id: string;
+  date: string;
+  user: User;
+  comment: string;
+  rating: number;
+  }
+
+export type Comments = Comment[];

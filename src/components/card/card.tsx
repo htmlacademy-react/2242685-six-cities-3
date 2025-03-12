@@ -1,4 +1,4 @@
-import { Offer } from '../../types/offer';
+import { Offer } from '../../types/types';
 import { useLocation, Link } from 'react-router-dom';
 import { Page } from '../../const';
 import { percentsRating } from '../../utils/utils';

@@ -1,7 +1,8 @@
 import { CITIES } from '../../const';
-import { Offers } from '../../types/offer';
+import { Offers } from '../../types/types';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
+import { useState } from 'react';
 
 
 type MainProps = {
@@ -10,18 +11,19 @@ type MainProps = {
 }
 
 function Main({placesCount, offers}: MainProps) {
-  const {selectedCity, points} = props;
-
-  const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(
+  //const [selectedCityId, setSelectedCity] = useState(0);
+  const selectedCityId = CITIES.indexOf('Amsterdam');
+  const [selectedOfferId, setSelectedCardId] = useState<string | undefined>(
     undefined
   );
+  const [activeOfferId, setActiveCardId] = useState('');
 
-  const handleListItemHover = (listItemName: string) => {
-    const currentPoint = points.find((point) => point.title === listItemName);
 
-    setSelectedPoint(currentPoint);
+  const handleCardHover = (offerId: string) => {
+    // const currentPoint = points.find((point) => point.title === listItemName);
+
+    setSelectedCardId(currentOfferId);
   };
-
 
   return (
     <main className="page__main page__main--index">
@@ -60,11 +62,19 @@ function Main({placesCount, offers}: MainProps) {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <OffersList offers={offers} />
+
+            <OffersList
+              offers={offers}
+              onMouseOver={(offerId) => setActiveCardId(offerId)}
+              onMouseLeave={() => setActiveCardId('')}
+            />
+
           </section>
           <div className="cities__right-section">
             <section className="cities__map map">
-              <Map city={selectedCity} points={points} selectedPoint={selectedPoint} />
+
+              <Map cityId={selectedCityId} points={points} selectedOfferId={selectedOfferId} />
+
             </section>
           </div>
         </div>

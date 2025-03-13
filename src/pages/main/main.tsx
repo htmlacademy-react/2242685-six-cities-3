@@ -7,11 +7,10 @@ import { useState } from 'react';
 const selectedCityName = 'Amsterdam';
 
 type MainProps = {
-  placesCount: number;
   offers: Offers;
 }
 
-function Main({placesCount, offers}: MainProps) {
+function Main({offers}: MainProps) {
   const selectedCityOffers = offers.filter((offer) => offer.city.name === selectedCityName);
   const selectedCity = selectedCityOffers[0].city;
   const points = selectedCityOffers.map((offer) => ({
@@ -52,7 +51,7 @@ function Main({placesCount, offers}: MainProps) {
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{placesCount} places to stay in Amsterdam</b>
+            <b className="places__found">{selectedCityOffers.length} places to stay in Amsterdam</b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex={0}>

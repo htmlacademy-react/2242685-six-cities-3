@@ -5,7 +5,7 @@ import { percentsRating } from '../../utils/utils';
 
 type CardProps = {
   offer: Offer;
-  onCardHover: (offerId: string) => void;
+  onCardHover?: (offerId: string) => void;
 }
 
 
@@ -38,7 +38,7 @@ function Card({offer, onCardHover}: CardProps) {
     <article
       className={articleClassName}
       id={offer.id}
-      onMouseOver={() => onCardHover(offer.id)}
+      onMouseOver={() => onCardHover?.(offer.id)}
     >
       {
         offer.isPremium ?

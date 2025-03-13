@@ -4,12 +4,16 @@ import { Offers } from '../../types/types';
 
 type OffersListProps = {
   offers: Offers;
-  onMouseOver?: (offerId: string) => void;
-  onMouseLeave?: () => void;
+  onCardHover: (offerId: string) => void;
 }
 
-function OffersList ({offers, onMouseOver, onMouseLeave}: OffersListProps) {
+function OffersList ({offers, onCardHover}: OffersListProps) {
   // const [, setActiveCardId] = useState('');
+  // const handleCardHover = (offerId: string) => {
+  //   //event.preventDefault();
+  //   onCardHover(offerId);
+  // };
+
   return (
     <div
       className="cities__places-list places__list tabs__content"
@@ -18,8 +22,7 @@ function OffersList ({offers, onMouseOver, onMouseLeave}: OffersListProps) {
         <Card
           key={offer.id}
           offer={offer}
-          onMouseOver={() => onMouseOver?.(offer.id)}
-          onMouseLeave={() => onMouseLeave?.()}
+          onCardHover={onCardHover}
         />
       )
       )}

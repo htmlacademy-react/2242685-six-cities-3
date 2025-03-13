@@ -39,3 +39,10 @@ export type Comment = {
   }
 
 export type Comments = Comment[];
+
+export type Point = {
+  'id': string;
+  'latitude': number;
+  'longitude': number;
+  'zoom': number;
+}

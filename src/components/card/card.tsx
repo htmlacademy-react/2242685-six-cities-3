@@ -5,12 +5,11 @@ import { percentsRating } from '../../utils/utils';
 
 type CardProps = {
   offer: Offer;
-  onMouseOver?: (offerId: string) => void;
-  onMouseLeave?: () => void;
+  onCardHover: (offerId: string) => void;
 }
 
 
-function Card({offer, onMouseOver, onMouseLeave}: CardProps) {
+function Card({offer, onCardHover}: CardProps) {
   const location = useLocation();
   const pathname = location.pathname.slice(1); //pathname без лидирующего '/'
   const offerLink = `${Page.Offer}/${offer.id}`;
@@ -39,8 +38,7 @@ function Card({offer, onMouseOver, onMouseLeave}: CardProps) {
     <article
       className={articleClassName}
       id={offer.id}
-      onMouseOver={() => onMouseOver?.(offer.id)}
-      onMouseLeave={() => onMouseLeave?.()}
+      onMouseOver={() => onCardHover(offer.id)}
     >
       {
         offer.isPremium ?

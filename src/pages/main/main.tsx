@@ -1,9 +1,10 @@
 import { CITIES } from '../../const';
-import { Offers } from '../../types/types';
+import { Offer, Offers } from '../../types/types';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import { useState } from 'react';
 
+const selectedCityName = 'Amsterdam';
 
 type MainProps = {
   placesCount: number;
@@ -11,18 +12,23 @@ type MainProps = {
 }
 
 function Main({placesCount, offers}: MainProps) {
-  //const [selectedCityId, setSelectedCity] = useState(0);
-  const selectedCityId = CITIES.indexOf('Amsterdam');
-  const [selectedOfferId, setSelectedCardId] = useState<string | undefined>(
+  const selectedCityOffers = offers.filter((offer) => offer.city.name === selectedCityName);
+  const selectedCity = selectedCityOffers[0].city;
+  const points = selectedCityOffers.map((offer) => ({
+    id: offer.id,
+    latitude: offer.location.latitude,
+    longitude: offer.location.longitude,
+    zoom: offer.location.zoom,
+  }));
+
+  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
     undefined
   );
-  const [activeOfferId, setActiveCardId] = useState('');
-
 
   const handleCardHover = (offerId: string) => {
-    // const currentPoint = points.find((point) => point.title === listItemName);
+    const currentOffer = selectedCityOffers.find((offer) => offer.id === offerId);
 
-    setSelectedCardId(currentOfferId);
+    setSelectedOffer(currentOffer);
   };
 
   return (
@@ -64,16 +70,15 @@ function Main({placesCount, offers}: MainProps) {
             </form>
 
             <OffersList
-              offers={offers}
-              onMouseOver={(offerId) => setActiveCardId(offerId)}
-              onMouseLeave={() => setActiveCardId('')}
+              offers={selectedCityOffers}
+              onCardHover={handleCardHover}
             />
 
           </section>
           <div className="cities__right-section">
             <section className="cities__map map">
 
-              <Map cityId={selectedCityId} points={points} selectedOfferId={selectedOfferId} />
+              <Map city={selectedCity} points={points} selectedOffer={selectedOffer} />
 
             </section>
           </div>

@@ -1,4 +1,4 @@
-import { Offers } from '../../types/offer';
+import { Offers } from '../../types/types';
 import FavoritesList from './favorites-list';
 import { Link } from 'react-router-dom';
 

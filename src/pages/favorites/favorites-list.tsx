@@ -1,4 +1,4 @@
-import { Offers } from '../../types/offer';
+import { Offers } from '../../types/types';
 import Card from '../../components/card/card';
 import { CITIES } from '../../const';
 

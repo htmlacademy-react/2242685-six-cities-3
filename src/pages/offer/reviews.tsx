@@ -1,5 +1,5 @@
 import { comments } from '../../mocks/comments';
-import { Comment, Comments } from '../../types/comment';
+import { Comment, Comments } from '../../types/types';
 import { percentsRating } from '../../utils/utils';
 import ReviewsForm from './reviews-form';
 
@@ -58,7 +58,7 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
 }
 
 function Reviews ({offerId, isAuth}: ReviewsProps) {
-  const offerComments: Comments = comments.filter((comment) => comment.id === offerId);
+  const offerComments: Comments = comments.filter((comment: Comment) => comment.id === offerId);
   const reviewsAmount = offerComments.length;
   offerComments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   const commentsToDisplay = offerComments.slice(0, MAX_COMMENTS);

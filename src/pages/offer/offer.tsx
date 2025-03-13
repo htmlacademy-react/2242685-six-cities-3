@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { Offers } from '../../types/offer';
+import { Offers } from '../../types/types';
 import { percentsRating } from '../../utils/utils';
 import Reviews from './reviews';
 

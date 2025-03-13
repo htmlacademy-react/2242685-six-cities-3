@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { Offers } from '../../types/offer';
+import { Offers } from '../../types/types';
 import { percentsRating } from '../../utils/utils';
 import Reviews from './reviews';
 
@@ -23,6 +23,7 @@ function Offer({offers, isAuth}: OfferProps) {
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
             {Array.from({ length: OFFER_IMGS_COUNT }).map((_, index) => (
+              // в реальных данных использовать offer.previewImage в качестве ключа
               // eslint-disable-next-line react/no-array-index-key
               <div key={index} className="offer__image-wrapper">
                 <img
@@ -37,11 +38,10 @@ function Offer({offers, isAuth}: OfferProps) {
         <div className="offer__container container">
           <div className="offer__wrapper">
             {
-              offer.isPremium ?
-                <div className="offer__mark">
-                  <span>Premium</span>
-                </div>
-                : null
+              offer.isPremium &&
+              <div className="offer__mark">
+                <span>Premium</span>
+              </div>
             }
             <div className="offer__name-wrapper">
               <h1 className="offer__name">

@@ -1,4 +1,4 @@
-import { Offers } from '../../types/offer';
+import { Offers } from '../../types/types';
 import Card from '../../components/card/card';
 import { CITIES } from '../../const';
 
@@ -18,24 +18,23 @@ function FavoritesPlaces ({offers, city}: FavoritesPlacesProps) {
 }
 
 function FavoritesLocationsItems ({offers, city}: FavoritesPlacesProps) {
-  if (offers.find((offer) => offer.city.name === city)) {
-    return (
-      <li className="favorites__locations-items" key={city}>
-        <div className="favorites__locations locations locations--current">
-          <div className="locations__item">
-            <a className="locations__item-link" href="#">
-              <span>{city}</span>
-            </a>
-          </div>
-        </div>
-        <div className="favorites__places">
-          <FavoritesPlaces offers={offers} city={city} />
-        </div>
-      </li>
-    );
-  } else {
-    return '';
+  if (!offers.find((offer) => offer.city.name === city)) {
+    return null;
   }
+  return (
+    <li className="favorites__locations-items" key={city}>
+      <div className="favorites__locations locations locations--current">
+        <div className="locations__item">
+          <a className="locations__item-link" href="#">
+            <span>{city}</span>
+          </a>
+        </div>
+      </div>
+      <div className="favorites__places">
+        <FavoritesPlaces offers={offers} city={city} />
+      </div>
+    </li>
+  );
 }
 
 function FavoritesList ({offers}: FavoritesListProps) {

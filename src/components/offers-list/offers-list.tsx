@@ -1,13 +1,19 @@
 import Card from '../../components/card/card';
-import { Offers } from '../../types/offer';
-import { useState } from 'react';
+import { Offers } from '../../types/types';
+//import { useState } from 'react';
 
 type OffersListProps = {
   offers: Offers;
+  onCardHover: (offerId: string) => void;
 }
 
-function OffersList ({offers}: OffersListProps) {
-  const [, setActiveCardId] = useState('');
+function OffersList ({offers, onCardHover}: OffersListProps) {
+  // const [, setActiveCardId] = useState('');
+  // const handleCardHover = (offerId: string) => {
+  //   //event.preventDefault();
+  //   onCardHover(offerId);
+  // };
+
   return (
     <div
       className="cities__places-list places__list tabs__content"
@@ -16,8 +22,7 @@ function OffersList ({offers}: OffersListProps) {
         <Card
           key={offer.id}
           offer={offer}
-          onMouseOver={(offerId) => setActiveCardId(offerId)}
-          onMouseLeave={() => setActiveCardId('')}
+          onCardHover={onCardHover}
         />
       )
       )}

@@ -1,7 +1,6 @@
 import { comments } from '../../mocks/comments';
-import { Comment, Comments } from '../../types/comment';
+import { Comment, Comments } from '../../types/types';
 import { percentsRating } from '../../utils/utils';
-import dayjs from 'dayjs';
 import ReviewsForm from './reviews-form';
 
 const MAX_COMMENTS = 10;
@@ -20,11 +19,9 @@ type ReviewDateProps = {
 }
 
 function ReviewDate({reviewDate}: ReviewDateProps) {
-  return (
-    <>
-      {dayjs(reviewDate).format('MMMM YYYY')}
-    </>
-  );
+  const monthName = new Date(reviewDate).toLocaleString('en-US', { month: 'long' });
+  const fullYear = new Date(reviewDate).getFullYear();
+  return `${monthName} ${fullYear}`;
 }
 
 function ReviewsItem ({comment}: ReviewsItemProps) {
@@ -61,10 +58,10 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
 }
 
 function Reviews ({offerId, isAuth}: ReviewsProps) {
-  const offerComments: Comments = comments.filter((comment) => comment.id === offerId);
+  const offerComments: Comments = comments.filter((comment: Comment) => comment.id === offerId);
   const reviewsAmount = offerComments.length;
   offerComments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  offerComments.slice(0, MAX_COMMENTS);
+  const commentsToDisplay = offerComments.slice(0, MAX_COMMENTS);
 
   return (
     <section className="offer__reviews reviews">
@@ -72,7 +69,7 @@ function Reviews ({offerId, isAuth}: ReviewsProps) {
       Reviews · <span className="reviews__amount">{reviewsAmount}</span>
       </h2>
       <ul className="reviews__list">
-        {offerComments.map((comment) => (
+        {commentsToDisplay.map((comment) => (
           <ReviewsItem key={comment.date} comment={comment} />
         ))}
       </ul>

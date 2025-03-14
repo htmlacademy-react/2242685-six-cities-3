@@ -6,6 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import { City, Offer, Point } from '../../types/types';
 
 const MAP_HEIGHT = 806;
+//const MAP_WIDTH = 1258;
 
 type MapProps = {
   city: City;

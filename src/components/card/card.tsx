@@ -11,7 +11,11 @@ type CardProps = {
 
 function Card({offer, onCardHover}: CardProps) {
   const location = useLocation();
-  const pathname = location.pathname.slice(1); //pathname без лидирующего '/'
+  let pathname = location.pathname.slice(1); //pathname без лидирующего '/'
+  const slashIndex = pathname.indexOf('/');
+  if (slashIndex !== -1) {
+    pathname = pathname.substring(0, slashIndex);
+  }
   const offerLink = `/${Page.Offer}/${offer.id}`;
 
   let articleClassName = 'place-card';
@@ -32,6 +36,12 @@ function Card({offer, onCardHover}: CardProps) {
       imageWidth = 150;
       imageHeight = 110;
       break;
+    case Page.Offer:
+      articleClassName = `near-places__card ${articleClassName}`;
+      divImageClassName = `near-places__image-wrapper ${divImageClassName}`;
+      imageWidth = 260;
+      imageHeight = 200;
+      break;
   }
 
   return (
@@ -49,7 +59,13 @@ function Card({offer, onCardHover}: CardProps) {
       }
       <div className={divImageClassName}>
         <Link to={offerLink}>
-          <img className="place-card__image" src={offer.previewImage} width={imageWidth} height={imageHeight} alt="Place image"/>
+          <img
+            className="place-card__image"
+            src={offer.previewImage}
+            width={imageWidth}
+            height={imageHeight}
+            alt="Place image"
+          />
         </Link>
       </div>
       <div className="place-card__info">

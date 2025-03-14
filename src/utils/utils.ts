@@ -1,3 +1,5 @@
+import { Offer } from '../types/types';
+
 function groupBy<T extends Record<string, unknown>>(
   arr: readonly T[],
   keyProperty: (item: T) => string
@@ -18,4 +20,14 @@ function percentsRating(rating: number) {
   return Math.round(rating) * 20;
 }
 
-export {percentsRating, groupBy};
+function getMapPoints (offers: Offer[]) {
+  const points = offers.map((offer) => ({
+    id: offer.id,
+    latitude: offer.location.latitude,
+    longitude: offer.location.longitude,
+    zoom: offer.location.zoom,
+  }));
+  return points;
+}
+
+export {percentsRating, groupBy, getMapPoints};

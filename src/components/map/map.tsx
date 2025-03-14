@@ -5,12 +5,13 @@ import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import 'leaflet/dist/leaflet.css';
 import { City, Offer, Point } from '../../types/types';
 
-const MAP_HEIGHT = 780;
+const MAP_HEIGHT = 806;
 
 type MapProps = {
   city: City;
   points: Point[];
-  selectedOffer: Offer | undefined;
+  selectedOffer?: Offer | undefined;
+  mapHeight?: number;
 };
 
 const defaultCustomIcon = new Icon({
@@ -26,7 +27,7 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps) {
-  const {city, points, selectedOffer} = props;
+  const {city, points, selectedOffer, mapHeight = MAP_HEIGHT} = props;
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -54,7 +55,7 @@ function Map(props: MapProps) {
     }
   }, [map, points, selectedOffer]);
 
-  return <div style={{height: MAP_HEIGHT}} ref={mapRef}></div>;
+  return <div style={{height: mapHeight}} ref={mapRef}></div>;
 }
 
 export default Map;

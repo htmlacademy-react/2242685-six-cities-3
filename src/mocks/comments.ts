@@ -3,7 +3,7 @@ import { Comments } from '../types/types';
 const comments: Comments =
 [
   {
-    'id': '6cf205e5-ff4c-46ce-87ed-b5f1e4244cba',
+    'id': '2955158f-b7db-4471-b680-716c0d87d13d',
     'date': '2019-05-08T14:13:56.569Z',
     'user': {
       'name': 'Name1',
@@ -14,7 +14,7 @@ const comments: Comments =
     'rating': 4
   },
   {
-    'id': '6cf205e5-ff4c-46ce-87ed-b5f1e4244cba',
+    'id': '2955158f-b7db-4471-b680-716c0d87d13d',
     'date': '2019-06-09T20:15:51.569Z',
     'user': {
       'name': 'Name2',
@@ -25,7 +25,7 @@ const comments: Comments =
     'rating': 3
   },
   {
-    'id': '65f052f7-32d5-4793-b672-5b7fd0808ef3',
+    'id': 'c307b6fa-039c-45ce-9761-257da4ce9df5',
     'date': '2019-05-12T13:13:13.569Z',
     'user': {
       'name': 'Name3',

@@ -15,12 +15,12 @@ type ReviewsItemProps = {
 }
 
 type ReviewDateProps = {
-  reviewDate: string;
+  reviewDate: Date;
 }
 
 function ReviewDate({reviewDate}: ReviewDateProps) {
-  const monthName = new Date(reviewDate).toLocaleString('en-US', { month: 'long' });
-  const fullYear = new Date(reviewDate).getFullYear();
+  const monthName = reviewDate.toLocaleString('en-US', { month: 'long' });
+  const fullYear = reviewDate.getFullYear();
   return `${monthName} ${fullYear}`;
 }
 
@@ -50,7 +50,7 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
           {comment.comment}
         </p>
         <time className="reviews__time" dateTime={comment.date}>
-          <ReviewDate reviewDate={comment.date} />
+          <ReviewDate reviewDate={new Date(comment.date)} />
         </time>
       </div>
     </li>

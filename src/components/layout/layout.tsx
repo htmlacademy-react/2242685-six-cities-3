@@ -8,10 +8,8 @@ function Layout () {
 
   let topDivClassName = 'page';
 
-  switch (pathname) {
-    case Page.Main:
-      topDivClassName += ' page--gray page--main';
-      break;
+  if (pathname === String(Page.Main)) {
+    topDivClassName += ' page--gray page--main';
   }
 
   return (

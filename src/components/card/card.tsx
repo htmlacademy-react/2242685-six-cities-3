@@ -12,7 +12,7 @@ type CardProps = {
 function Card({offer, onCardHover}: CardProps) {
   const location = useLocation();
   const pathname = location.pathname.slice(1); //pathname без лидирующего '/'
-  const offerLink = `${Page.Offer}/${offer.id}`;
+  const offerLink = `/${Page.Offer}/${offer.id}`;
 
   let articleClassName = 'place-card';
   let divImageClassName = 'place-card__image-wrapper';

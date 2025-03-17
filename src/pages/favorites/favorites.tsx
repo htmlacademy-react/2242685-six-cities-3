@@ -1,7 +1,7 @@
 import { Offers } from '../../types/types';
 import FavoritesList from './favorites-list';
 import { Link } from 'react-router-dom';
-import { groupBy } from '../../utils/utils';
+// import { groupBy } from '../../utils/utils';
 
 
 type FavoritesProps = {
@@ -9,15 +9,13 @@ type FavoritesProps = {
 }
 
 function Favorites({offers}: FavoritesProps) {
-  const offersGroupByCity = groupBy(offers, (offer) => offer.city.name);
-
   return (
     <>
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList offers={offersGroupByCity}/>
+            <FavoritesList offers={offers}/>
           </section>
         </div>
       </main>

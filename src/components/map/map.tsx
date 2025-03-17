@@ -13,6 +13,7 @@ type MapProps = {
   points: Point[];
   selectedOffer?: Offer | undefined;
   mapHeight?: number;
+  mapWidth?: string | number;
 };
 
 const defaultCustomIcon = new Icon({
@@ -28,7 +29,7 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps) {
-  const {city, points, selectedOffer, mapHeight = MAP_HEIGHT} = props;
+  const {city, points, selectedOffer, mapHeight = MAP_HEIGHT, mapWidth = 'auto'} = props;
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -56,7 +57,7 @@ function Map(props: MapProps) {
     }
   }, [map, points, selectedOffer]);
 
-  return <div style={{height: mapHeight}} ref={mapRef}></div>;
+  return <div style={{height: mapHeight, width: mapWidth, margin: '0 auto'}} ref={mapRef}></div>;
 }
 
 export default Map;

@@ -8,7 +8,7 @@ import OffersList from '../../components/offers-list/offers-list';
 const OFFER_IMGS_COUNT = 6;
 const NEAR_PLACES_COUNT = 3;
 const MAP_HEIGHT = 579;
-
+const MAP_WIDTH = 1258;
 
 type OfferProps = {
   offers: Offers;
@@ -132,7 +132,7 @@ function Offer({offers, isAuth}: OfferProps) {
         </div>
         <section className="offer__map map" >
 
-          <Map city={currentOffer.city} points={points} mapHeight={MAP_HEIGHT} />
+          <Map city={currentOffer.city} points={points} selectedOffer={currentOffer} mapHeight={MAP_HEIGHT} mapWidth={MAP_WIDTH}/>
 
         </section>
 

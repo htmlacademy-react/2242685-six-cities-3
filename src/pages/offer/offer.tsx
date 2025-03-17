@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Offers, Point } from '../../types/types';
-import { getMapPoints, percentsRating } from '../../utils/utils';
+import { mapOfferToMapPoints, percentsRating } from '../../utils/utils';
 import Reviews from './reviews';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
@@ -23,7 +23,7 @@ function Offer({offers, isAuth}: OfferProps) {
   }
 
   const nearOffers = offers.filter((offer) => offer.city.name === currentOffer.city.name).slice(0, NEAR_PLACES_COUNT); // заменить на реальные данные
-  const points: Point[] = getMapPoints(nearOffers);
+  const points: Point[] = mapOfferToMapPoints(nearOffers);
 
   return (
     <main className="page__main page__main--offer">

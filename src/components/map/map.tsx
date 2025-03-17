@@ -12,7 +12,7 @@ type MapProps = {
   city: City;
   points: Point[];
   selectedOffer?: Offer | undefined;
-  mapHeight?: number;
+  mapHeight?: string | number;
   mapWidth?: string | number;
 };
 

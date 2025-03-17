@@ -3,9 +3,10 @@ import { Offer, Offers } from '../../types/types';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import { useState } from 'react';
-import { getMapPoints } from '../../utils/utils';
+import { mapOfferToMapPoints } from '../../utils/utils';
 
 const selectedCityName = 'Amsterdam';
+const MAP_HEIGHT = 1000;
 
 type MainProps = {
   offers: Offers;
@@ -14,7 +15,7 @@ type MainProps = {
 function Main({offers}: MainProps) {
   const selectedCityOffers = offers.filter((offer) => offer.city.name === selectedCityName);
   const selectedCity = selectedCityOffers[0].city;
-  const points = getMapPoints(selectedCityOffers);
+  const points = mapOfferToMapPoints(selectedCityOffers);
 
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
     undefined
@@ -73,7 +74,7 @@ function Main({offers}: MainProps) {
           <div className="cities__right-section">
             <section className="cities__map map">
 
-              <Map city={selectedCity} points={points} selectedOffer={selectedOffer} />
+              <Map city={selectedCity} points={points} selectedOffer={selectedOffer} mapHeight={MAP_HEIGHT} />
 
             </section>
           </div>

@@ -21,7 +21,11 @@ type ReviewDateProps = {
 function ReviewDate({reviewDate}: ReviewDateProps) {
   const monthName = reviewDate.toLocaleString('en-US', { month: 'long' });
   const fullYear = reviewDate.getFullYear();
-  return `${monthName} ${fullYear}`;
+  return (
+    <time className="reviews__time" dateTime={reviewDate.toISOString()}>
+      {`${monthName} ${fullYear}`}
+    </time>
+  );
 }
 
 function ReviewsItem ({comment}: ReviewsItemProps) {
@@ -49,9 +53,9 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
         <p className="reviews__text">
           {comment.comment}
         </p>
-        <time className="reviews__time" dateTime={comment.date}>
-          <ReviewDate reviewDate={new Date(comment.date)} />
-        </time>
+
+        <ReviewDate reviewDate={new Date(comment.date)} />
+
       </div>
     </li>
   );

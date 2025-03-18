@@ -1,12 +1,11 @@
-import { Offer } from '../types/types';
-
+import { Offer, Point } from '../types/types';
 
 function percentsRating(rating: number) {
   return Math.round(rating) * 20;
 }
 
 function mapOfferToMapPoints (offers: Offer[]) {
-  const points = offers.map((offer) => ({
+  const points: Point[] = offers.map((offer) => ({
     id: offer.id,
     latitude: offer.location.latitude,
     longitude: offer.location.longitude,

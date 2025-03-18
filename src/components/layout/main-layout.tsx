@@ -1,13 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import Header from './header';
 
-function Layout () {
+export default function MainLayout () {
   return (
-    <div className='page'>
+    <div className='page page--gray page--main'>
       <Header />
       <Outlet />
     </div>
   );
 }
-
-export default Layout;

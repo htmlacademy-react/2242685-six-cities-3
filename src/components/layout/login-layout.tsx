@@ -1,11 +1,10 @@
 import { Outlet } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-function LayoutLogin () {
-  const topDivClassName = 'page page--gray page--login';
+function LoginLayout () {
 
   return (
-    <div className={topDivClassName}>
+    <div className="page page--gray page--login">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -28,4 +27,4 @@ function LayoutLogin () {
   );
 }
 
-export default LayoutLogin;
+export default LoginLayout;

@@ -1,6 +1,5 @@
 import { Offers } from '../../types/types';
 import Card from '../../components/card/card';
-import { CITIES } from '../../const';
 
 type FavoritesListProps = {
   offers: Offers;
@@ -18,9 +17,6 @@ function FavoritesPlaces ({offers, city}: FavoritesPlacesProps) {
 }
 
 function FavoritesLocationsItems ({offers, city}: FavoritesPlacesProps) {
-  if (!offers.find((offer) => offer.city.name === city)) {
-    return null;
-  }
   return (
     <li className="favorites__locations-items" key={city}>
       <div className="favorites__locations locations locations--current">
@@ -38,9 +34,12 @@ function FavoritesLocationsItems ({offers, city}: FavoritesPlacesProps) {
 }
 
 function FavoritesList ({offers}: FavoritesListProps) {
+  const uniqueCityNames = offers.map((offer) => offer.city.name)
+    .filter((name, index, self) => self.indexOf(name) === index);
+
   return (
     <ul className="favorites__list">
-      {CITIES.map((city) => <FavoritesLocationsItems key={city} offers={offers} city={city} />)}
+      {uniqueCityNames.map((city) => <FavoritesLocationsItems key={city} offers={offers} city={city} />)}
     </ul>
   );
 }

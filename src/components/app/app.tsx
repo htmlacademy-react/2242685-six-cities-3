@@ -7,7 +7,8 @@ import Offer from '../../pages/offer/offer';
 import Page404 from '../../pages/page404/page404';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
-import LayoutLogin from '../layout/layout-login.tsx';
+import LoginLayout from '../layout/login-layout';
+import MainLayout from '../layout/main-layout.tsx';
 import { Offers } from '../../types/types';
 
 type AppProps = {
@@ -20,8 +21,10 @@ function App({offers, isAuth}: AppProps) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<MainLayout />}>
           <Route index element={<Main offers={offers} />} />
+        </Route>
+        <Route path="/" element={<Layout />}>
           <Route path={Page.Favorites} element={
             <PrivateRoute isAuth={isAuth}>
               <Favorites offers={offers.filter((offer) => offer.isFavorite)} />
@@ -31,7 +34,7 @@ function App({offers, isAuth}: AppProps) {
           <Route path={`${Page.Offer}/:id`} element={<Offer offers={offers} isAuth={isAuth} />} />
           <Route path="*" element={<Page404 />} />
         </Route>
-        <Route path="/" element={<LayoutLogin />}>
+        <Route path="/" element={<LoginLayout />}>
           <Route path={Page.Login} element={<Login />} />
         </Route>
       </Routes>

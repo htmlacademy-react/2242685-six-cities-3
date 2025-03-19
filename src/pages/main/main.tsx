@@ -4,6 +4,8 @@ import Map from '../../components/map/map';
 import { useState } from 'react';
 import { mapOfferToMapPoints } from '../../utils/utils';
 import Cities from '../../components/cities/cities';
+import { CITIES } from '../../const';
+
 
 const selectedCityName = 'Amsterdam';
 const MAP_HEIGHT = 1000;
@@ -31,7 +33,7 @@ function Main({offers}: MainProps) {
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
 
-      <Cities />
+      <Cities cities={CITIES} />
 
       <div className="cities">
         <div className="cities__places-container container">

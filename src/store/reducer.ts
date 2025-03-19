@@ -3,18 +3,20 @@ import { offers } from '../mocks/offers';
 import { CITIES } from '../const';
 import { selectCity, filterOffers } from './action';
 
+const initialCity = CITIES[0]; //Paris
+
 const initialState = {
-  city: CITIES[0],
-  offers: offers,
+  cityName: initialCity,
+  offers: offers.filter((offer) => offer.city.name === initialCity),
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(selectCity, (state) => {
-      state.city = CITIES[0]; //CITIES[0] заменить на выбранный город
+    .addCase(selectCity, (state, action) => {
+      state.cityName = action.payload;
     })
     .addCase(filterOffers, (state) => {
-      state.offers = offers.filter((offer) => offer.city.name === state.city);
+      state.offers = offers.filter((offer) => offer.city.name === state.cityName);
     });
 });
 

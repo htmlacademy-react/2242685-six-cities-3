@@ -1,9 +1,9 @@
-import { CITIES } from '../../const';
 import { Offer, Offers } from '../../types/types';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import { useState } from 'react';
 import { mapOfferToMapPoints } from '../../utils/utils';
+import Cities from '../../components/cities/cities';
 
 const selectedCityName = 'Amsterdam';
 const MAP_HEIGHT = 1000;
@@ -30,20 +30,9 @@ function Main({offers}: MainProps) {
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
-      <div className="tabs">
-        <section className="locations container">
-          <ul className="locations__list tabs__list">
-            {CITIES.map((city) => (
-              <li key={city} className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>{city}</span>
-                </a>
-              </li>
-            )
-            )}
-          </ul>
-        </section>
-      </div>
+
+      <Cities />
+
       <div className="cities">
         <div className="cities__places-container container">
           <section className="cities__places places">

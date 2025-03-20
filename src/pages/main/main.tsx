@@ -1,35 +1,36 @@
-import { Offer, Offers } from '../../types/types';
+import { Offer } from '../../types/types';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import { useState } from 'react';
 import { mapOfferToMapPoints } from '../../utils/utils';
 import Cities from '../../components/cities/cities';
 import { CITIES } from '../../const';
-import { useAppDispatch, useAppSelector } from '../../hooks/state';
+import { useAppSelector } from '../../hooks/state';
 
 
-const selectedCityName = 'Amsterdam';
+//const selectedCityName = 'Amsterdam';
 const MAP_HEIGHT = 1000;
 
-type MainProps = {
-  offers: Offers;
-}
+// type MainProps = {
+//   offers: Offers;
+// }
 
-function Main({offers}: MainProps) {
-  const selectedCityOffers = offers.filter((offer) => offer.city.name === selectedCityName);
-  const selectedCity = selectedCityOffers[0].city;
-  const points = mapOfferToMapPoints(selectedCityOffers);
+//function Main({offers}: MainProps) {
+function Main() {
+  const cityName = useAppSelector((state) => state.cityName);
+  const cityOffers = useAppSelector((state) => state.offers);
+  // const dispatch = useAppDispatch();
+
+  // const selectedCityOffers = offers.filter((offer) => offer.city.name === cityName);
+  const selectedCity = cityOffers[0].city;
+  const points = mapOfferToMapPoints(cityOffers);
 
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
     undefined
   );
 
-  const cityName = useAppSelector((state) => state.cityName);
-  const dispatch = useAppDispatch();
-
-
   const handleCardHover = (offerId: string) => {
-    const currentOffer = selectedCityOffers.find((offer) => offer.id === offerId);
+    const currentOffer = cityOffers.find((offer) => offer.id === offerId);
 
     setSelectedOffer(currentOffer);
   };
@@ -44,7 +45,7 @@ function Main({offers}: MainProps) {
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{selectedCityOffers.length} places to stay in Amsterdam</b>
+            <b className="places__found">{cityOffers.length} places to stay in {cityName}</b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex={0}>
@@ -62,7 +63,7 @@ function Main({offers}: MainProps) {
             </form>
 
             <OffersList
-              offers={selectedCityOffers}
+              offers={cityOffers}
               onCardHover={handleCardHover}
             />
 

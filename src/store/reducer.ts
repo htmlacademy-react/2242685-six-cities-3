@@ -7,7 +7,8 @@ const initialCity = CITIES[0]; //Paris
 
 const initialState = {
   cityName: initialCity,
-  offers: offers.filter((offer) => offer.city.name === initialCity),
+  cityOffers: offers.filter((offer) => offer.city.name === initialCity),
+  //selectedOffer: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -16,7 +17,7 @@ const reducer = createReducer(initialState, (builder) => {
       state.cityName = action.payload;
     })
     .addCase(filterOffers, (state) => {
-      state.offers = offers.filter((offer) => offer.city.name === state.cityName);
+      state.cityOffers = offers.filter((offer) => offer.city.name === state.cityName);
     });
 });
 

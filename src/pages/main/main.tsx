@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { mapOfferToMapPoints } from '../../utils/utils';
 import Cities from '../../components/cities/cities';
 import { CITIES } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks/state';
 
 
 const selectedCityName = 'Amsterdam';
@@ -22,6 +23,10 @@ function Main({offers}: MainProps) {
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
     undefined
   );
+
+  const cityName = useAppSelector((state) => state.cityName);
+  const dispatch = useAppDispatch();
+
 
   const handleCardHover = (offerId: string) => {
     const currentOffer = selectedCityOffers.find((offer) => offer.id === offerId);

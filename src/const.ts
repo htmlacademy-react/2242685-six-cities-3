@@ -25,4 +25,11 @@ enum AuthStatus {
   Unknown = 'UNKNOWN',
 }
 
-export { CARDS_PER_PAGE, CITIES, Page, AuthStatus,URL_MARKER_DEFAULT, URL_MARKER_CURRENT};
+enum SortOrder {
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  TopRatedFirst = 'Top rated first',
+}
+
+export { CARDS_PER_PAGE, CITIES, Page, AuthStatus,URL_MARKER_DEFAULT, URL_MARKER_CURRENT, SortOrder};

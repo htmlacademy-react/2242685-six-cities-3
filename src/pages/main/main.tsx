@@ -4,25 +4,20 @@ import Map from '../../components/map/map';
 import { useState } from 'react';
 import { mapOfferToMapPoints } from '../../utils/utils';
 import Cities from '../../components/cities/cities';
-import { CITIES } from '../../const';
+import { CITIES, SortOrder } from '../../const';
 import { useAppSelector } from '../../hooks/state';
 import { offers } from '../../mocks/offers';
+import PlacesSorting from '../../components/places-sorting/places-sorting';
 
-
-//const selectedCityName = 'Amsterdam';
 const MAP_HEIGHT = 1000;
 
-// type MainProps = {
-//   offers: Offers;
-// }
-
-//function Main({offers}: MainProps) {
 function Main() {
   const cityName = useAppSelector((state) => state.cityName);
   // const cityOffers = useAppSelector((state) => state.offers);
   // const dispatch = useAppDispatch();
 
-  const cityOffers = offers.filter((offer) => offer.city.name === cityName);
+  const defaultSortCityOffers = offers.filter((offer) => offer.city.name === cityName);
+  let cityOffers = offers.filter((offer) => offer.city.name === cityName);
   const selectedCity = cityOffers[0].city;
   const points = mapOfferToMapPoints(cityOffers);
   // console.log(selectedCity);
@@ -37,6 +32,23 @@ function Main() {
     setSelectedOffer(currentOffer);
   };
 
+  const handleSortSelect = (sortOrder: SortOrder) => {
+    switch (sortOrder) {
+      case SortOrder.Popular:
+        cityOffers = defaultSortCityOffers.slice();
+        break;
+      case SortOrder.PriceHighToLow:
+        cityOffers.sort((a, b) => a.price - b.price);
+        break;
+      case SortOrder.PriceLowToHigh:
+        cityOffers.sort((a, b) => b.price - a.price);
+        break;
+      case SortOrder.TopRatedFirst:
+        cityOffers.sort((a, b) => b.rating - a.rating);
+        break;
+    }
+  };
+
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -48,21 +60,10 @@ function Main() {
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">{cityOffers.length} places to stay in {cityName}</b>
-            <form className="places__sorting" action="#" method="get">
-              <span className="places__sorting-caption">Sort by</span>
-              <span className="places__sorting-type" tabIndex={0}>
-                Popular
-                <svg className="places__sorting-arrow" width="7" height="4">
-                  <use xlinkHref="#icon-arrow-select"></use>
-                </svg>
-              </span>
-              <ul className="places__options places__options--custom places__options--opened">
-                <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                <li className="places__option" tabIndex={0}>Price: low to high</li>
-                <li className="places__option" tabIndex={0}>Price: high to low</li>
-                <li className="places__option" tabIndex={0}>Top rated first</li>
-              </ul>
-            </form>
+
+            <PlacesSorting
+              onSortSelect={handleSortSelect}
+            />
 
             <OffersList
               offers={cityOffers}

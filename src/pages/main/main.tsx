@@ -6,6 +6,7 @@ import { mapOfferToMapPoints } from '../../utils/utils';
 import Cities from '../../components/cities/cities';
 import { CITIES } from '../../const';
 import { useAppSelector } from '../../hooks/state';
+import { offers } from '../../mocks/offers';
 
 
 //const selectedCityName = 'Amsterdam';
@@ -18,12 +19,13 @@ const MAP_HEIGHT = 1000;
 //function Main({offers}: MainProps) {
 function Main() {
   const cityName = useAppSelector((state) => state.cityName);
-  const cityOffers = useAppSelector((state) => state.offers);
+  // const cityOffers = useAppSelector((state) => state.offers);
   // const dispatch = useAppDispatch();
 
-  // const selectedCityOffers = offers.filter((offer) => offer.city.name === cityName);
+  const cityOffers = offers.filter((offer) => offer.city.name === cityName);
   const selectedCity = cityOffers[0].city;
   const points = mapOfferToMapPoints(cityOffers);
+  // console.log(selectedCity);
 
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
     undefined

@@ -1,21 +1,18 @@
-import { Offers } from '../../types/types';
+import { useAppSelector } from '../../hooks/state';
 import FavoritesList from './favorites-list';
 import { Link } from 'react-router-dom';
-// import { groupBy } from '../../utils/utils';
 
+function Favorites() {
+  const offers = useAppSelector((state) => state.offers);
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
-type FavoritesProps = {
-  offers: Offers;
-}
-
-function Favorites({offers}: FavoritesProps) {
   return (
     <>
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList offers={offers}/>
+            <FavoritesList offers={favoriteOffers}/>
           </section>
         </div>
       </main>

@@ -1,9 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { Offers, Point } from '../../types/types';
+import { Point } from '../../types/types';
 import { mapOfferToMapPoints, percentsRating } from '../../utils/utils';
 import Reviews from './reviews';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
+import { useAppSelector } from '../../hooks/state';
 
 const OFFER_IMGS_COUNT = 6;
 const NEAR_PLACES_COUNT = 3;
@@ -11,11 +12,11 @@ const MAP_HEIGHT = 579;
 const MAP_WIDTH = 1258;
 
 type OfferProps = {
-  offers: Offers;
   isAuth: boolean;
 }
 
-function Offer({offers, isAuth}: OfferProps) {
+function Offer({isAuth}: OfferProps) {
+  const offers = useAppSelector((state) => state.offers);
   const params = useParams();
   const currentOffer = offers.find((item) => item.id === params.id);
   if (!currentOffer) {

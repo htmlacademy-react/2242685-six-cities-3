@@ -1,37 +1,52 @@
 import { SortOrder } from '../../const';
+import { selectSortOrder } from '../../store/action';
+import { useAppDispatch, useAppSelector } from '../../hooks/state';
+import { useState } from 'react';
 
-const defaultSortOrder = SortOrder.Popular;
-
-type PlacesSortingProps = {
-  onSortSelect: (sortOrder: SortOrder) => void;
-}
-
-export default function PlacesSorting ({ onSortSelect }: PlacesSortingProps) {
+export default function PlacesSorting () {
   const sortOrders = Object.values(SortOrder);
-  // использовать useState?
+  const dispatch = useAppDispatch();
+  const currentSortOrder = useAppSelector((state) => state.sortOrder);
+  const [isSortOrderListOpen, setIsSortOrderListOpen] = useState(false);
+
+  const handleSortTypeClick = () => {
+    setIsSortOrderListOpen(!isSortOrderListOpen);
+  };
+
+  const handleOptionClick = (sortOrder: SortOrder) => (evt: React.MouseEvent) => {
+    evt.preventDefault();
+    dispatch(selectSortOrder(sortOrder));
+    setIsSortOrderListOpen(false);
+  };
+
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0}>
-        {defaultSortOrder}
+      <span
+        className="places__sorting-type"
+        tabIndex={0}
+        role="button"
+        onClick={handleSortTypeClick}
+      >
+        {currentSortOrder}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className="places__options places__options--custom places__options--opened">
-        {sortOrders.map((sortOrder) => (
-          <li
-            key={sortOrder}
-            className="places__option"
-            tabIndex={0}
-            onClick={() => onSortSelect(sortOrder)}
-          >
-            {sortOrder}
-          </li>
-        ))}
-      </ul>
+      {isSortOrderListOpen && (
+        <ul className="places__options places__options--custom places__options--opened">
+          {sortOrders.map((sortOrder) => (
+            <li
+              key={sortOrder}
+              className="places__option"
+              tabIndex={0}
+              onClick={handleOptionClick(sortOrder)}
+            >
+              {sortOrder}
+            </li>
+          ))}
+        </ul>
+      )}
     </form>
   );
 }
-
-//         <li className="places__option places__option--active" tabIndex={0}>Popular</li>

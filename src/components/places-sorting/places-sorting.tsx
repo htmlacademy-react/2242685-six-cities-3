@@ -13,8 +13,7 @@ export default function PlacesSorting () {
     setIsSortOrderListOpen(!isSortOrderListOpen);
   };
 
-  const handleOptionClick = (sortOrder: SortOrder) => (evt: React.MouseEvent) => {
-    evt.preventDefault();
+  const handleOptionClick = (sortOrder: SortOrder) => () => {
     dispatch(selectSortOrder(sortOrder));
     setIsSortOrderListOpen(false);
   };
@@ -38,6 +37,7 @@ export default function PlacesSorting () {
           {sortOrders.map((sortOrder) => (
             <li
               key={sortOrder}
+              role="button"
               className="places__option"
               tabIndex={0}
               onClick={handleOptionClick(sortOrder)}

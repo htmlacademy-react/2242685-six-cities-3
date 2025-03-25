@@ -1,22 +1,19 @@
 import { Offers } from '../../types/types';
 import Card from '../../components/card/card';
-
-type FavoritesListProps = {
-  offers: Offers;
-}
+import { useAppSelector } from '../../hooks/state';
 
 type FavoritesPlacesProps = {
-  offers: Offers;
+  favoriteOffers: Offers;
   city: string;
 }
 
-function FavoritesPlaces ({offers, city}: FavoritesPlacesProps) {
+function FavoritesPlaces ({favoriteOffers, city}: FavoritesPlacesProps) {
   return (
-    offers.filter((offer) => offer.city.name === city).map((offer) => (<Card key={offer.id} offer={offer} />))
+    favoriteOffers.filter((offer) => offer.city.name === city).map((offer) => (<Card key={offer.id} offer={offer} />))
   );
 }
 
-function FavoritesLocationsItems ({offers, city}: FavoritesPlacesProps) {
+function FavoritesLocationsItems ({favoriteOffers, city}: FavoritesPlacesProps) {
   return (
     <li className="favorites__locations-items" key={city}>
       <div className="favorites__locations locations locations--current">
@@ -27,19 +24,22 @@ function FavoritesLocationsItems ({offers, city}: FavoritesPlacesProps) {
         </div>
       </div>
       <div className="favorites__places">
-        <FavoritesPlaces offers={offers} city={city} />
+        <FavoritesPlaces favoriteOffers={favoriteOffers} city={city} />
       </div>
     </li>
   );
 }
 
-function FavoritesList ({offers}: FavoritesListProps) {
-  const uniqueCityNames = offers.map((offer) => offer.city.name)
+function FavoritesList () {
+  const offers = useAppSelector((state) => state.offers);
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+
+  const uniqueCityNames = favoriteOffers.map((offer) => offer.city.name)
     .filter((name, index, self) => self.indexOf(name) === index);
 
   return (
     <ul className="favorites__list">
-      {uniqueCityNames.map((city) => <FavoritesLocationsItems key={city} offers={offers} city={city} />)}
+      {uniqueCityNames.map((city) => <FavoritesLocationsItems key={city} favoriteOffers={favoriteOffers} city={city} />)}
     </ul>
   );
 }

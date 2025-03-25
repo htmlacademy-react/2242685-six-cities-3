@@ -1,4 +1,4 @@
-import { useState, ReactEventHandler } from 'react';
+import { useState, ReactEventHandler, Fragment } from 'react';
 
 type Rating = {
   defaultValue: number;
@@ -44,7 +44,7 @@ function ReviewsRatingForm ({onStarClick}: RatingItemProps) {
   return (
     <div className="reviews__rating-form form__rating">
       {RATINGS.map((rating) => (
-        <>
+        <Fragment key={rating.id}>
           <input
             className="form__rating-input visually-hidden"
             name="rating"
@@ -62,7 +62,7 @@ function ReviewsRatingForm ({onStarClick}: RatingItemProps) {
               <use xlinkHref="#icon-star" />
             </svg>
           </label>
-        </>
+        </Fragment>
       ))}
     </div>
   );

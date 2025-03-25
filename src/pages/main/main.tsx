@@ -29,7 +29,7 @@ type citiesPlacesProps = {
 }
 
 const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
-  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
+  const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(
     undefined
   );
   const selectedCity = cityOffers[0].city;
@@ -38,7 +38,7 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
   const handleCardHover = (offerId: string) => {
     const currentOffer = cityOffers.find((offer) => offer.id === offerId);
 
-    setSelectedOffer(currentOffer);
+    setSelectedOfferId(currentOffer?.id);
   };
 
   return (
@@ -58,7 +58,7 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
       <div className="cities__right-section">
         <section className="cities__map map">
 
-          <Map city={selectedCity} points={points} selectedOffer={selectedOffer} mapHeight={MAP_HEIGHT} />
+          <Map city={selectedCity} points={points} selectedOfferId={selectedOfferId} mapHeight={MAP_HEIGHT} />
 
         </section>
       </div>

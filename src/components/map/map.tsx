@@ -3,14 +3,14 @@ import { Icon, Marker, layerGroup } from 'leaflet';
 import useMap from '../../hooks/use-map';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import 'leaflet/dist/leaflet.css';
-import { City, Offer, Point } from '../../types/types';
+import { City, Point } from '../../types/types';
 
 const MAP_HEIGHT = 806;
 
 type MapProps = {
   city: City;
   points: Point[];
-  selectedOffer?: Offer | undefined;
+  selectedOfferId?: string | undefined;
   mapHeight?: string | number;
   mapWidth?: string | number;
 };
@@ -28,7 +28,7 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps) {
-  const {city, points, selectedOffer, mapHeight = MAP_HEIGHT, mapWidth = 'auto'} = props;
+  const {city, points, selectedOfferId, mapHeight = MAP_HEIGHT, mapWidth = 'auto'} = props;
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -43,7 +43,7 @@ function Map(props: MapProps) {
 
         marker
           .setIcon(
-            selectedOffer !== undefined && point.id === selectedOffer.id
+            selectedOfferId !== undefined && point.id === selectedOfferId
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -54,7 +54,7 @@ function Map(props: MapProps) {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, points, selectedOffer]);
+  }, [map, points, selectedOfferId]);
 
   return <div style={{height: mapHeight, width: mapWidth, margin: '0 auto'}} ref={mapRef}></div>;
 }

@@ -133,7 +133,7 @@ function Offer({isAuth}: OfferProps) {
         </div>
         <section className="offer__map map" >
 
-          <Map city={currentOffer.city} points={points} selectedOffer={currentOffer} mapHeight={MAP_HEIGHT} mapWidth={MAP_WIDTH}/>
+          <Map city={currentOffer.city} points={points} selectedOfferId={currentOffer.id} mapHeight={MAP_HEIGHT} mapWidth={MAP_WIDTH}/>
 
         </section>
 

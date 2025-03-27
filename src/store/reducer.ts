@@ -1,15 +1,25 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { offers } from '../mocks/offers';
-import { CITIES, SortOrder } from '../const';
-import { selectCity, selectSortOrder } from './action';
+import { CITIES, SortOrder, AuthorizationStatus } from '../const';
+import { selectCity, selectSortOrder, loadOffers, requireAuthorization, setError } from './action';
+import { Offer } from '../types/types';
 
 const initialCity = CITIES[0]; //Paris
 const initialSortOrder = SortOrder.Popular;
 
-const initialState = {
+type InitalState = {
+  cityName: string;
+  sortOrder: string;
+  offers: Offer[];
+  authorizationStatus: AuthorizationStatus;
+  error: string | null;
+}
+
+const initialState: InitalState = {
   cityName: initialCity,
   sortOrder: initialSortOrder,
-  offers: offers,
+  offers: [],
+  authorizationStatus: AuthorizationStatus.Unknown,
+  error: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -19,6 +29,15 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(selectSortOrder, (state, action) => {
       state.sortOrder = action.payload;
+    })
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
     });
 });
 

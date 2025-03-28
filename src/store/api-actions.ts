@@ -7,7 +7,7 @@ import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 import { AuthData } from '../types/auth-data.js';
 import { UserData } from '../types/user-data.js';
 import { Offers } from '../types/types.js';
-import {store} from './';
+import { store } from './';
 
 export const clearErrorAction = createAsyncThunk(
   'game/clearError',

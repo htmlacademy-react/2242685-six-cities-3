@@ -1,6 +1,7 @@
 export const CARDS_PER_PAGE = 5;
 export const URL_MARKER_DEFAULT = 'markup/img/pin.svg';
 export const URL_MARKER_CURRENT = 'markup/img/pin-active.svg';
+export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const CITIES = [
   'Paris',

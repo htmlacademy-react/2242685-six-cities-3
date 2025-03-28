@@ -13,6 +13,8 @@ export const selectSortOrder = createAction('selectSortOrder', (sortOrder: SortO
 
 export const loadOffers = createAction<Offers>('data/loadOffers');
 
+export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
+
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 
 export const setError = createAction<string | null>('setError');

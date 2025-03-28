@@ -1,4 +1,4 @@
-import { Page } from '../../const.ts';
+import { Page, AuthorizationStatus } from '../../const.ts';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
@@ -9,13 +9,22 @@ import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 import LoginLayout from '../layout/login-layout';
 import MainLayout from '../layout/main-layout.tsx';
+import { useAppSelector } from '../../hooks/state.tsx';
+import LoadingScreen from '../loading-screen/loading-screen.tsx';
 
 type AppProps = {
   isAuth: boolean;
 }
 
 function App({isAuth}: AppProps) {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
   return (
     <BrowserRouter>
       <Routes>
@@ -24,7 +33,7 @@ function App({isAuth}: AppProps) {
         </Route>
         <Route path="/" element={<Layout />}>
           <Route path={Page.Favorites} element={
-            <PrivateRoute isAuth={isAuth}>
+            <PrivateRoute authorizationStatus={authorizationStatus}>
               <Favorites />
             </PrivateRoute>
           }

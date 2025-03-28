@@ -1,7 +1,22 @@
 import { Link } from 'react-router-dom';
-import { Page } from '../../const';
+import { Page, AuthorizationStatus } from '../../const';
+import { logoutAction } from '../../store/api-actions';
+import { useAppSelector, useAppDispatch } from '../../hooks/state';
 
 export default function Header () {
+  const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const email = useAppSelector((state) => state.email);
+
+  // if (authorizationStatus === AuthorizationStatus.Auth) {отображаем email и кнопку Sign out}
+  // else {отображаем кнопку Sign in - разметка ниже}
+  //   <li class="header__nav-item user">
+  //   <a class="header__nav-link header__nav-link--profile" href="#">
+  //     <div class="header__avatar-wrapper user__avatar-wrapper"></div>
+  //     <span class="header__login">Sign in</span>
+  //   </a>
+  // </li>
+
   return (
     <header className="header">
       <div className="container">
@@ -26,15 +41,22 @@ export default function Header () {
                 >
                   <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                   <span className="header__user-name user__name">
-                      Oliver.conner@gmail.com
+                    {email}
                   </span>
                   <span className="header__favorite-count">3</span>
                 </Link>
               </li>
               <li className="header__nav-item">
-                <a className="header__nav-link" href="#">
+                <Link
+                  className="header__nav-link"
+                  onClick={(evt) => {
+                    evt.preventDefault();
+                    dispatch(logoutAction());
+                  }}
+                  to={Page.Main}
+                >
                   <span className="header__signout">Sign out</span>
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>

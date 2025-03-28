@@ -1,5 +1,5 @@
 import { Page, AuthorizationStatus } from '../../const.ts';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
@@ -11,6 +11,8 @@ import LoginLayout from '../layout/login-layout';
 import MainLayout from '../layout/main-layout.tsx';
 import { useAppSelector } from '../../hooks/state.tsx';
 import LoadingScreen from '../loading-screen/loading-screen.tsx';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 type AppProps = {
   isAuth: boolean;
@@ -26,7 +28,7 @@ function App({isAuth}: AppProps) {
     );
   }
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Main />} />
@@ -45,7 +47,7 @@ function App({isAuth}: AppProps) {
           <Route path={Page.Login} element={<Login />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

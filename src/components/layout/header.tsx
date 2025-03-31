@@ -7,15 +7,7 @@ export default function Header () {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const email = useAppSelector((state) => state.email);
-
-  // if (authorizationStatus === AuthorizationStatus.Auth) {отображаем email и кнопку Sign out}
-  // else {отображаем кнопку Sign in - разметка ниже}
-  //   <li class="header__nav-item user">
-  //   <a class="header__nav-link header__nav-link--profile" href="#">
-  //     <div class="header__avatar-wrapper user__avatar-wrapper"></div>
-  //     <span class="header__login">Sign in</span>
-  //   </a>
-  // </li>
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
     <header className="header">
@@ -34,30 +26,42 @@ export default function Header () {
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
-              <li className="header__nav-item user">
-                <Link
-                  className="header__nav-link header__nav-link--profile"
-                  to={`/${Page.Favorites}`}
-                >
-                  <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                  <span className="header__user-name user__name">
-                    {email}
-                  </span>
-                  <span className="header__favorite-count">3</span>
-                </Link>
-              </li>
-              <li className="header__nav-item">
-                <Link
-                  className="header__nav-link"
-                  onClick={(evt) => {
-                    evt.preventDefault();
-                    dispatch(logoutAction());
-                  }}
-                  to={Page.Main}
-                >
-                  <span className="header__signout">Sign out</span>
-                </Link>
-              </li>
+
+              {isAuth ?
+                <>
+                  <li className="header__nav-item user">
+                    <Link
+                      className="header__nav-link header__nav-link--profile"
+                      to={`/${Page.Favorites}`}
+                    >
+                      <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                      <span className="header__user-name user__name">
+                        {email}
+                      </span>
+                      <span className="header__favorite-count">3</span>
+                    </Link>
+                  </li>
+                  <li className="header__nav-item">
+                    <Link
+                      className="header__nav-link"
+                      onClick={(evt) => {
+                        evt.preventDefault();
+                        dispatch(logoutAction());
+                      } }
+                      to={Page.Main}
+                    >
+                      <span className="header__signout">Sign out</span>
+                    </Link>
+                  </li>
+                </>
+                :
+                <li className="header__nav-item user">
+                  <Link className="header__nav-link header__nav-link--profile" to={`/${Page.Login}`}>
+                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                    <span className="header__login">Sign in</span>
+                  </Link>
+                </li>}
+
             </ul>
           </nav>
         </div>

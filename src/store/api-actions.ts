@@ -10,7 +10,7 @@ import { Offers } from '../types/types.js';
 import { store } from './';
 
 export const clearErrorAction = createAsyncThunk(
-  'game/clearError',
+  'clearError',
   () => {
     setTimeout(
       () => store.dispatch(setError(null)),

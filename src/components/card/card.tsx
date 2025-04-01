@@ -11,12 +11,13 @@ type CardProps = {
 
 function Card({offer, onCardHover}: CardProps) {
   const location = useLocation();
-  let pathname = location.pathname.slice(1); //pathname без лидирующего '/'
+  let pathname = location.pathname; //.slice(1); //pathname без лидирующего '/'
   const slashIndex = pathname.indexOf('/');
   if (slashIndex !== -1) {
     pathname = pathname.substring(0, slashIndex);
   }
-  const offerLink = `/${Page.Offer}/${offer.id}`;
+  // const offerLink = `/${Page.Offer}/${offer.id}`;
+  const offerLink = `${Page.Offer}/${offer.id}`;
 
   let articleClassName = 'place-card';
   let divImageClassName = 'place-card__image-wrapper';
@@ -24,7 +25,7 @@ function Card({offer, onCardHover}: CardProps) {
   let imageHeight = 200;
 
   switch (pathname) {
-    case Page.Main:
+    case '': //Page.Main
       articleClassName = `cities__card ${articleClassName}`;
       divImageClassName = `cities__image-wrapper ${divImageClassName}`;
       imageWidth = 260;

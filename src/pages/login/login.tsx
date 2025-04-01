@@ -1,24 +1,45 @@
-import { useRef, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRef, useState, FormEvent } from 'react';
 import { useAppDispatch } from '../../hooks/state';
 import { loginAction } from '../../store/api-actions';
-import { Page } from '../../const';
+
+const PASSWORD_ERROR_TEXT = 'The password must contain at least one letter and one digit';
 
 export default function Login() {
   const loginRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
-
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (loginRef.current !== null && passwordRef.current !== null) {
-      dispatch(loginAction({
-        email: loginRef.current.value,
-        password: passwordRef.current.value
-      }));
+    // Проверка пароля перед отправкой
+    const hasLetter = /[a-zA-Z]/.test(password);
+    const hasDigit = /\d/.test(password);
+
+    if (!hasLetter || !hasDigit) {
+      setPasswordError(PASSWORD_ERROR_TEXT);
+      return;
+    }
+
+    dispatch(loginAction({
+      email: loginRef.current?.value || '',
+      password
+    }));
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPassword(value);
+
+    // Проверка пароля
+    const hasLetter = /[a-zA-Z]/.test(value);
+    const hasDigit = /\d/.test(value);
+
+    if (!hasLetter || !hasDigit) {
+      setPasswordError(PASSWORD_ERROR_TEXT);
+    } else {
+      setPasswordError('');
     }
   };
 
@@ -41,26 +62,29 @@ export default function Login() {
                 type="email"
                 name="email"
                 placeholder="Email"
-                required={false}
+                required
               />
             </div>
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">Password</label>
               <input
-                ref={passwordRef}
                 className="login__input form__input"
                 type="password"
                 name="password"
                 placeholder="Password"
-                required={false}
+                value={password}
+                onChange={handlePasswordChange}
+                required
               />
             </div>
+            {passwordError && (
+              <div className="login__error">{passwordError}</div>
+            )}
             <button
               className="login__submit form__submit button"
               type="submit"
-              onClick={() => navigate(Page.Main)}
             >
-            Sign in
+              Sign in
             </button>
           </form>
         </section>

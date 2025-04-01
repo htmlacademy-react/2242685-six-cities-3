@@ -30,10 +30,10 @@ function App({isAuth}: AppProps) {
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
+        <Route path={Page.Main} element={<MainLayout />}>
           <Route index element={<Main />} />
         </Route>
-        <Route path="/" element={<Layout />}>
+        <Route path="" element={<Layout />}>
           <Route path={Page.Favorites} element={
             <PrivateRoute authorizationStatus={authorizationStatus}>
               <Favorites />
@@ -43,7 +43,7 @@ function App({isAuth}: AppProps) {
           <Route path={`${Page.Offer}/:id`} element={<Offer isAuth={isAuth} />} />
           <Route path="*" element={<Page404 />} />
         </Route>
-        <Route path="/" element={<LoginLayout />}>
+        <Route path="" element={<LoginLayout />}>
           <Route path={Page.Login} element={<Login />} />
         </Route>
       </Routes>

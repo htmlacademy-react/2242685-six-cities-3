@@ -13,11 +13,11 @@ export const CITIES = [
 ];
 
 export enum Page {
-  Main = '', //main
-  Offer = 'offer',
-  Login = 'login',
-  Favorites = 'favorites',
-  Page404 = 'page404'
+  Main = '/', //main
+  Offer = '/offer',
+  Login = '/login',
+  Favorites = '/favorites',
+  Page404 = '/page404'
 }
 
 export enum AuthorizationStatus {

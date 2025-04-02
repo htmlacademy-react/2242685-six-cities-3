@@ -2,6 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { SortOrder, Page } from '../const';
 import { Offers } from '../types/types';
 import { AuthorizationStatus } from '../const';
+import { UserData } from '../types/user-data';
 
 export const selectCity = createAction('selectCity', (cityName: string) => ({
   payload: cityName,
@@ -21,4 +22,4 @@ export const setError = createAction<string | null>('setError');
 
 export const redirectToRoute = createAction<Page>('redirectToRoute');
 
-export const setEmail = createAction<string | null>('setEmail');
+export const setUserData = createAction<UserData | null>('setUserData');

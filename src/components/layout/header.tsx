@@ -6,7 +6,8 @@ import { useAppSelector, useAppDispatch } from '../../hooks/state';
 export default function Header () {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const email = useAppSelector((state) => state.email);
+  const email = useAppSelector((state) => state.userData?.email);
+  const avatarUrl = useAppSelector((state) => state.userData?.avatarUrl);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
@@ -34,7 +35,12 @@ export default function Header () {
                       className="header__nav-link header__nav-link--profile"
                       to={Page.Favorites}
                     >
-                      <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                        <img
+                          src={avatarUrl}
+                          alt="Аватар пользователя"
+                        />
+                      </div>
                       <span className="header__user-name user__name">
                         {email}
                       </span>

@@ -1,6 +1,9 @@
 import { useRef, useState, FormEvent } from 'react';
-import { useAppDispatch } from '../../hooks/state';
+import { useAppDispatch, useAppSelector } from '../../hooks/state';
 import { loginAction } from '../../store/api-actions';
+import { AuthorizationStatus, Page } from '../../const';
+import { Navigate } from 'react-router-dom';
+
 
 const PASSWORD_ERROR_TEXT = 'The password must contain at least one letter and one digit';
 
@@ -9,6 +12,12 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    // на главную
+    return <Navigate to={Page.Main} />; // ???сбрасывается глобальное состояние!!!
+  }
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();

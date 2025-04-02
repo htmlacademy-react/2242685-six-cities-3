@@ -4,7 +4,7 @@ function percentsRating(rating: number) {
   return Math.round(rating) * 20;
 }
 
-function mapOfferToMapPoints (offers: Offer[]) {
+function mapOffersToMapPoints (offers: Offer[]) {
   const points: Point[] = offers.map((offer) => ({
     id: offer.id,
     latitude: offer.location.latitude,
@@ -14,4 +14,4 @@ function mapOfferToMapPoints (offers: Offer[]) {
   return points;
 }
 
-export {percentsRating, mapOfferToMapPoints};
+export {percentsRating, mapOffersToMapPoints};

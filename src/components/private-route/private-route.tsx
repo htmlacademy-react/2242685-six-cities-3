@@ -8,7 +8,7 @@ type PrivateRouteProps = {
 };
 
 function PrivateRoute({children, authorizationStatus}: PrivateRouteProps) {
-  return authorizationStatus === AuthorizationStatus.Auth ? children : <Navigate to={`/${Page.Login}`} />;
+  return authorizationStatus === AuthorizationStatus.Auth ? children : <Navigate to={Page.Login} />;
 }
 
 export default PrivateRoute;

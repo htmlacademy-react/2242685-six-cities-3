@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { SortOrder, Page } from '../const';
-import { Offers } from '../types/types';
+import { Offers, Offer } from '../types/types';
 import { AuthorizationStatus } from '../const';
 import { UserData } from '../types/user-data';
 
@@ -23,3 +23,5 @@ export const setError = createAction<string | null>('setError');
 export const redirectToRoute = createAction<Page>('redirectToRoute');
 
 export const setUserData = createAction<UserData | null>('setUserData');
+
+export const loadOffer = createAction<Offer>('data/loadOffer');

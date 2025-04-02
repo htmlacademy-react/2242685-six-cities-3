@@ -19,9 +19,9 @@ type OfferProps = {
 
 function Offer({isAuth}: OfferProps) {
   const params = useParams();
-  store.dispatch(fetchOfferAction());
-  const offer = useAppSelector((state) => state.offer);
-  const currentOffer = offers.find((item) => item.id === params.id); // с сервера!!!
+  store.dispatch(fetchOfferAction(params.id));
+  const currentOffer = useAppSelector((state) => state.offer);
+  // const currentOffer = offers.find((item) => item.id === params.id); // с сервера!!!
   if (!currentOffer) {
     return null;
   }

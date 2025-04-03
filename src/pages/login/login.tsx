@@ -4,7 +4,6 @@ import { loginAction } from '../../store/api-actions';
 import { AuthorizationStatus, Page } from '../../const';
 import { Navigate } from 'react-router-dom';
 
-
 const PASSWORD_ERROR_TEXT = 'The password must contain at least one letter and one digit';
 
 export default function Login() {

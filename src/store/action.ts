@@ -29,3 +29,5 @@ export const loadOffer = createAction<Offer>('data/loadOffer');
 export const loadNearOffers = createAction<Offers>('data/loadNearOffers');
 
 export const loadComments = createAction<Comments>('data/loadComments');
+
+export const loadFavorites = createAction<Offers | null>('data/loadFavorites');

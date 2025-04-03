@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { CITIES, SortOrder, AuthorizationStatus } from '../const';
-import { selectCity, selectSortOrder, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, loadOffer } from './action';
-import { Offer, Offers } from '../types/types';
+import { selectCity, selectSortOrder, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, loadOffer, loadNearOffers, loadComments } from './action';
+import { Offer, Offers, Comments } from '../types/types';
 import { UserData } from '../types/user-data';
 
 const initialCity = CITIES[0]; //Paris
@@ -16,6 +16,8 @@ type InitalState = {
   isOffersDataLoading: boolean;
   error: string | null;
   offer: Offer | null;
+  nearOffers: Offers;
+  comments: Comments;
 }
 
 const initialState: InitalState = {
@@ -27,6 +29,8 @@ const initialState: InitalState = {
   isOffersDataLoading: false,
   error: null,
   offer: null,
+  nearOffers: [],
+  comments: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -42,6 +46,12 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadOffer, (state, action) => {
       state.offer = action.payload;
+    })
+    .addCase(loadNearOffers, (state, action) => {
+      state.nearOffers = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;

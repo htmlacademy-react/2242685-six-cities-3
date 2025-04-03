@@ -1,15 +1,16 @@
 import { useParams } from 'react-router-dom';
-import { Point } from '../../types/types';
+import { Point, FullOffer, Offer as OfferType } from '../../types/types';
 import { mapOffersToMapPoints, percentsRating } from '../../utils/utils';
 import Reviews from './reviews';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
-import { useAppSelector } from '../../hooks/state';
-import { store } from '../../store';
-import { fetchOfferAction } from '../../store/api-actions';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { APIRoute, BACKEND_URL } from '../../const';
+import { nanoid } from '@reduxjs/toolkit';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
 
 const OFFER_IMGS_COUNT = 6;
-const NEAR_PLACES_COUNT = 3;
 const MAP_HEIGHT = 579;
 const MAP_WIDTH = 1258;
 
@@ -19,14 +20,53 @@ type OfferProps = {
 
 function Offer({isAuth}: OfferProps) {
   const params = useParams();
-  store.dispatch(fetchOfferAction(params.id));
-  const currentOffer = useAppSelector((state) => state.offer);
-  // const currentOffer = offers.find((item) => item.id === params.id); // с сервера!!!
+  const currentOfferId = params.id;
+
+  // Состояние для хранения данных
+  const [currentOffer, setCurrentOffer] = useState<FullOffer | null>(null);
+  const [nearOffers, setNearOffers] = useState<OfferType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Получаем данные в useEffect
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+
+        // Получаем информацию о конкретном предложении
+        const offerResponse = await axios.get<FullOffer>(`${BACKEND_URL}${APIRoute.Offers}/${currentOfferId}`);
+        setCurrentOffer(offerResponse.data);
+
+        // Получаем соседние предложения
+        const nearbyResponse = await axios.get<OfferType[]>(`${BACKEND_URL}${APIRoute.Offers}/${currentOfferId}/nearby`);
+        setNearOffers(nearbyResponse.data);
+
+        setIsLoading(false);
+      } catch (err: unknown) {
+        setError((err as Error).message || 'Неизвестная ошибка');
+        setIsLoading(false);
+      }
+    };
+
+    if (currentOfferId) {
+      fetchData();
+    }
+  }, [currentOfferId]);
+
+  // Обрабатываем разные состояния
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (error) {
+    return <div>Ошибка: {error}</div>;
+  }
+
   if (!currentOffer) {
     return null;
   }
 
-  const nearOffers = offers.filter((offer) => offer.city.name === currentOffer.city.name).slice(0, NEAR_PLACES_COUNT); // заменить на реальные данные
   const points: Point[] = mapOffersToMapPoints(nearOffers);
 
   return (
@@ -34,13 +74,11 @@ function Offer({isAuth}: OfferProps) {
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
-            {Array.from({ length: OFFER_IMGS_COUNT }).map((_, index) => (
-              // в реальных данных использовать offer.previewImage в качестве ключа
-              // eslint-disable-next-line react/no-array-index-key
-              <div key={index} className="offer__image-wrapper">
+            {currentOffer.images.slice(0, OFFER_IMGS_COUNT).map((image) => (
+              <div key={nanoid()} className="offer__image-wrapper">
                 <img
                   className="offer__image"
-                  src={currentOffer.previewImage} // заменить на реальные данные
+                  src={image}
                   alt="Photo studio"
                 />
               </div>
@@ -76,10 +114,12 @@ function Offer({isAuth}: OfferProps) {
             <ul className="offer__features"> {/* отрисовать из данных */}
               <li className="offer__feature offer__feature--entire">{currentOffer.type}</li>
               <li className="offer__feature offer__feature--bedrooms">
-              3 Bedrooms
+                {currentOffer.bedrooms} {
+                  currentOffer.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'
+                }
               </li>
               <li className="offer__feature offer__feature--adults">
-              Max 4 adults
+                Max {currentOffer.maxAdults} adults
               </li>
             </ul>
             <div className="offer__price">
@@ -88,17 +128,12 @@ function Offer({isAuth}: OfferProps) {
             </div>
             <div className="offer__inside">
               <h2 className="offer__inside-title">What&apos;s inside</h2>
-              <ul className="offer__inside-list"> {/* отрисовать из данных */}
-                <li className="offer__inside-item">Wi-Fi</li>
-                <li className="offer__inside-item">Washing machine</li>
-                <li className="offer__inside-item">Towels</li>
-                <li className="offer__inside-item">Heating</li>
-                <li className="offer__inside-item">Coffee machine</li>
-                <li className="offer__inside-item">Baby seat</li>
-                <li className="offer__inside-item">Kitchen</li>
-                <li className="offer__inside-item">Dishwasher</li>
-                <li className="offer__inside-item">Cabel TV</li>
-                <li className="offer__inside-item">Fridge</li>
+              <ul className="offer__inside-list">
+                {currentOffer.goods.map((good) => (
+                  <li key={nanoid()} className="offer__inside-item">
+                    {good}
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="offer__host">
@@ -107,25 +142,18 @@ function Offer({isAuth}: OfferProps) {
                 <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
                   <img
                     className="offer__avatar user__avatar"
-                    src="img/avatar-angelina.jpg"
+                    src={currentOffer.host.avatarUrl}
                     width={74}
                     height={74}
                     alt="Host avatar"
                   />
                 </div>
-                <span className="offer__user-name">Angelina</span>
-                <span className="offer__user-status">Pro</span>
+                <span className="offer__user-name">{currentOffer.host.name}</span>
+                <span className="offer__user-status">{currentOffer.host.isPro ? 'Pro' : null}</span>
               </div>
               <div className="offer__description">
                 <p className="offer__text">
-                A quiet cozy and picturesque that hides behind a a river by the
-                unique lightness of Amsterdam. The building is green and from
-                18th century.
-                </p>
-                <p className="offer__text">
-                An independent House, strategically located between Rembrand
-                Square and National Opera, but where the bustle of the city
-                comes to rest in this alley flowery and colorful.
+                  {currentOffer.description}
                 </p>
               </div>
             </div>

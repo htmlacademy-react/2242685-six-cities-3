@@ -1,7 +1,11 @@
-import { comments } from '../../mocks/comments';
 import { Comment, Comments } from '../../types/types';
 import { percentsRating } from '../../utils/utils';
 import ReviewsForm from './reviews-form';
+import { nanoid } from '@reduxjs/toolkit';
+import { useEffect, useState } from 'react';
+import { APIRoute, BACKEND_URL } from '../../const';
+import axios from 'axios';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
 
 const MAX_COMMENTS = 10;
 
@@ -62,7 +66,47 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
 }
 
 function Reviews ({offerId, isAuth}: ReviewsProps) {
-  const offerComments: Comments = comments.filter((comment: Comment) => comment.id === offerId);
+  // Состояние для хранения данных
+  const [offerComments, setComments] = useState<Comments | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Получаем данные в useEffect
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+
+        // Получаем информацию о комментариях
+        const commentsResponse = await axios.get<Comments>(`${BACKEND_URL}${APIRoute.Comments}/${offerId}`);
+        setComments(commentsResponse.data);
+
+        setIsLoading(false);
+      } catch (err: unknown) {
+        setError((err as Error).message || 'Неизвестная ошибка');
+        setIsLoading(false);
+      }
+    };
+
+    if (offerId) {
+      fetchData();
+    }
+  }, [offerId]);
+
+  // Обрабатываем разные состояния
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (error) {
+    return <div>Ошибка: {error}</div>;
+  }
+
+  if (!offerId || !offerComments) {
+    return null;
+  }
+
+  // const offerComments: Comments = comments.filter((comment: Comment) => comment.id === offerId);
   const reviewsAmount = offerComments.length;
   offerComments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   const commentsToDisplay = offerComments.slice(0, MAX_COMMENTS);
@@ -74,7 +118,7 @@ function Reviews ({offerId, isAuth}: ReviewsProps) {
       </h2>
       <ul className="reviews__list">
         {commentsToDisplay.map((comment) => (
-          <ReviewsItem key={comment.date} comment={comment} />
+          <ReviewsItem key={nanoid()} comment={comment} />
         ))}
       </ul>
 

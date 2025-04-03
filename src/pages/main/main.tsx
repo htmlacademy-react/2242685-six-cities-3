@@ -4,9 +4,11 @@ import Map from '../../components/map/map';
 import { useState } from 'react';
 import { mapOffersToMapPoints } from '../../utils/utils';
 import Cities from '../../components/cities/cities';
-import { CITIES, SortOrder } from '../../const';
+import { CITIES, SortOrder, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks/state';
 import PlacesSorting from '../../components/places-sorting/places-sorting';
+import { fetchFavoritesAction } from '../../store/api-actions';
+import { store } from '../../store';
 
 const MAP_HEIGHT = 1000;
 
@@ -70,9 +72,14 @@ function Main() {
   const offers = useAppSelector((state) => state.offers);
   const selectedSortOrder = useAppSelector((state) => state.sortOrder);
   const cityName = useAppSelector((state) => state.cityName);
-
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const defaultSortCityOffers = offers.filter((offer) => offer.city.name === cityName);
+
   let cityOffers = offers.filter((offer) => offer.city.name === cityName);
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    store.dispatch(fetchFavoritesAction());
+  }
 
   switch (selectedSortOrder) {
     case SortOrder.Popular:

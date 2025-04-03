@@ -1,11 +1,14 @@
 import { Offer, Point } from '../types/types';
 
-function percentsRating(rating: number) {
+export function percentsRating(rating: number) {
   return Math.round(rating) * 20;
 }
 
-function mapOffersToMapPoints (offers: Offer[]) {
-  const points: Point[] = offers.map((offer) => ({
+export function mapOffersToMapPoints(offers: Offer[], offersCount?: number) {
+  if (offersCount === undefined) {
+    offersCount = offers.length;
+  }
+  const points: Point[] = offers.slice(0, offersCount).map((offer) => ({
     id: offer.id,
     latitude: offer.location.latitude,
     longitude: offer.location.longitude,
@@ -13,5 +16,3 @@ function mapOffersToMapPoints (offers: Offer[]) {
   }));
   return points;
 }
-
-export {percentsRating, mapOffersToMapPoints};

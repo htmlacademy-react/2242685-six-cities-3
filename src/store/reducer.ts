@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { CITIES, SortOrder, AuthorizationStatus } from '../const';
-import { selectCity, selectSortOrder, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, loadOffer, loadNearOffers, loadComments } from './action';
+import { selectCity, selectSortOrder, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, loadOffer, loadNearOffers, loadComments, loadFavorites } from './action';
 import { Offer, Offers, Comments } from '../types/types';
 import { UserData } from '../types/user-data';
 
@@ -16,8 +16,9 @@ type InitalState = {
   isOffersDataLoading: boolean;
   error: string | null;
   offer: Offer | null;
-  nearOffers: Offers;
+  nearOffers: Offers | null;
   comments: Comments;
+  favorites: Offers | null;
 }
 
 const initialState: InitalState = {
@@ -31,6 +32,7 @@ const initialState: InitalState = {
   offer: null,
   nearOffers: [],
   comments: [],
+  favorites: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -52,6 +54,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadComments, (state, action) => {
       state.comments = action.payload;
+    })
+    .addCase(loadFavorites, (state, action) => {
+      state.favorites = action.payload;
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;

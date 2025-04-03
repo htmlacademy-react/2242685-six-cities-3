@@ -9,6 +9,7 @@ export default function Header () {
   const email = useAppSelector((state) => state.userData?.email);
   const avatarUrl = useAppSelector((state) => state.userData?.avatarUrl);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const favoritesCount = useAppSelector((state) => state.favorites?.length);
 
   return (
     <header className="header">
@@ -44,7 +45,7 @@ export default function Header () {
                       <span className="header__user-name user__name">
                         {email}
                       </span>
-                      <span className="header__favorite-count">3</span>
+                      <span className="header__favorite-count">{favoritesCount}</span>
                     </Link>
                   </li>
                   <li className="header__nav-item">

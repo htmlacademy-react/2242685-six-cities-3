@@ -13,6 +13,7 @@ import LoadingScreen from '../../components/loading-screen/loading-screen';
 const OFFER_IMGS_COUNT = 6;
 const MAP_HEIGHT = 579;
 const MAP_WIDTH = 1258;
+const NEAR_OFFERS_COUNT = 3;
 
 type OfferProps = {
   isAuth: boolean;
@@ -67,7 +68,7 @@ function Offer({isAuth}: OfferProps) {
     return null;
   }
 
-  const points: Point[] = mapOffersToMapPoints(nearOffers);
+  const nearPoints: Point[] = mapOffersToMapPoints(nearOffers, NEAR_OFFERS_COUNT);
 
   return (
     <main className="page__main page__main--offer">
@@ -164,7 +165,7 @@ function Offer({isAuth}: OfferProps) {
         </div>
         <section className="offer__map map" >
 
-          <Map city={currentOffer.city} points={points} selectedOfferId={currentOffer.id} mapHeight={MAP_HEIGHT} mapWidth={MAP_WIDTH}/>
+          <Map city={currentOffer.city} points={nearPoints} selectedOfferId={currentOffer.id} mapHeight={MAP_HEIGHT} mapWidth={MAP_WIDTH}/>
 
         </section>
 
@@ -176,7 +177,7 @@ function Offer({isAuth}: OfferProps) {
           </h2>
           <div className="near-places__list places__list">
 
-            <OffersList offers={nearOffers} />
+            <OffersList offers={nearOffers.slice(0, NEAR_OFFERS_COUNT)} />
 
           </div>
         </section>

@@ -30,9 +30,14 @@ function FavoritesLocationsItems ({favoriteOffers, city}: FavoritesPlacesProps) 
   );
 }
 
-function FavoritesList () {
-  const offers = useAppSelector((state) => state.offers);
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+export default function FavoritesList () {
+  const favoriteOffers = useAppSelector((state) => state.favorites);
+
+  if (!favoriteOffers) {
+    return null;
+  }
+
+  // const favoriteOffers = favorites.filter((offer) => offer.isFavorite);
 
   const uniqueCityNames = favoriteOffers.map((offer) => offer.city.name)
     .filter((name, index, self) => self.indexOf(name) === index);
@@ -43,5 +48,3 @@ function FavoritesList () {
     </ul>
   );
 }
-
-export default FavoritesList;

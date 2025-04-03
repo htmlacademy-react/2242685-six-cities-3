@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { SortOrder, Page } from '../const';
-import { Offers, Offer } from '../types/types';
+import { Offers, Offer, Comments } from '../types/types';
 import { AuthorizationStatus } from '../const';
 import { UserData } from '../types/user-data';
 
@@ -25,3 +25,7 @@ export const redirectToRoute = createAction<Page>('redirectToRoute');
 export const setUserData = createAction<UserData | null>('setUserData');
 
 export const loadOffer = createAction<Offer>('data/loadOffer');
+
+export const loadNearOffers = createAction<Offers>('data/loadNearOffers');
+
+export const loadComments = createAction<Comments>('data/loadComments');

@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } f
 import { getToken } from './token';
 import { StatusCodes } from 'http-status-codes';
 import { processErrorHandle } from './process-error-handle';
+import { REQUEST_TIMEOUT, BACKEND_URL } from '../const';
 
 type DetailMessageType = {
   type: string;
@@ -15,9 +16,6 @@ const StatusCodeMapping: Record<number, boolean> = {
 };
 
 const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
-
-const BACKEND_URL = 'https://15.design.htmlacademy.pro/six-cities';
-const REQUEST_TIMEOUT = 5000;
 
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({

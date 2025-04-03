@@ -2,6 +2,8 @@ export const CARDS_PER_PAGE = 5;
 export const URL_MARKER_DEFAULT = 'markup/img/pin.svg';
 export const URL_MARKER_CURRENT = 'markup/img/pin-active.svg';
 export const TIMEOUT_SHOW_ERROR = 2000;
+export const BACKEND_URL = 'https://15.design.htmlacademy.pro/six-cities';
+export const REQUEST_TIMEOUT = 5000;
 
 export const CITIES = [
   'Paris',
@@ -36,7 +38,7 @@ export enum SortOrder {
 export enum APIRoute {
   Offers = '/offers',
   Favorite = '/favorite',
-  Comments = '/comments/{offerId}',
+  Comments = '/comments',
   Login = '/login',
   Logout = '/logout',
 }

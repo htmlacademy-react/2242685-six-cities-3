@@ -19,7 +19,6 @@ const NoCitiesPlaces = () => (
       </div>
     </section>
     <div className="cities__right-section"></div>
-    {/* ??? не отображается!!! */}
   </div>
 );
 
@@ -35,7 +34,7 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
   const selectedCity = cityOffers[0].city;
   const points = mapOffersToMapPoints(cityOffers);
 
-  const handleCardHover = (offerId: string) => {
+  const handleCardHover = (offerId: string | undefined) => {
     const currentOffer = cityOffers.find((offer) => offer.id === offerId);
 
     setSelectedOfferId(currentOffer?.id);
@@ -66,12 +65,12 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
   );
 };
 
-function Main() {
+export default function Main() {
   const offers = useAppSelector((state) => state.offers);
   const selectedSortOrder = useAppSelector((state) => state.sortOrder);
   const cityName = useAppSelector((state) => state.cityName);
-
   const defaultSortCityOffers = offers.filter((offer) => offer.city.name === cityName);
+
   let cityOffers = offers.filter((offer) => offer.city.name === cityName);
 
   switch (selectedSortOrder) {
@@ -107,5 +106,3 @@ function Main() {
     </main>
   );
 }
-
-export default Main;

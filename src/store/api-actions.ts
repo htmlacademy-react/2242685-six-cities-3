@@ -1,13 +1,13 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state.js';
-import { loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, redirectToRoute, setUserData } from './action';
+import { loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, redirectToRoute, setUserData, loadOffer, loadNearOffers, loadComments, loadFavorites } from './action';
 import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR, Page } from '../const';
 import { AuthData } from '../types/auth-data.js';
 import { UserData } from '../types/user-data.js';
-import { Offers } from '../types/types.js';
-import { store } from './';
+import { Offers, Comments, FullOffer } from '../types/types.js';
+import { store } from './index.js';
 
 export const clearErrorAction = createAsyncThunk(
   'clearError',
@@ -32,6 +32,64 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
      dispatch(loadOffers(data));
    },
  );
+
+export const fetchOfferAction = createAsyncThunk<void, string | undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOffer',
+  async (offerId, {dispatch, extra: api}) => {
+    dispatch(setOffersDataLoadingStatus(true));
+    const {data} = await api.get<FullOffer>(`${APIRoute.Offers}/${offerId}`);
+    dispatch(setOffersDataLoadingStatus(false));
+    dispatch(loadOffer(data));
+  },
+);
+
+///{offerId}/nearby
+export const fetchNearOffersAction = createAsyncThunk<void, string | undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchNearOffers',
+  async (offerId, {dispatch, extra: api}) => {
+    dispatch(setOffersDataLoadingStatus(true));
+    const {data} = await api.get<Offers>(`${APIRoute.Offers}/${offerId}/nearby`);
+    dispatch(setOffersDataLoadingStatus(false));
+    dispatch(loadNearOffers(data));
+  },
+);
+
+// /comments/{offerId}
+export const fetchCommentsAction = createAsyncThunk<void, string | undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchComments',
+  async (offerId, {dispatch, extra: api}) => {
+    dispatch(setOffersDataLoadingStatus(true));
+    const {data} = await api.get<Comments>(`${APIRoute.Comments}/${offerId}`);
+    dispatch(setOffersDataLoadingStatus(false));
+    dispatch(loadComments(data));
+  },
+);
+
+export const fetchFavoritesAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchFavorites',
+  async (_arg, {dispatch, extra: api}) => {
+    // dispatch(setOffersDataLoadingStatus(true));
+    const {data} = await api.get<Offers>(APIRoute.Favorite);
+    // dispatch(setOffersDataLoadingStatus(false));
+    dispatch(loadFavorites(data));
+  },
+);
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
    dispatch: AppDispatch;

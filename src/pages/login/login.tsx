@@ -1,9 +1,9 @@
-import { useRef, useState, FormEvent } from 'react';
+import { useRef, useState, FormEvent, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
-import { loginAction } from '../../store/api-actions';
-import { AuthorizationStatus, Page } from '../../const';
-import { Navigate } from 'react-router-dom';
-
+import { loginAction, fetchFavoritesAction } from '../../store/api-actions';
+import { AuthorizationStatus, Page, CITIES } from '../../const';
+import { Link, useNavigate } from 'react-router-dom';
+import { getRandomIntFromRange, handleCityClick } from '../../utils/utils';
 
 const PASSWORD_ERROR_TEXT = 'The password must contain at least one letter and one digit';
 
@@ -13,11 +13,15 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState('');
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const randomCityName = CITIES[getRandomIntFromRange(0, CITIES.length)];
 
-  if (authorizationStatus === AuthorizationStatus.Auth) {
-    // на главную
-    return <Navigate to={Page.Main} />; // ???сбрасывается глобальное состояние!!!
-  }
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      navigate(Page.Main);
+    }
+  }, [authorizationStatus, navigate]);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -31,10 +35,20 @@ export default function Login() {
       return;
     }
 
-    dispatch(loginAction({
-      email: loginRef.current?.value || '',
-      password
-    }));
+    (async () => {
+      try {
+        // Ждем завершения loginAction
+        await dispatch(loginAction({
+          email: loginRef.current?.value || '',
+          password
+        }));
+        // После успешного входа, выполняем fetchFavoritesAction
+        dispatch(fetchFavoritesAction());
+      } catch (error) {
+        // Обработка ошибок
+        setPasswordError(String(error));
+      }
+    })();
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,9 +113,13 @@ export default function Login() {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <a className="locations__item-link" href="#">
-              <span>Amsterdam</span>
-            </a>
+            <Link
+              className="locations__item-link"
+              onClick={handleCityClick(randomCityName)}
+              to={Page.Main}
+            >
+              <span>{randomCityName}</span>
+            </Link>
           </div>
         </section>
       </div>

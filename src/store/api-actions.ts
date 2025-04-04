@@ -6,7 +6,7 @@ import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR, Page } from '../const';
 import { AuthData } from '../types/auth-data.js';
 import { UserData } from '../types/user-data.js';
-import { Offers, Offer, Comments } from '../types/types.js';
+import { Offers, Comments, FullOffer } from '../types/types.js';
 import { store } from './index.js';
 
 export const clearErrorAction = createAsyncThunk(
@@ -41,7 +41,7 @@ export const fetchOfferAction = createAsyncThunk<void, string | undefined, {
   'data/fetchOffer',
   async (offerId, {dispatch, extra: api}) => {
     dispatch(setOffersDataLoadingStatus(true));
-    const {data} = await api.get<Offer>(`${APIRoute.Offers}/${offerId}`);
+    const {data} = await api.get<FullOffer>(`${APIRoute.Offers}/${offerId}`);
     dispatch(setOffersDataLoadingStatus(false));
     dispatch(loadOffer(data));
   },

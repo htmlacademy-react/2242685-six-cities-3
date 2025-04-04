@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { CITIES, SortOrder, AuthorizationStatus } from '../const';
 import { selectCity, selectSortOrder, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, loadOffer, loadNearOffers, loadComments, loadFavorites } from './action';
-import { Offer, Offers, Comments } from '../types/types';
+import { Offers, Comments, FullOffer } from '../types/types';
 import { UserData } from '../types/user-data';
 
 const initialCity = CITIES[0]; //Paris
@@ -15,7 +15,7 @@ type InitalState = {
   userData: UserData | null;
   isOffersDataLoading: boolean;
   error: string | null;
-  offer: Offer | null;
+  offer: FullOffer | null;
   nearOffers: Offers | null;
   comments: Comments;
   favorites: Offers | null;

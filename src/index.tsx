@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import App from './components/app/app';
-import { AuthStatus } from './const';
+import { AuthorizationStatus } from './const';
 import { store } from './store';
+import ErrorMessage from './components/error-message/error-message';
+import { checkAuthAction, fetchOffersAction } from './store/api-actions';
 
-const currentAuthStatus = AuthStatus.Auth;
+store.dispatch(fetchOffersAction());
+store.dispatch(checkAuthAction());
+
+const currentAuthStatus = AuthorizationStatus.Auth;
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,7 +19,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store = {store}>
-      <App isAuth={(currentAuthStatus as AuthStatus) === AuthStatus.Auth} />
+      <ErrorMessage />
+      <App isAuth={(currentAuthStatus as AuthorizationStatus) === AuthorizationStatus.Auth} />
     </Provider>
   </React.StrictMode>
 );

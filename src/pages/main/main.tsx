@@ -2,7 +2,7 @@ import { Offer } from '../../types/types';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import { useState } from 'react';
-import { mapOfferToMapPoints } from '../../utils/utils';
+import { mapOffersToMapPoints } from '../../utils/utils';
 import Cities from '../../components/cities/cities';
 import { CITIES, SortOrder } from '../../const';
 import { useAppSelector } from '../../hooks/state';
@@ -33,7 +33,7 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
     undefined
   );
   const selectedCity = cityOffers[0].city;
-  const points = mapOfferToMapPoints(cityOffers);
+  const points = mapOffersToMapPoints(cityOffers);
 
   const handleCardHover = (offerId: string) => {
     const currentOffer = cityOffers.find((offer) => offer.id === offerId);

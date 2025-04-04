@@ -1,4 +1,6 @@
-export default function Page404() {
+import { ClockLoader } from 'react-spinners';
+
+export default function LoadingScreen() {
   return (
     <div style={{
       display: 'flex',
@@ -7,7 +9,7 @@ export default function Page404() {
       height: '100vh'
     }}
     >
-      <h1 style={{ color: '#4481C3' }}>Error 404. Page Not Found.</h1>
+      <ClockLoader size={100} color='#4481C3' />
     </div>
 
   );

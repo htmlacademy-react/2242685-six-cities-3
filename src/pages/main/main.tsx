@@ -68,7 +68,7 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
   );
 };
 
-function Main() {
+export default function Main() {
   const offers = useAppSelector((state) => state.offers);
   const selectedSortOrder = useAppSelector((state) => state.sortOrder);
   const cityName = useAppSelector((state) => state.cityName);
@@ -77,6 +77,7 @@ function Main() {
 
   let cityOffers = offers.filter((offer) => offer.city.name === cityName);
 
+  // перенести в Login
   if (authorizationStatus === AuthorizationStatus.Auth) {
     store.dispatch(fetchFavoritesAction());
   }
@@ -114,5 +115,3 @@ function Main() {
     </main>
   );
 }
-
-export default Main;

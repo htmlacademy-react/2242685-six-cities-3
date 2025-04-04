@@ -1,8 +1,9 @@
 import { useRef, useState, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
 import { loginAction } from '../../store/api-actions';
-import { AuthorizationStatus, Page } from '../../const';
-import { Navigate } from 'react-router-dom';
+import { AuthorizationStatus, Page, CITIES } from '../../const';
+import { Link, Navigate } from 'react-router-dom';
+import { getRandomIntFromRange, handleCityClick } from '../../utils/utils';
 
 const PASSWORD_ERROR_TEXT = 'The password must contain at least one letter and one digit';
 
@@ -12,6 +13,7 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState('');
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const randomCityName = CITIES[getRandomIntFromRange(0, CITIES.length)];
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
     // на главную
@@ -98,9 +100,13 @@ export default function Login() {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <a className="locations__item-link" href="#">
-              <span>Amsterdam</span>
-            </a>
+            <Link
+              className="locations__item-link"
+              onClick={handleCityClick(randomCityName)}
+              to={Page.Main}
+            >
+              <span>{randomCityName}</span>
+            </Link>
           </div>
         </section>
       </div>

@@ -35,7 +35,7 @@ const initialState: InitalState = {
   favorites: [],
 };
 
-const reducer = createReducer(initialState, (builder) => {
+export const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(selectCity, (state, action) => {
       state.cityName = action.payload;
@@ -62,7 +62,7 @@ const reducer = createReducer(initialState, (builder) => {
       state.authorizationStatus = action.payload;
     })
     .addCase(setUserData, (state, action) => {
-      state.userData = action.payload; // UserData?
+      state.userData = action.payload;
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;
@@ -71,5 +71,3 @@ const reducer = createReducer(initialState, (builder) => {
       state.isOffersDataLoading = action.payload;
     });
 });
-
-export {reducer};

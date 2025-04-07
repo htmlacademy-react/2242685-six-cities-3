@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Point } from '../../types/types';
-import { mapOffersToMapPoints, percentsRating } from '../../utils/utils';
+import { handleFavoriteButtonClick, mapOffersToMapPoints, percentsRating } from '../../utils/utils';
 import Reviews from './reviews';
 import Map from '../../components/map/map';
 import { useEffect } from 'react';
@@ -73,7 +73,11 @@ function Offer({isAuth}: OfferProps) {
               <h1 className="offer__name">
                 {currentFullOffer.title}
               </h1>
-              <button className={`offer__bookmark-button ${currentFullOffer.isFavorite ? 'offer__bookmark-button--active' : ''} button`} type="button">
+              <button
+                className={`offer__bookmark-button ${currentFullOffer.isFavorite ? 'offer__bookmark-button--active' : ''} button`}
+                type="button"
+                onClick={handleFavoriteButtonClick(currentFullOffer.id, Number(!currentFullOffer.isFavorite))}
+              >
                 <svg className="offer__bookmark-icon" width={31} height={33}>
                   <use xlinkHref="#icon-bookmark" />
                 </svg>

@@ -6,7 +6,7 @@ import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR, Page } from '../const';
 import { AuthData } from '../types/auth-data.js';
 import { UserData } from '../types/user-data.js';
-import { Offers, Comments, FullOffer } from '../types/types.js';
+import { Offers, Comments, FullOffer, Offer } from '../types/types.js';
 import { store } from './index.js';
 
 export const clearErrorAction = createAsyncThunk(
@@ -118,7 +118,6 @@ export const loginAction = createAsyncThunk<
   }
 );
 
-
 export const logoutAction = createAsyncThunk<void, undefined, {
    dispatch: AppDispatch;
    state: State;
@@ -132,3 +131,19 @@ export const logoutAction = createAsyncThunk<void, undefined, {
      dispatch(setUserData(null));
    },
  );
+
+// post /six-cities/favorite/{offerId}/{status} // status = 0 | 1
+export const setFavoriteStatus = createAsyncThunk<
+  void,
+  [string | undefined, number],
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(
+  'data/setFavoriteStatus',
+  async ([offerId, status], { extra: api }) => {
+    await api.post<Offer>(`${APIRoute.Favorite}/${offerId}/${status}`);
+  }
+);

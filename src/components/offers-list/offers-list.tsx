@@ -3,7 +3,7 @@ import { Offers } from '../../types/types';
 
 type OffersListProps = {
   offers: Offers;
-  onCardHover?: (offerId: string) => void;
+  onCardHover?: (offerId: string | undefined) => void;
 }
 
 function OffersList ({offers, onCardHover}: OffersListProps) {

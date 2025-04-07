@@ -1,43 +1,60 @@
 import { useParams } from 'react-router-dom';
 import { Point } from '../../types/types';
-import { mapOffersToMapPoints, percentsRating } from '../../utils/utils';
+import { handleFavoriteButtonClick, mapOffersToMapPoints, percentsRating } from '../../utils/utils';
 import Reviews from './reviews';
 import Map from '../../components/map/map';
+import { useEffect } from 'react';
+
+import { nanoid } from '@reduxjs/toolkit';
+import { useAppDispatch, useAppSelector } from '../../hooks/state';
+import { fetchOfferAction, fetchNearbyOffersAction } from '../../store/api-actions';
 import OffersList from '../../components/offers-list/offers-list';
-import { useAppSelector } from '../../hooks/state';
 
 const OFFER_IMGS_COUNT = 6;
-const NEAR_PLACES_COUNT = 3;
 const MAP_HEIGHT = 579;
 const MAP_WIDTH = 1258;
+const NEAR_OFFERS_COUNT = 3;
 
 type OfferProps = {
   isAuth: boolean;
 }
 
 function Offer({isAuth}: OfferProps) {
-  const offers = useAppSelector((state) => state.offers);
   const params = useParams();
-  const currentOffer = offers.find((item) => item.id === params.id);
-  if (!currentOffer) {
+  const currentOfferId = params.id;
+  const dispatch = useAppDispatch();
+  const currentFullOffer = useAppSelector((state) => state.offer);
+  const nearbyOffers = useAppSelector((state) => state.nearOffers);
+  const offers = useAppSelector((state) => state.offers);
+  const currentOffer = offers.find((offer) => offer.id === currentOfferId);
+
+  useEffect(() => {
+    if (currentOfferId) {
+      dispatch(fetchOfferAction(currentOfferId));
+      dispatch(fetchNearbyOffersAction(currentOfferId));
+    }
+  }, [dispatch, currentOfferId]);
+
+  if (!currentFullOffer || !currentOffer) {
     return null;
   }
 
-  const nearOffers = offers.filter((offer) => offer.city.name === currentOffer.city.name).slice(0, NEAR_PLACES_COUNT); // заменить на реальные данные
-  const points: Point[] = mapOffersToMapPoints(nearOffers);
+  const validNearOffers = nearbyOffers ? nearbyOffers.slice(0, NEAR_OFFERS_COUNT) : [];
+  const nearbyPoints: Point[] = mapOffersToMapPoints([
+    ...validNearOffers,
+    currentOffer
+  ]);
 
   return (
     <main className="page__main page__main--offer">
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
-            {Array.from({ length: OFFER_IMGS_COUNT }).map((_, index) => (
-              // в реальных данных использовать offer.previewImage в качестве ключа
-              // eslint-disable-next-line react/no-array-index-key
-              <div key={index} className="offer__image-wrapper">
+            {currentFullOffer.images.slice(0, OFFER_IMGS_COUNT).map((image) => (
+              <div key={nanoid()} className="offer__image-wrapper">
                 <img
                   className="offer__image"
-                  src={currentOffer.previewImage} // заменить на реальные данные
+                  src={image}
                   alt="Photo studio"
                 />
               </div>
@@ -47,16 +64,20 @@ function Offer({isAuth}: OfferProps) {
         <div className="offer__container container">
           <div className="offer__wrapper">
             {
-              currentOffer.isPremium &&
+              currentFullOffer.isPremium &&
               <div className="offer__mark">
                 <span>Premium</span>
               </div>
             }
             <div className="offer__name-wrapper">
               <h1 className="offer__name">
-                {currentOffer.title}
+                {currentFullOffer.title}
               </h1>
-              <button className={`offer__bookmark-button ${currentOffer.isFavorite ? 'offer__bookmark-button--active' : ''} button`} type="button">
+              <button
+                className={`offer__bookmark-button ${currentFullOffer.isFavorite ? 'offer__bookmark-button--active' : ''} button`}
+                type="button"
+                onClick={handleFavoriteButtonClick(currentFullOffer.id, Number(!currentFullOffer.isFavorite))}
+              >
                 <svg className="offer__bookmark-icon" width={31} height={33}>
                   <use xlinkHref="#icon-bookmark" />
                 </svg>
@@ -65,37 +86,34 @@ function Offer({isAuth}: OfferProps) {
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
-                <span style={{ width: `${percentsRating(currentOffer.rating)}%` }} />
+                <span style={{ width: `${percentsRating(currentFullOffer.rating)}%` }} />
                 <span className="visually-hidden">Rating</span>
               </div>
-              <span className="offer__rating-value rating__value">{currentOffer.rating}</span>
+              <span className="offer__rating-value rating__value">{currentFullOffer.rating}</span>
             </div>
             <ul className="offer__features"> {/* отрисовать из данных */}
-              <li className="offer__feature offer__feature--entire">{currentOffer.type}</li>
+              <li className="offer__feature offer__feature--entire">{currentFullOffer.type}</li>
               <li className="offer__feature offer__feature--bedrooms">
-              3 Bedrooms
+                {currentFullOffer.bedrooms} {
+                  currentFullOffer.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'
+                }
               </li>
               <li className="offer__feature offer__feature--adults">
-              Max 4 adults
+                Max {currentFullOffer.maxAdults} adults
               </li>
             </ul>
             <div className="offer__price">
-              <b className="offer__price-value">&euro;{currentOffer.price}</b>
+              <b className="offer__price-value">&euro;{currentFullOffer.price}</b>
               <span className="offer__price-text">&nbsp;night</span>
             </div>
             <div className="offer__inside">
               <h2 className="offer__inside-title">What&apos;s inside</h2>
-              <ul className="offer__inside-list"> {/* отрисовать из данных */}
-                <li className="offer__inside-item">Wi-Fi</li>
-                <li className="offer__inside-item">Washing machine</li>
-                <li className="offer__inside-item">Towels</li>
-                <li className="offer__inside-item">Heating</li>
-                <li className="offer__inside-item">Coffee machine</li>
-                <li className="offer__inside-item">Baby seat</li>
-                <li className="offer__inside-item">Kitchen</li>
-                <li className="offer__inside-item">Dishwasher</li>
-                <li className="offer__inside-item">Cabel TV</li>
-                <li className="offer__inside-item">Fridge</li>
+              <ul className="offer__inside-list">
+                {currentFullOffer.goods.map((good) => (
+                  <li key={nanoid()} className="offer__inside-item">
+                    {good}
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="offer__host">
@@ -104,36 +122,29 @@ function Offer({isAuth}: OfferProps) {
                 <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
                   <img
                     className="offer__avatar user__avatar"
-                    src="img/avatar-angelina.jpg"
+                    src={currentFullOffer.host.avatarUrl}
                     width={74}
                     height={74}
                     alt="Host avatar"
                   />
                 </div>
-                <span className="offer__user-name">Angelina</span>
-                <span className="offer__user-status">Pro</span>
+                <span className="offer__user-name">{currentFullOffer.host.name}</span>
+                <span className="offer__user-status">{currentFullOffer.host.isPro ? 'Pro' : null}</span>
               </div>
               <div className="offer__description">
                 <p className="offer__text">
-                A quiet cozy and picturesque that hides behind a a river by the
-                unique lightness of Amsterdam. The building is green and from
-                18th century.
-                </p>
-                <p className="offer__text">
-                An independent House, strategically located between Rembrand
-                Square and National Opera, but where the bustle of the city
-                comes to rest in this alley flowery and colorful.
+                  {currentFullOffer.description}
                 </p>
               </div>
             </div>
 
-            <Reviews offerId={currentOffer.id} isAuth={isAuth} />
+            <Reviews currentOfferId={currentOfferId} isAuth={isAuth} />
 
           </div>
         </div>
         <section className="offer__map map" >
 
-          <Map city={currentOffer.city} points={points} selectedOfferId={currentOffer.id} mapHeight={MAP_HEIGHT} mapWidth={MAP_WIDTH}/>
+          <Map city={currentOffer.city} points={nearbyPoints} selectedOfferId={currentOffer.id} mapHeight={MAP_HEIGHT} mapWidth={MAP_WIDTH}/>
 
         </section>
 
@@ -145,7 +156,9 @@ function Offer({isAuth}: OfferProps) {
           </h2>
           <div className="near-places__list places__list">
 
-            <OffersList offers={nearOffers} />
+            {nearbyOffers !== null && (
+              <OffersList offers={nearbyOffers.slice(0, NEAR_OFFERS_COUNT)} />
+            )}
 
           </div>
         </section>

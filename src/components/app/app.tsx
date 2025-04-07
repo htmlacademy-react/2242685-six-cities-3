@@ -13,27 +13,35 @@ import { useAppSelector } from '../../hooks/state.tsx';
 import LoadingScreen from '../loading-screen/loading-screen.tsx';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+// import { getToken } from '../../services/token.ts';
+// import { useEffect } from 'react';
+// import { checkAuthAction } from '../../store/api-actions.ts';
 
-type AppProps = {
-  isAuth: boolean;
-}
-
-function App({isAuth}: AppProps) {
+export default function App() {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+  // const token = getToken();
+
+  // useEffect (() => {
+  //   if (token) {
+  //     checkAuthAction();
+  //   }
+  // }, [token]);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return (
       <LoadingScreen />
     );
   }
+
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path={Page.Main} element={<MainLayout />}>
           <Route index element={<Main />} />
         </Route>
-        <Route path="" element={<Layout />}>
+        <Route path={Page.Main} element={<Layout />}>
           <Route path={Page.Favorites} element={
             <PrivateRoute authorizationStatus={authorizationStatus}>
               <Favorites />
@@ -43,12 +51,10 @@ function App({isAuth}: AppProps) {
           <Route path={`${Page.Offer}/:id`} element={<Offer isAuth={isAuth} />} />
           <Route path="*" element={<Page404 />} />
         </Route>
-        <Route path="" element={<LoginLayout />}>
+        <Route path={Page.Main} element={<LoginLayout />}>
           <Route path={Page.Login} element={<Login />} />
         </Route>
       </Routes>
     </HistoryRouter>
   );
 }
-
-export default App;

@@ -1,12 +1,15 @@
-import { comments } from '../../mocks/comments';
-import { Comment, Comments } from '../../types/types';
+import { Comment } from '../../types/types';
 import { percentsRating } from '../../utils/utils';
 import ReviewsForm from './reviews-form';
+import { nanoid } from '@reduxjs/toolkit';
+import { useEffect } from 'react';
+import { fetchCommentsAction } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks/state';
 
 const MAX_COMMENTS = 10;
 
 type ReviewsProps = {
-  offerId: string;
+  currentOfferId: string | undefined;
   isAuth: boolean;
 }
 
@@ -61,11 +64,22 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
   );
 }
 
-function Reviews ({offerId, isAuth}: ReviewsProps) {
-  const offerComments: Comments = comments.filter((comment: Comment) => comment.id === offerId);
+export default function Reviews ({currentOfferId, isAuth}: ReviewsProps) {
+  const offerComments = useAppSelector((state) => state.comments);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (currentOfferId) {
+      dispatch(fetchCommentsAction(currentOfferId));
+    }
+  }, [dispatch, currentOfferId]);
+
   const reviewsAmount = offerComments.length;
-  offerComments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  const commentsToDisplay = offerComments.slice(0, MAX_COMMENTS);
+  const sortedComments = [...offerComments].sort((a, b) =>
+    new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  const commentsToDisplay = sortedComments.slice(0, MAX_COMMENTS);
 
   return (
     <section className="offer__reviews reviews">
@@ -74,7 +88,7 @@ function Reviews ({offerId, isAuth}: ReviewsProps) {
       </h2>
       <ul className="reviews__list">
         {commentsToDisplay.map((comment) => (
-          <ReviewsItem key={comment.date} comment={comment} />
+          <ReviewsItem key={nanoid()} comment={comment} />
         ))}
       </ul>
 
@@ -83,5 +97,3 @@ function Reviews ({offerId, isAuth}: ReviewsProps) {
     </section>
   );
 }
-
-export default Reviews;

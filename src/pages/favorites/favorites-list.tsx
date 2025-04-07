@@ -1,47 +1,55 @@
 import { Offers } from '../../types/types';
 import Card from '../../components/card/card';
 import { useAppSelector } from '../../hooks/state';
+import { Link } from 'react-router-dom';
+import { Page } from '../../const';
+import { handleCityClick } from '../../utils/utils';
 
 type FavoritesPlacesProps = {
   favoriteOffers: Offers;
-  city: string;
+  cityName: string;
 }
 
-function FavoritesPlaces ({favoriteOffers, city}: FavoritesPlacesProps) {
+function FavoritesPlaces ({favoriteOffers, cityName}: FavoritesPlacesProps) {
   return (
-    favoriteOffers.filter((offer) => offer.city.name === city).map((offer) => (<Card key={offer.id} offer={offer} />))
+    favoriteOffers.filter((offer) => offer.city.name === cityName).map((offer) => (<Card key={offer.id} offer={offer} />))
   );
 }
 
-function FavoritesLocationsItems ({favoriteOffers, city}: FavoritesPlacesProps) {
+function FavoritesLocationsItems ({favoriteOffers, cityName}: FavoritesPlacesProps) {
   return (
-    <li className="favorites__locations-items" key={city}>
+    <li className="favorites__locations-items" key={cityName}>
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="#">
-            <span>{city}</span>
-          </a>
+          <Link
+            className="locations__item-link"
+            to={Page.Main}
+            onClick={handleCityClick(cityName)}
+          >
+            <span>{cityName}</span>
+          </Link>
         </div>
       </div>
       <div className="favorites__places">
-        <FavoritesPlaces favoriteOffers={favoriteOffers} city={city} />
+        <FavoritesPlaces favoriteOffers={favoriteOffers} cityName={cityName} />
       </div>
     </li>
   );
 }
 
-function FavoritesList () {
-  const offers = useAppSelector((state) => state.offers);
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+export default function FavoritesList () {
+  const favoriteOffers = useAppSelector((state) => state.favorites);
+
+  if (!favoriteOffers?.length) {
+    return null;
+  }
 
   const uniqueCityNames = favoriteOffers.map((offer) => offer.city.name)
     .filter((name, index, self) => self.indexOf(name) === index);
 
   return (
     <ul className="favorites__list">
-      {uniqueCityNames.map((city) => <FavoritesLocationsItems key={city} favoriteOffers={favoriteOffers} city={city} />)}
+      {uniqueCityNames.map((cityName) => <FavoritesLocationsItems key={cityName} favoriteOffers={favoriteOffers} cityName={cityName} />)}
     </ul>
   );
 }
-
-export default FavoritesList;

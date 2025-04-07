@@ -1,16 +1,15 @@
-import { Comment, Comments } from '../../types/types';
+import { Comment } from '../../types/types';
 import { percentsRating } from '../../utils/utils';
 import ReviewsForm from './reviews-form';
 import { nanoid } from '@reduxjs/toolkit';
-import { useEffect, useState } from 'react';
-import { APIRoute, BACKEND_URL } from '../../const';
-import axios from 'axios';
-import LoadingScreen from '../../components/loading-screen/loading-screen';
+import { useEffect } from 'react';
+import { fetchCommentsAction } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks/state';
 
 const MAX_COMMENTS = 10;
 
 type ReviewsProps = {
-  offerId: string;
+  currentOfferId: string | undefined;
   isAuth: boolean;
 }
 
@@ -65,51 +64,22 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
   );
 }
 
-function Reviews ({offerId, isAuth}: ReviewsProps) {
-  // Состояние для хранения данных
-  const [offerComments, setComments] = useState<Comments | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export default function Reviews ({currentOfferId, isAuth}: ReviewsProps) {
+  const offerComments = useAppSelector((state) => state.comments);
 
-  // Получаем данные в useEffect
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-
-        // Получаем информацию о комментариях
-        const commentsResponse = await axios.get<Comments>(`${BACKEND_URL}${APIRoute.Comments}/${offerId}`);
-        setComments(commentsResponse.data);
-
-        setIsLoading(false);
-      } catch (err: unknown) {
-        setError((err as Error).message || 'Неизвестная ошибка');
-        setIsLoading(false);
-      }
-    };
-
-    if (offerId) {
-      fetchData();
+    if (currentOfferId) {
+      dispatch(fetchCommentsAction(currentOfferId));
     }
-  }, [offerId]);
+  }, [dispatch, currentOfferId]);
 
-  // Обрабатываем разные состояния
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
-  if (error) {
-    return <div>Ошибка: {error}</div>;
-  }
-
-  if (!offerId || !offerComments) {
-    return null;
-  }
-
-  // const offerComments: Comments = comments.filter((comment: Comment) => comment.id === offerId);
   const reviewsAmount = offerComments.length;
-  offerComments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  const commentsToDisplay = offerComments.slice(0, MAX_COMMENTS);
+  const sortedComments = [...offerComments].sort((a, b) =>
+    new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  const commentsToDisplay = sortedComments.slice(0, MAX_COMMENTS);
 
   return (
     <section className="offer__reviews reviews">
@@ -127,5 +97,3 @@ function Reviews ({offerId, isAuth}: ReviewsProps) {
     </section>
   );
 }
-
-export default Reviews;

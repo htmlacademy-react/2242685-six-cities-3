@@ -3,14 +3,12 @@ import { Point } from '../../types/types';
 import { mapOffersToMapPoints, percentsRating } from '../../utils/utils';
 import Reviews from './reviews';
 import Map from '../../components/map/map';
-import OffersList from '../../components/offers-list/offers-list';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { nanoid } from '@reduxjs/toolkit';
-import LoadingScreen from '../../components/loading-screen/loading-screen';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
-import { fetchOfferAction, fetchNearOffersAction } from '../../store/api-actions';
-import { processErrorHandle } from '../../services/process-error-handle';
+import { fetchOfferAction, fetchNearbyOffersAction } from '../../store/api-actions';
+import OffersList from '../../components/offers-list/offers-list';
 
 const OFFER_IMGS_COUNT = 6;
 const MAP_HEIGHT = 579;
@@ -25,44 +23,25 @@ function Offer({isAuth}: OfferProps) {
   const params = useParams();
   const currentOfferId = params.id;
   const dispatch = useAppDispatch();
-
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    const loadOffer = async () => {
-      try {
-        // Создаем промисы для параллельного выполнения
-        const offerPromise = dispatch(fetchOfferAction(currentOfferId));
-        const nearOffersPromise = dispatch(fetchNearOffersAction(currentOfferId));
-        // Ждем выполнения обоих промисов
-        await Promise.all([offerPromise, nearOffersPromise]);
-
-        setIsLoaded(true);
-
-      } catch (error) {
-        // Обработка ошибок
-        processErrorHandle(String(error));
-      }
-    };
-
-    loadOffer();
-  }, [dispatch, currentOfferId]);
-
   const currentFullOffer = useAppSelector((state) => state.offer);
-  const nearOffers = useAppSelector((state) => state.nearOffers);
+  const nearbyOffers = useAppSelector((state) => state.nearOffers);
   const offers = useAppSelector((state) => state.offers);
   const currentOffer = offers.find((offer) => offer.id === currentOfferId);
 
-  if (!isLoaded) {
-    return <LoadingScreen/>;
-  }
+  useEffect(() => {
+    if (currentOfferId) {
+      // Используем dispatch для отправки действий
+      dispatch(fetchOfferAction(currentOfferId));
+      dispatch(fetchNearbyOffersAction(currentOfferId));
+    }
+  }, [dispatch, currentOfferId]);
 
   if (!currentFullOffer || !currentOffer) {
     return null;
   }
 
-  const validNearOffers = nearOffers ? nearOffers.slice(0, NEAR_OFFERS_COUNT) : [];
-  const nearPoints: Point[] = mapOffersToMapPoints([
+  const validNearOffers = nearbyOffers ? nearbyOffers.slice(0, NEAR_OFFERS_COUNT) : [];
+  const nearbyPoints: Point[] = mapOffersToMapPoints([
     ...validNearOffers,
     currentOffer
   ]);
@@ -121,7 +100,7 @@ function Offer({isAuth}: OfferProps) {
               </li>
             </ul>
             <div className="offer__price">
-              <b className="offer__price-value">&euro;{currentOffer.price}</b>
+              <b className="offer__price-value">&euro;{currentFullOffer.price}</b>
               <span className="offer__price-text">&nbsp;night</span>
             </div>
             <div className="offer__inside">
@@ -156,13 +135,13 @@ function Offer({isAuth}: OfferProps) {
               </div>
             </div>
 
-            <Reviews offerId={currentOffer.id} isAuth={isAuth} />
+            <Reviews currentOfferId={currentOfferId} isAuth={isAuth} />
 
           </div>
         </div>
         <section className="offer__map map" >
 
-          <Map city={currentOffer.city} points={nearPoints} selectedOfferId={currentOffer.id} mapHeight={MAP_HEIGHT} mapWidth={MAP_WIDTH}/>
+          <Map city={currentOffer.city} points={nearbyPoints} selectedOfferId={currentOffer.id} mapHeight={MAP_HEIGHT} mapWidth={MAP_WIDTH}/>
 
         </section>
 
@@ -174,8 +153,8 @@ function Offer({isAuth}: OfferProps) {
           </h2>
           <div className="near-places__list places__list">
 
-            {nearOffers !== null && (
-              <OffersList offers={nearOffers.slice(0, NEAR_OFFERS_COUNT)} />
+            {nearbyOffers !== null && (
+              <OffersList offers={nearbyOffers.slice(0, NEAR_OFFERS_COUNT)} />
             )}
 
           </div>

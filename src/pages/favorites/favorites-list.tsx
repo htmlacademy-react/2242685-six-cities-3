@@ -40,7 +40,7 @@ function FavoritesLocationsItems ({favoriteOffers, cityName}: FavoritesPlacesPro
 export default function FavoritesList () {
   const favoriteOffers = useAppSelector((state) => state.favorites);
 
-  if (!favoriteOffers) {
+  if (!favoriteOffers?.length) {
     return null;
   }
 

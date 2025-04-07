@@ -14,13 +14,14 @@ import LoadingScreen from '../loading-screen/loading-screen.tsx';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
-type AppProps = {
-  isAuth: boolean;
-}
+// type AppProps = {
+//   isAuth: boolean;
+// }
 
-function App({isAuth}: AppProps) {
+function App() { // {isAuth}: AppProps
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return (

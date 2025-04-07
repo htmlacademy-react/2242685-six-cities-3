@@ -30,7 +30,6 @@ function Offer({isAuth}: OfferProps) {
 
   useEffect(() => {
     if (currentOfferId) {
-      // Используем dispatch для отправки действий
       dispatch(fetchOfferAction(currentOfferId));
       dispatch(fetchNearbyOffersAction(currentOfferId));
     }

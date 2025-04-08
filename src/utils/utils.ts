@@ -1,7 +1,7 @@
 import { Offer, Point } from '../types/types';
 import { store } from '../store';
 import { selectCity } from '../store/action';
-import { fetchFavoritesAction, setFavoriteStatus } from '../store/api-actions';
+import { fetchFavoritesAction, fetchOfferAction, fetchOffersAction, setFavoriteStatus } from '../store/api-actions';
 import { MouseEventHandler } from 'react';
 
 export function percentsRating(rating: number) {
@@ -31,6 +31,14 @@ export function getRandomIntFromRange(min: number, max: number) {
 export const handleFavoriteButtonClick = (offerId: string | undefined, status: number): MouseEventHandler<HTMLButtonElement> => () => {
   store.dispatch(setFavoriteStatus([offerId, status]))
     .then(() => {
-      store.dispatch(fetchFavoritesAction());
+      // Создаем массив промисов
+      const promises = [
+        store.dispatch(fetchFavoritesAction()),
+        store.dispatch(fetchOfferAction(offerId)),
+        store.dispatch(fetchOffersAction()),
+      ];
+
+      // Ждем выполнения всех промисов параллельно
+      return Promise.all(promises);
     });
 };

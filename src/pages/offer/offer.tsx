@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
 import { fetchOfferAction, fetchNearbyOffersAction } from '../../store/api-actions';
 import OffersList from '../../components/offers-list/offers-list';
+import Page404 from '../page404/page404';
 
 const OFFER_IMGS_COUNT = 6;
 const MAP_HEIGHT = 579;
@@ -34,7 +35,7 @@ function Offer({isAuth}: OfferProps) {
   }, [dispatch, currentOfferId]);
 
   if (!currentFullOffer || !currentOffer) {
-    return null;
+    return <Page404 />;
   }
 
   const validNearOffers = nearbyOffers ? nearbyOffers.slice(0, NEAR_OFFERS_COUNT) : [];

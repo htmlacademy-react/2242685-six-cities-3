@@ -14,11 +14,7 @@ const MAP_HEIGHT = 579;
 const MAP_WIDTH = 1258;
 const NEAR_OFFERS_COUNT = 3;
 
-type OfferProps = {
-  isAuth: boolean;
-}
-
-function Offer({isAuth}: OfferProps) {
+function Offer() {
   const params = useParams();
   const currentOfferId = params.id;
   const dispatch = useAppDispatch();
@@ -137,7 +133,7 @@ function Offer({isAuth}: OfferProps) {
               </div>
             </div>
 
-            <Reviews currentOfferId={currentOfferId} isAuth={isAuth} />
+            <Reviews currentOfferId={currentOfferId} />
 
           </div>
         </div>

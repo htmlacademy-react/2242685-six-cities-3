@@ -4,12 +4,12 @@ import ReviewsForm from './reviews-form';
 import { useEffect } from 'react';
 import { fetchCommentsAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
+import { AuthorizationStatus } from '../../const';
 
 const MAX_COMMENTS = 10;
 
 type ReviewsProps = {
   currentOfferId: string | undefined;
-  isAuth: boolean;
 }
 
 type ReviewsItemProps = {
@@ -63,8 +63,9 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
   );
 }
 
-export default function Reviews ({currentOfferId, isAuth}: ReviewsProps) {
+export default function Reviews ({currentOfferId}: ReviewsProps) {
   const offerComments = useAppSelector((state) => state.comments);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const dispatch = useAppDispatch();
 
@@ -96,7 +97,7 @@ export default function Reviews ({currentOfferId, isAuth}: ReviewsProps) {
         ))}
       </ul>
 
-      {isAuth && <ReviewsForm />}
+      {authorizationStatus === AuthorizationStatus.Auth && <ReviewsForm />}
 
     </section>
   );

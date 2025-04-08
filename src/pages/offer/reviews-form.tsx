@@ -1,4 +1,8 @@
-import { useState, ReactEventHandler, Fragment } from 'react';
+import { useState, ReactEventHandler, Fragment, FormEventHandler } from 'react';
+import { useDispatch } from 'react-redux';
+import { postComment } from '../../store/api-actions';
+import { useParams } from 'react-router-dom';
+import { CommentToPost } from '../../types/types';
 
 type Rating = {
   defaultValue: number;
@@ -68,16 +72,22 @@ function ReviewsRatingForm ({onStarClick}: RatingItemProps) {
   );
 }
 
-function ReviewsForm () {
-  const [review, setReview] = useState({rating: 0, review: ''});
+function ReviewsForm() {
+  const [review, setReview] = useState<CommentToPost>({comment: '', rating: 0});
+  const {id} = useParams();
+  const dispatch = useDispatch();
 
   const handleReviewChange: TChangeHandler = (evt) => {
     const {name, value} = evt.currentTarget;
     setReview({...review, [name]: value});
   };
 
+  const handleReviewFormSubmit: FormEventHandler<HTMLFormElement> = () => {
+    dispatch(postComment([id, review]));
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleReviewFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -101,7 +111,7 @@ function ReviewsForm () {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={review.rating === 0 || review.review.length < 50 || review.review.length > 300}
+          disabled={review.rating === 0 || review.comment.length < 50 || review.comment.length > 300}
         >
 Submit
         </button>

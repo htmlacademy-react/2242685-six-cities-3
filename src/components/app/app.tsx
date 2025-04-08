@@ -1,4 +1,4 @@
-import { Page, AuthorizationStatus } from '../../const.ts';
+import { Page } from '../../const.ts';
 import { Routes, Route } from 'react-router-dom';
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
@@ -17,7 +17,6 @@ import browserHistory from '../../browser-history';
 export default function App() {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
-  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   if (isOffersDataLoading) {
     return (
@@ -38,7 +37,7 @@ export default function App() {
             </PrivateRoute>
           }
           />
-          <Route path={`${Page.Offer}/:id`} element={<Offer isAuth={isAuth} />} />
+          <Route path={`${Page.Offer}/:id`} element={<Offer />} />
           <Route path="*" element={<Page404 />} />
         </Route>
         <Route path={Page.Main} element={<LoginLayout />}>

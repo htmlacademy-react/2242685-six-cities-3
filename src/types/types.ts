@@ -70,3 +70,8 @@ export type CommentWithId = Comment & {
 };
 
 export type CommentsToDisplay = CommentWithId[];
+
+export type CommentToPost = {
+  comment: string;
+  rating: number;
+  }

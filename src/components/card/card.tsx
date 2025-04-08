@@ -13,10 +13,11 @@ function Card({offer, onCardHover}: CardProps) {
   const location = useLocation();
   let pathname = location.pathname; //.slice(1); //pathname без лидирующего '/'
   const slashIndex = pathname.indexOf('/');
+
   if (slashIndex !== -1) {
     pathname = pathname.substring(0, slashIndex);
   }
-  // const offerLink = `/${Page.Offer}/${offer.id}`;
+
   const offerLink = `${Page.Offer}/${offer.id}`;
 
   let articleClassName = 'place-card';
@@ -76,7 +77,6 @@ function Card({offer, onCardHover}: CardProps) {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            // className не меняется???
             className={`place-card__bookmark-button ${offer.isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
             type="button"
             onClick={handleFavoriteButtonClick(offer.id, Number(!offer.isFavorite))}

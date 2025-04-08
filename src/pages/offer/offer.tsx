@@ -4,8 +4,6 @@ import { handleFavoriteButtonClick, mapOffersToMapPoints, percentsRating } from 
 import Reviews from './reviews';
 import Map from '../../components/map/map';
 import { useEffect } from 'react';
-
-import { nanoid } from '@reduxjs/toolkit';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
 import { fetchOfferAction, fetchNearbyOffersAction } from '../../store/api-actions';
 import OffersList from '../../components/offers-list/offers-list';
@@ -51,7 +49,7 @@ function Offer({isAuth}: OfferProps) {
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
             {currentFullOffer.images.slice(0, OFFER_IMGS_COUNT).map((image) => (
-              <div key={nanoid()} className="offer__image-wrapper">
+              <div key={image} className="offer__image-wrapper">
                 <img
                   className="offer__image"
                   src={image}
@@ -110,7 +108,7 @@ function Offer({isAuth}: OfferProps) {
               <h2 className="offer__inside-title">What&apos;s inside</h2>
               <ul className="offer__inside-list">
                 {currentFullOffer.goods.map((good) => (
-                  <li key={nanoid()} className="offer__inside-item">
+                  <li key={good} className="offer__inside-item">
                     {good}
                   </li>
                 ))}

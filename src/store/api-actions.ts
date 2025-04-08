@@ -132,7 +132,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
    },
  );
 
-// post /six-cities/favorite/{offerId}/{status} // status = 0 | 1
 export const setFavoriteStatus = createAsyncThunk<
   void,
   [string | undefined, number],

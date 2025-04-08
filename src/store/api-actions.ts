@@ -147,7 +147,7 @@ export const setFavoriteStatus = createAsyncThunk<
   }
 );
 
-export const postComment = createAsyncThunk<
+export const postCommentAction = createAsyncThunk<
   void,
   [string | undefined, CommentToPost],
   {
@@ -159,5 +159,6 @@ export const postComment = createAsyncThunk<
   'data/postComment',
   async ([offerId, comment], { extra: api }) => {
     await api.post<CommentToPost>(`${APIRoute.Comments}/${offerId}`, comment);
+    // dispatch(postComment);
   }
 );

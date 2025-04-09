@@ -1,7 +1,8 @@
 import { Offer } from '../../types/types';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { Page } from '../../const';
 import { handleFavoriteButtonClick, percentsRating } from '../../utils/utils';
+import { useAppSelector } from '../../hooks/state';
 
 type CardProps = {
   offer: Offer;
@@ -10,6 +11,8 @@ type CardProps = {
 
 
 function Card({offer, onCardHover}: CardProps) {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const navigate = useNavigate();
   const location = useLocation();
   let pathname = location.pathname; //.slice(1); //pathname без лидирующего '/'
   const slashIndex = pathname.indexOf('/');
@@ -79,7 +82,7 @@ function Card({offer, onCardHover}: CardProps) {
           <button
             className={`place-card__bookmark-button ${offer.isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
             type="button"
-            onClick={handleFavoriteButtonClick(offer.id, Number(!offer.isFavorite))}
+            onClick={handleFavoriteButtonClick(offer.id, Number(!offer.isFavorite), authorizationStatus, navigate)}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

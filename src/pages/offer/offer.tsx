@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Point } from '../../types/types';
 import { handleFavoriteButtonClick, mapOffersToMapPoints, percentsRating } from '../../utils/utils';
 import Reviews from './reviews';
@@ -16,8 +16,10 @@ const NEAR_OFFERS_COUNT = 3;
 
 function Offer() {
   const params = useParams();
-  const currentOfferId = params.id;
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const currentOfferId = params.id;
   const currentFullOffer = useAppSelector((state) => state.offer);
   const nearbyOffers = useAppSelector((state) => state.nearOffers);
   const offers = useAppSelector((state) => state.offers);
@@ -71,7 +73,7 @@ function Offer() {
               <button
                 className={`offer__bookmark-button ${currentFullOffer.isFavorite ? 'offer__bookmark-button--active' : ''} button`}
                 type="button"
-                onClick={handleFavoriteButtonClick(currentFullOffer.id, Number(!currentFullOffer.isFavorite))}
+                onClick={handleFavoriteButtonClick(currentFullOffer.id, Number(!currentFullOffer.isFavorite), authorizationStatus, navigate)}
               >
                 <svg className="offer__bookmark-icon" width={31} height={33}>
                   <use xlinkHref="#icon-bookmark" />

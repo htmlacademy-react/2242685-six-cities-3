@@ -3,6 +3,8 @@ import { store } from '../store';
 import { selectCity } from '../store/action';
 import { fetchFavoritesAction, fetchOfferAction, fetchOffersAction, setFavoriteStatus } from '../store/api-actions';
 import { MouseEventHandler } from 'react';
+import { AuthorizationStatus, Page } from '../const';
+import { processErrorHandle } from '../services/process-error-handle';
 
 export function percentsRating(rating: number) {
   return Math.round(rating) * 20;
@@ -28,17 +30,30 @@ export function getRandomIntFromRange(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-export const handleFavoriteButtonClick = (offerId: string | undefined, status: number): MouseEventHandler<HTMLButtonElement> => () => {
+export const handleFavoriteButtonClick = (
+  offerId: string | undefined,
+  status: number,
+  authorizationStatus: AuthorizationStatus,
+  navigate: (path: string) => void,
+): MouseEventHandler<HTMLButtonElement> => (event) => {
+  event.preventDefault();
+
+  if (authorizationStatus !== AuthorizationStatus.Auth) {
+    navigate(Page.Login);
+    return;
+  }
+
   store.dispatch(setFavoriteStatus([offerId, status]))
     .then(() => {
-      // Создаем массив промисов
       const promises = [
         store.dispatch(fetchFavoritesAction()),
         store.dispatch(fetchOfferAction(offerId)),
         store.dispatch(fetchOffersAction()),
       ];
 
-      // Ждем выполнения всех промисов параллельно
       return Promise.all(promises);
+    })
+    .catch((error) => {
+      processErrorHandle(String(error));
     });
 };

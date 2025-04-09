@@ -1,6 +1,6 @@
 import { useRef, useState, FormEvent, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
-import { loginAction, fetchFavoritesAction, fetchOffersAction } from '../../store/api-actions';
+import { loginAction, fetchFavoritesAction } from '../../store/api-actions';
 import { AuthorizationStatus, Page, CITIES } from '../../const';
 import { Link, useNavigate } from 'react-router-dom';
 import { getRandomIntFromRange, handleCityClick } from '../../utils/utils';
@@ -42,7 +42,6 @@ export default function Login() {
           password
         }));
         dispatch(fetchFavoritesAction());
-        dispatch(fetchOffersAction());
       } catch (error) {
         setPasswordError(String(error));
       }

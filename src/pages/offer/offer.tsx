@@ -1,28 +1,25 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Point } from '../../types/types';
 import { handleFavoriteButtonClick, mapOffersToMapPoints, percentsRating } from '../../utils/utils';
 import Reviews from './reviews';
 import Map from '../../components/map/map';
 import { useEffect } from 'react';
-
-import { nanoid } from '@reduxjs/toolkit';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
 import { fetchOfferAction, fetchNearbyOffersAction } from '../../store/api-actions';
 import OffersList from '../../components/offers-list/offers-list';
+import Page404 from '../page404/page404';
 
 const OFFER_IMGS_COUNT = 6;
 const MAP_HEIGHT = 579;
 const MAP_WIDTH = 1258;
 const NEAR_OFFERS_COUNT = 3;
 
-type OfferProps = {
-  isAuth: boolean;
-}
-
-function Offer({isAuth}: OfferProps) {
+function Offer() {
   const params = useParams();
-  const currentOfferId = params.id;
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const currentOfferId = params.id;
   const currentFullOffer = useAppSelector((state) => state.offer);
   const nearbyOffers = useAppSelector((state) => state.nearOffers);
   const offers = useAppSelector((state) => state.offers);
@@ -36,7 +33,7 @@ function Offer({isAuth}: OfferProps) {
   }, [dispatch, currentOfferId]);
 
   if (!currentFullOffer || !currentOffer) {
-    return null;
+    return <Page404 />;
   }
 
   const validNearOffers = nearbyOffers ? nearbyOffers.slice(0, NEAR_OFFERS_COUNT) : [];
@@ -51,7 +48,7 @@ function Offer({isAuth}: OfferProps) {
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
             {currentFullOffer.images.slice(0, OFFER_IMGS_COUNT).map((image) => (
-              <div key={nanoid()} className="offer__image-wrapper">
+              <div key={image} className="offer__image-wrapper">
                 <img
                   className="offer__image"
                   src={image}
@@ -76,7 +73,7 @@ function Offer({isAuth}: OfferProps) {
               <button
                 className={`offer__bookmark-button ${currentFullOffer.isFavorite ? 'offer__bookmark-button--active' : ''} button`}
                 type="button"
-                onClick={handleFavoriteButtonClick(currentFullOffer.id, Number(!currentFullOffer.isFavorite))}
+                onClick={handleFavoriteButtonClick(currentFullOffer.id, Number(!currentFullOffer.isFavorite), authorizationStatus, navigate)}
               >
                 <svg className="offer__bookmark-icon" width={31} height={33}>
                   <use xlinkHref="#icon-bookmark" />
@@ -110,7 +107,7 @@ function Offer({isAuth}: OfferProps) {
               <h2 className="offer__inside-title">What&apos;s inside</h2>
               <ul className="offer__inside-list">
                 {currentFullOffer.goods.map((good) => (
-                  <li key={nanoid()} className="offer__inside-item">
+                  <li key={good} className="offer__inside-item">
                     {good}
                   </li>
                 ))}
@@ -138,7 +135,7 @@ function Offer({isAuth}: OfferProps) {
               </div>
             </div>
 
-            <Reviews currentOfferId={currentOfferId} isAuth={isAuth} />
+            <Reviews currentOfferId={currentOfferId} />
 
           </div>
         </div>

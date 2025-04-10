@@ -1,22 +1,25 @@
 import { Offer } from '../../types/types';
-import { useLocation, Link } from 'react-router-dom';
-import { Page } from '../../const';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { AuthorizationStatus, Page } from '../../const';
 import { handleFavoriteButtonClick, percentsRating } from '../../utils/utils';
+import { useAppSelector } from '../../hooks/state';
 
 type CardProps = {
   offer: Offer;
   onCardHover?: (offerId: string) => void;
 }
 
-
 function Card({offer, onCardHover}: CardProps) {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const navigate = useNavigate();
   const location = useLocation();
-  let pathname = location.pathname; //.slice(1); //pathname без лидирующего '/'
+  let pathname = location.pathname;
   const slashIndex = pathname.indexOf('/');
+
   if (slashIndex !== -1) {
     pathname = pathname.substring(0, slashIndex);
   }
-  // const offerLink = `/${Page.Offer}/${offer.id}`;
+
   const offerLink = `${Page.Offer}/${offer.id}`;
 
   let articleClassName = 'place-card';
@@ -76,10 +79,9 @@ function Card({offer, onCardHover}: CardProps) {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            // className не меняется???
-            className={`place-card__bookmark-button ${offer.isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
+            className={`place-card__bookmark-button ${offer.isFavorite && authorizationStatus === AuthorizationStatus.Auth ? 'place-card__bookmark-button--active' : ''} button`}
             type="button"
-            onClick={handleFavoriteButtonClick(offer.id, Number(!offer.isFavorite))}
+            onClick={handleFavoriteButtonClick(offer.id, Number(!offer.isFavorite), authorizationStatus, navigate)}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

@@ -64,3 +64,14 @@ export type Point = {
   longitude: number;
   zoom: number;
 }
+
+export type CommentWithId = Comment & {
+  commentId: string;
+};
+
+export type CommentsToDisplay = CommentWithId[];
+
+export type CommentToPost = {
+  comment: string;
+  rating: number;
+  }

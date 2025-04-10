@@ -37,15 +37,12 @@ export default function Login() {
 
     (async () => {
       try {
-        // Ждем завершения loginAction
         await dispatch(loginAction({
           email: loginRef.current?.value || '',
           password
         }));
-        // После успешного входа, выполняем fetchFavoritesAction
         dispatch(fetchFavoritesAction());
       } catch (error) {
-        // Обработка ошибок
         setPasswordError(String(error));
       }
     })();

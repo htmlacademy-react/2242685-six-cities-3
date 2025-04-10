@@ -1,4 +1,4 @@
-import { Page, AuthorizationStatus } from '../../const.ts';
+import { Page } from '../../const.ts';
 import { Routes, Route } from 'react-router-dom';
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
@@ -13,23 +13,12 @@ import { useAppSelector } from '../../hooks/state.tsx';
 import LoadingScreen from '../loading-screen/loading-screen.tsx';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
-// import { getToken } from '../../services/token.ts';
-// import { useEffect } from 'react';
-// import { checkAuthAction } from '../../store/api-actions.ts';
 
 export default function App() {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
-  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-  // const token = getToken();
 
-  // useEffect (() => {
-  //   if (token) {
-  //     checkAuthAction();
-  //   }
-  // }, [token]);
-
-  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+  if (isOffersDataLoading) {
     return (
       <LoadingScreen />
     );
@@ -48,7 +37,7 @@ export default function App() {
             </PrivateRoute>
           }
           />
-          <Route path={`${Page.Offer}/:id`} element={<Offer isAuth={isAuth} />} />
+          <Route path={`${Page.Offer}/:id`} element={<Offer />} />
           <Route path="*" element={<Page404 />} />
         </Route>
         <Route path={Page.Main} element={<LoginLayout />}>

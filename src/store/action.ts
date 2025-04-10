@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { SortOrder, Page } from '../const';
-import { Offers, Comments, FullOffer } from '../types/types';
+import { Offers, Comments, FullOffer, CommentToPost } from '../types/types';
 import { AuthorizationStatus } from '../const';
 import { UserData } from '../types/user-data';
 
@@ -31,3 +31,5 @@ export const loadNearOffers = createAction<Offers>('data/loadNearOffers');
 export const loadComments = createAction<Comments>('data/loadComments');
 
 export const loadFavorites = createAction<Offers | null>('data/loadFavorites');
+
+export const postComment = createAction<CommentToPost | null>('data/postComment');

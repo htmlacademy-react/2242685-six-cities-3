@@ -6,7 +6,7 @@ import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR, Page } from '../const';
 import { AuthData } from '../types/auth-data.js';
 import { UserData } from '../types/user-data.js';
-import { Offers, Comments, FullOffer, Offer } from '../types/types.js';
+import { Offers, Comments, FullOffer, Offer, CommentToPost } from '../types/types.js';
 import { store } from './index.js';
 
 export const clearErrorAction = createAsyncThunk(
@@ -132,7 +132,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
    },
  );
 
-// post /six-cities/favorite/{offerId}/{status} // status = 0 | 1
 export const setFavoriteStatus = createAsyncThunk<
   void,
   [string | undefined, number],
@@ -145,5 +144,21 @@ export const setFavoriteStatus = createAsyncThunk<
   'data/setFavoriteStatus',
   async ([offerId, status], { extra: api }) => {
     await api.post<Offer>(`${APIRoute.Favorite}/${offerId}/${status}`);
+  }
+);
+
+export const postCommentAction = createAsyncThunk<
+  void,
+  [string | undefined, CommentToPost],
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(
+  'data/postComment',
+  async ([offerId, comment], { extra: api }) => {
+    await api.post<CommentToPost>(`${APIRoute.Comments}/${offerId}`, comment);
+    // dispatch(postComment);
   }
 );

@@ -48,7 +48,7 @@ export const handleFavoriteButtonClick = (
       const promises = [
         store.dispatch(fetchFavoritesAction()),
         store.dispatch(fetchOfferAction(offerId)),
-        store.dispatch(fetchOffersAction()),
+        store.dispatch(fetchOffersAction()), // оптимизировать
       ];
 
       return Promise.all(promises);

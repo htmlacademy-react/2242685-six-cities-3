@@ -1,7 +1,7 @@
 import { Comment, CommentsToDisplay } from '../../types/types';
 import { percentsRating } from '../../utils/utils';
 import ReviewsForm from './reviews-form';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { fetchCommentsAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
 import { AuthorizationStatus } from '../../const';
@@ -63,7 +63,9 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
   );
 }
 
-export default function Reviews ({currentOfferId}: ReviewsProps) {
+const MemorizedReviewsItem = memo(ReviewsItem);
+
+function Reviews ({currentOfferId}: ReviewsProps) {
   const offerComments = useAppSelector((state) => state.comments);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
@@ -93,7 +95,7 @@ export default function Reviews ({currentOfferId}: ReviewsProps) {
       </h2>
       <ul className="reviews__list">
         {commentsToDisplay.map((comment) => (
-          <ReviewsItem key={comment.commentId} comment={comment} />
+          <MemorizedReviewsItem key={comment.commentId} comment={comment} />
         ))}
       </ul>
 
@@ -102,3 +104,7 @@ export default function Reviews ({currentOfferId}: ReviewsProps) {
     </section>
   );
 }
+
+const MemorizedReviews = memo(Reviews);
+
+export default MemorizedReviews;

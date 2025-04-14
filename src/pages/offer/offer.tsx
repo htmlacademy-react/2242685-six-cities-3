@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { Point } from '../../types/types';
 import { handleFavoriteButtonClick, mapOffersToMapPoints, percentsRating } from '../../utils/utils';
-import Reviews from './reviews';
+import MemorizedReviews from './reviews';
 import Map from '../../components/map/map';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
@@ -135,7 +135,7 @@ function Offer() {
               </div>
             </div>
 
-            <Reviews currentOfferId={currentOfferId} />
+            <MemorizedReviews currentOfferId={currentOfferId} />
 
           </div>
         </div>

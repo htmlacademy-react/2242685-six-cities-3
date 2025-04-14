@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import { Page, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions';
 import { useAppSelector, useAppDispatch } from '../../hooks/state';
+import { memo } from 'react';
 
-export default function Header () {
+function Header () {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const email = useAppSelector((state) => state.userData?.email);
@@ -76,3 +77,7 @@ export default function Header () {
     </header>
   );
 }
+
+const MemorizedHeader = memo(Header);
+
+export default MemorizedHeader;

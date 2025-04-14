@@ -3,7 +3,7 @@ import MemorizedOffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import { useCallback, useState } from 'react';
 import { mapOffersToMapPoints } from '../../utils/utils';
-import Cities from '../../components/cities/cities';
+import MemorizedCities from '../../components/cities/cities';
 import { CITIES, SortOrder } from '../../const';
 import { useAppSelector } from '../../hooks/state';
 import PlacesSorting from '../../components/places-sorting/places-sorting';
@@ -92,7 +92,7 @@ export default function Main() {
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
 
-      <Cities cities={CITIES} />
+      <MemorizedCities cities={CITIES} />
 
       <div className="cities">
 

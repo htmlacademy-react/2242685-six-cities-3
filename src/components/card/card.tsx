@@ -3,6 +3,7 @@ import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { AuthorizationStatus, Page } from '../../const';
 import { handleFavoriteButtonClick, percentsRating } from '../../utils/utils';
 import { useAppSelector } from '../../hooks/state';
+import { memo } from 'react';
 
 type CardProps = {
   offer: Offer;
@@ -104,4 +105,6 @@ function Card({offer, onCardHover}: CardProps) {
   );
 }
 
-export default Card;
+const MemorizedCard = memo(Card);
+
+export default MemorizedCard;

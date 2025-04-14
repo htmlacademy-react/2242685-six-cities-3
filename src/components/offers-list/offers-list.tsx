@@ -1,4 +1,5 @@
-import Card from '../../components/card/card';
+import { memo } from 'react';
+import MemorizedCard from '../../components/card/card';
 import { Offers } from '../../types/types';
 
 type OffersListProps = {
@@ -13,7 +14,7 @@ function OffersList ({offers, onCardHover}: OffersListProps) {
       className="cities__places-list places__list tabs__content"
     >
       {offers.map((offer) => (
-        <Card
+        <MemorizedCard
           key={offer.id}
           offer={offer}
           onCardHover={onCardHover}
@@ -24,4 +25,6 @@ function OffersList ({offers, onCardHover}: OffersListProps) {
   );
 }
 
-export default OffersList;
+const MemorizedOffersList = memo(OffersList);
+
+export default MemorizedOffersList;

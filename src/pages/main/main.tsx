@@ -1,7 +1,7 @@
 import { Offer } from '../../types/types';
-import OffersList from '../../components/offers-list/offers-list';
+import MemorizedOffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { mapOffersToMapPoints } from '../../utils/utils';
 import Cities from '../../components/cities/cities';
 import { CITIES, SortOrder } from '../../const';
@@ -34,11 +34,11 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
   const selectedCity = cityOffers[0].city;
   const points = mapOffersToMapPoints(cityOffers);
 
-  const handleCardHover = (offerId: string | undefined) => {
+  const handleCardHover = useCallback((offerId: string | undefined) => {
     const currentOffer = cityOffers.find((offer) => offer.id === offerId);
 
     setSelectedOfferId(currentOffer?.id);
-  };
+  }, [cityOffers]);
 
   return (
     <div className="cities__places-container container">
@@ -48,7 +48,7 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
 
         <PlacesSorting />
 
-        <OffersList
+        <MemorizedOffersList
           offers={cityOffers}
           onCardHover={handleCardHover}
         />

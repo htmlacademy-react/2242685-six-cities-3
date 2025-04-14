@@ -1,5 +1,5 @@
 import { Offers } from '../../types/types';
-import Card from '../../components/card/card';
+import MemorizedCard from '../../components/card/card';
 import { useAppSelector } from '../../hooks/state';
 import { Link } from 'react-router-dom';
 import { Page } from '../../const';
@@ -12,7 +12,7 @@ type FavoritesPlacesProps = {
 
 function FavoritesPlaces ({favoriteOffers, cityName}: FavoritesPlacesProps) {
   return (
-    favoriteOffers.filter((offer) => offer.city.name === cityName).map((offer) => (<Card key={offer.id} offer={offer} />))
+    favoriteOffers.filter((offer) => offer.city.name === cityName).map((offer) => (<MemorizedCard key={offer.id} offer={offer} />))
   );
 }
 

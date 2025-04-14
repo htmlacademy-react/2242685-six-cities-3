@@ -45,13 +45,9 @@ export const handleFavoriteButtonClick = (
 
   store.dispatch(setFavoriteStatus([offerId, status]))
     .then(() => {
-      const promises = [
-        store.dispatch(fetchFavoritesAction()),
-        store.dispatch(fetchOfferAction(offerId)),
-        store.dispatch(fetchOffersAction()), // оптимизировать
-      ];
-
-      return Promise.all(promises);
+      store.dispatch(fetchFavoritesAction());
+      store.dispatch(fetchOfferAction(offerId));
+      store.dispatch(fetchOffersAction());
     })
     .catch((error) => {
       processErrorHandle(String(error));

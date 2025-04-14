@@ -76,7 +76,7 @@ function ReviewsRatingForm ({onStarClick}: RatingItemProps) {
 function ReviewsForm() {
   const [review, setReview] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
-  const [isFormLocked, setIsFormLocked] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {id} = useParams();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -92,7 +92,7 @@ function ReviewsForm() {
 
   const handleReviewFormSubmit: FormEventHandler<HTMLFormElement> = (evt) => {
     evt.preventDefault();
-    setIsFormLocked(true);
+    setIsLoading(true);
 
     store.dispatch(postCommentAction([id, {comment: review, rating}]))
       .then(() => {
@@ -107,7 +107,7 @@ function ReviewsForm() {
         processErrorHandle(String(error));
       })
       .finally(() => {
-        setIsFormLocked(false);
+        setIsLoading(false);
       });
   };
   // action="#"
@@ -117,7 +117,7 @@ function ReviewsForm() {
         Your review
       </label>
 
-      {!isFormLocked && <ReviewsRatingForm onStarClick={handleRatingChange} />}
+      {!isLoading && <ReviewsRatingForm onStarClick={handleRatingChange} />}
 
       <textarea
         className="reviews__textarea form__textarea"
@@ -126,7 +126,7 @@ function ReviewsForm() {
         placeholder="Tell how was your stay, what you like and what can be improved"
         defaultValue={''}
         onChange={handleTextChange}
-        disabled={isFormLocked}
+        disabled={isLoading}
         ref={textareaRef}
       />
       <div className="reviews__button-wrapper">
@@ -138,9 +138,9 @@ function ReviewsForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isFormLocked || rating === 0 || review.length < 50 || review.length > 300}
+          disabled={isLoading || rating === 0 || review.length < 50 || review.length > 300}
         >
-          {isFormLocked ? 'Loading...' : 'Submit'}
+          {isLoading ? 'Loading...' : 'Submit'}
         </button>
       </div>
     </form>

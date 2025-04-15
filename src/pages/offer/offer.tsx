@@ -10,6 +10,7 @@ import OffersList from '../../components/offers-list/offers-list';
 import Page404 from '../page404/page404';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getFullOffer, getNearOffers, getOffers } from '../../store/app-data/selectors';
+import { Page } from '../../const';
 
 const OFFER_IMGS_COUNT = 6;
 const MAP_HEIGHT = 579;
@@ -156,7 +157,10 @@ function Offer() {
           <div className="near-places__list places__list">
 
             {nearbyOffers !== null && (
-              <OffersList offers={nearbyOffers.slice(0, NEAR_OFFERS_COUNT)} />
+              <OffersList
+                offers={nearbyOffers.slice(0, NEAR_OFFERS_COUNT)}
+                originalPage={Page.Offer}
+              />
             )}
 
           </div>

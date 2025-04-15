@@ -9,9 +9,10 @@ import { getAuthorizationStatus } from '../../store/user-process/selectors';
 type CardProps = {
   offer: Offer;
   onCardHover?: (offerId: string) => void;
+  originalPage: Page;
 }
 
-function Card({offer, onCardHover}: CardProps) {
+function Card({offer, onCardHover, originalPage}: CardProps) {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,8 +30,8 @@ function Card({offer, onCardHover}: CardProps) {
   let imageWidth = 260;
   let imageHeight = 200;
 
-  switch (pathname) {
-    case '': //Page.Main
+  switch (originalPage) {
+    case Page.Main:
       articleClassName = `cities__card ${articleClassName}`;
       divImageClassName = `cities__image-wrapper ${divImageClassName}`;
       imageWidth = 260;

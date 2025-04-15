@@ -1,13 +1,15 @@
 import { memo } from 'react';
 import MemorizedCard from '../../components/card/card';
 import { Offers } from '../../types/types';
+import { Page } from '../../const';
 
 type OffersListProps = {
   offers: Offers;
   onCardHover?: (offerId: string | undefined) => void;
+  originalPage: Page;
 }
 
-function OffersList ({offers, onCardHover}: OffersListProps) {
+function OffersList ({offers, onCardHover, originalPage}: OffersListProps) {
 
   return (
     <div
@@ -18,6 +20,7 @@ function OffersList ({offers, onCardHover}: OffersListProps) {
           key={offer.id}
           offer={offer}
           onCardHover={onCardHover}
+          originalPage={originalPage}
         />
       )
       )}

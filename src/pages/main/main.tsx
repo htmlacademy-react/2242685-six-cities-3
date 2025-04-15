@@ -4,7 +4,7 @@ import Map from '../../components/map/map';
 import { useCallback, useState } from 'react';
 import { mapOffersToMapPoints } from '../../utils/utils';
 import MemorizedCities from '../../components/cities/cities';
-import { CITIES, SortOrder } from '../../const';
+import { CITIES, Page, SortOrder } from '../../const';
 import { useAppSelector } from '../../hooks/state';
 import PlacesSorting from '../../components/places-sorting/places-sorting';
 import { getOffers } from '../../store/app-data/selectors';
@@ -37,10 +37,8 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
   const points = mapOffersToMapPoints(cityOffers);
 
   const handleCardHover = useCallback((offerId: string | undefined) => {
-    const currentOffer = cityOffers.find((offer) => offer.id === offerId);
-
-    setSelectedOfferId(currentOffer?.id);
-  }, [cityOffers]);
+    setSelectedOfferId(offerId);
+  }, []);
 
   return (
     <div className="cities__places-container container">
@@ -53,6 +51,7 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
         <MemorizedOffersList
           offers={cityOffers}
           onCardHover={handleCardHover}
+          originalPage={Page.Main}
         />
 
       </section>

@@ -79,6 +79,7 @@ function ReviewsForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {id} = useParams();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const isButtonDisabled = isLoading || rating === 0 || review.length < 50 || review.length > 300;
 
   const handleTextChange: TChangeHandler = (evt) => {
     const {value} = evt.currentTarget;
@@ -138,7 +139,7 @@ function ReviewsForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isLoading || rating === 0 || review.length < 50 || review.length > 300}
+          disabled={isButtonDisabled}
         >
           {isLoading ? 'Loading...' : 'Submit'}
         </button>

@@ -3,8 +3,9 @@ import { Page, AuthorizationStatus } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks/state';
 import { memo } from 'react';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { getFavorites, getUserData } from '../../store/app-data/selectors';
+import { getFavorites } from '../../store/app-data/selectors';
 import { logoutAction } from '../../store/api-actions';
+import { getUserData } from '../../store/user-process/selectors';
 
 function Header () {
   const dispatch = useAppDispatch();

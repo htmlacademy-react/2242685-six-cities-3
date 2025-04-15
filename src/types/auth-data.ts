@@ -1,4 +1,5 @@
 import { AuthorizationStatus } from '../const';
+import { UserData } from './user-data';
 
 export type AuthData = {
   email: string;
@@ -7,4 +8,5 @@ export type AuthData = {
 
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
+  userData: UserData | null;
 };

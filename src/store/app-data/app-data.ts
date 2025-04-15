@@ -1,13 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { Comments, FullOffer, Offers } from '../../types/types';
-import { UserData } from '../../types/user-data';
 import { setError } from '../action';
 import { fetchCommentsAction, fetchFavoritesAction, fetchFullOfferAction, fetchNearbyOffersAction, fetchOffersAction } from '../api-actions';
 
 type InitalState = {
   offers: Offers | null;
-  userData: UserData | null;
   isOffersDataLoading: boolean;
   error: string | null;
   offer: FullOffer | null;
@@ -18,7 +16,6 @@ type InitalState = {
 
 const initialState: InitalState = {
   offers: [],
-  userData: null,
   isOffersDataLoading: false,
   error: null,
   offer: null,

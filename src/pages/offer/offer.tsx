@@ -76,7 +76,7 @@ function Offer() {
               <button
                 className={`offer__bookmark-button ${currentFullOffer.isFavorite ? 'offer__bookmark-button--active' : ''} button`}
                 type="button"
-                onClick={handleFavoriteButtonClick(currentFullOffer.id, Number(!currentFullOffer.isFavorite), authorizationStatus, navigate)}
+                onClick={handleFavoriteButtonClick(currentFullOffer.id, currentFullOffer.isFavorite, authorizationStatus, navigate)}
               >
                 <svg className="offer__bookmark-icon" width={31} height={33}>
                   <use xlinkHref="#icon-bookmark" />

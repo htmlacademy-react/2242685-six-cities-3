@@ -1,4 +1,4 @@
-import { useState, ReactEventHandler, Fragment, FormEventHandler, useRef } from 'react';
+import { useState, ReactEventHandler, Fragment, FormEventHandler } from 'react';
 // import { useDispatch } from 'react-redux';
 import { fetchCommentsAction, postCommentAction } from '../../store/api-actions';
 import { useParams } from 'react-router-dom';
@@ -78,7 +78,7 @@ function ReviewsForm() {
   const [rating, setRating] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {id} = useParams();
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  // const textareaRef = useRef<HTMLTextAreaElement>(null); // value={review}
   const isButtonDisabled = isLoading || rating === 0 || review.length < 50 || review.length > 300;
 
   const handleTextChange: TChangeHandler = (evt) => {
@@ -100,9 +100,9 @@ function ReviewsForm() {
         store.dispatch(fetchCommentsAction(id));
         setReview('');
         setRating(0);
-        if (textareaRef.current) {
-          textareaRef.current.value = '';
-        }
+        // if (textareaRef.current) {
+        //   textareaRef.current.value = '';
+        // }
       })
       .catch((error) => {
         processErrorHandle(String(error));
@@ -128,7 +128,7 @@ function ReviewsForm() {
         defaultValue={''}
         onChange={handleTextChange}
         disabled={isLoading}
-        ref={textareaRef}
+        value={review}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

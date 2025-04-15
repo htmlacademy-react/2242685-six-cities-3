@@ -84,7 +84,7 @@ function Card({offer, onCardHover, originalPage}: CardProps) {
           <button
             className={`place-card__bookmark-button ${offer.isFavorite && authorizationStatus === AuthorizationStatus.Auth ? 'place-card__bookmark-button--active' : ''} button`}
             type="button"
-            onClick={handleFavoriteButtonClick(offer.id, Number(!offer.isFavorite), authorizationStatus, navigate)}
+            onClick={handleFavoriteButtonClick(offer.id, offer.isFavorite, authorizationStatus, navigate)}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

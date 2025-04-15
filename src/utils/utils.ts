@@ -32,7 +32,7 @@ export function getRandomIntFromRange(min: number, max: number) {
 
 export const handleFavoriteButtonClick = (
   offerId: string | undefined,
-  status: number,
+  isFavorite: boolean,
   authorizationStatus: AuthorizationStatus,
   navigate: (path: string) => void,
 ): MouseEventHandler<HTMLButtonElement> => (event) => {
@@ -42,6 +42,7 @@ export const handleFavoriteButtonClick = (
     navigate(Page.Login);
     return;
   }
+  const status = Number(!isFavorite);
 
   store.dispatch(setFavoriteStatus([offerId, status]))
     .then(() => {

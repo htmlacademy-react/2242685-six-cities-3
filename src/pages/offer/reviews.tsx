@@ -81,7 +81,7 @@ function Reviews ({currentOfferId}: ReviewsProps) {
 
   let commentsToDisplay: CommentsToDisplay = [];
   let reviewsAmount = 0;
-
+  // есть смысл это в селектор перенести, чтобы не хранить логику в компоненте
   if (offerComments && offerComments.length > 0) {
     reviewsAmount = offerComments?.length;
     const sortedComments = [...offerComments].sort((a, b) =>
@@ -91,7 +91,7 @@ function Reviews ({currentOfferId}: ReviewsProps) {
       .slice(0, MAX_COMMENTS)
       .map((comment, index) => ({
         ...comment,
-        commentId: `comment_${index}`
+        commentId: `comment_${index}` // nanoid. запрос -> ответ -> преобразование (nanoid) -> запись в redux
       }));
   }
 

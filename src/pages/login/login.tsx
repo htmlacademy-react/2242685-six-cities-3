@@ -4,6 +4,7 @@ import { loginAction, fetchFavoritesAction } from '../../store/api-actions';
 import { AuthorizationStatus, Page, CITIES } from '../../const';
 import { Link, useNavigate } from 'react-router-dom';
 import { getRandomIntFromRange, handleCityClick } from '../../utils/utils';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 const PASSWORD_ERROR_TEXT = 'The password must contain at least one letter and one digit';
 
@@ -12,7 +13,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const randomCityName = CITIES[getRandomIntFromRange(0, CITIES.length)];
 
   const navigate = useNavigate();

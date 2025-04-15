@@ -7,6 +7,8 @@ import MemorizedCities from '../../components/cities/cities';
 import { CITIES, SortOrder } from '../../const';
 import { useAppSelector } from '../../hooks/state';
 import PlacesSorting from '../../components/places-sorting/places-sorting';
+import { getOffers } from '../../store/app-data/selectors';
+import { getCityName, getSortOrder } from '../../store/app-params/selectors';
 
 const MAP_HEIGHT = 1000;
 
@@ -66,25 +68,25 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
 };
 
 export default function Main() {
-  const offers = useAppSelector((state) => state.offers);
-  const selectedSortOrder = useAppSelector((state) => state.sortOrder);
-  const cityName = useAppSelector((state) => state.cityName);
-  const defaultSortCityOffers = offers.filter((offer) => offer.city.name === cityName);
+  const offers = useAppSelector(getOffers);
+  const selectedSortOrder = useAppSelector(getSortOrder);
+  const cityName = useAppSelector(getCityName);
+  const defaultSortCityOffers = offers?.filter((offer) => offer.city.name === cityName);
 
-  let cityOffers = offers.filter((offer) => offer.city.name === cityName);
+  let cityOffers = offers?.filter((offer) => offer.city.name === cityName);
 
   switch (selectedSortOrder) {
     case SortOrder.Popular:
-      cityOffers = defaultSortCityOffers.slice();
+      cityOffers = defaultSortCityOffers?.slice();
       break;
     case SortOrder.PriceHighToLow:
-      cityOffers.sort((a, b) => b.price - a.price);
+      cityOffers?.sort((a, b) => b.price - a.price);
       break;
     case SortOrder.PriceLowToHigh:
-      cityOffers.sort((a, b) => a.price - b.price);
+      cityOffers?.sort((a, b) => a.price - b.price);
       break;
     case SortOrder.TopRatedFirst:
-      cityOffers.sort((a, b) => b.rating - a.rating);
+      cityOffers?.sort((a, b) => b.rating - a.rating);
       break;
   }
 
@@ -96,7 +98,7 @@ export default function Main() {
 
       <div className="cities">
 
-        {cityOffers.length > 0 ? (
+        {cityOffers && cityOffers.length > 0 ? (
           <CitiesPlaces cityOffers={cityOffers} cityName={cityName} />
         ) : (
           <NoCitiesPlaces />

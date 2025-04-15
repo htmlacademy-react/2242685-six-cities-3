@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import { CITIES } from '../../const';
 import { Page } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
-import { selectCity } from '../../store/action';
+import { selectCity } from '../../store/app-params/app-params';
 import { memo } from 'react';
+import { getCityName } from '../../store/app-params/selectors';
 
 type citiesProps = {
   cities: typeof CITIES;
@@ -11,7 +12,7 @@ type citiesProps = {
 
 function Cities ({cities}: citiesProps) {
   const dispatch = useAppDispatch();
-  const selectedCityName = useAppSelector((state) => state.cityName);
+  const selectedCityName = useAppSelector(getCityName);
 
   return (
     <div className="tabs">

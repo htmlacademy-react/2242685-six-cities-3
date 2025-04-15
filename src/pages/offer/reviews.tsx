@@ -5,6 +5,8 @@ import { memo, useEffect } from 'react';
 import { fetchCommentsAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
 import { AuthorizationStatus } from '../../const';
+import { getComments } from '../../store/app-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 const MAX_COMMENTS = 10;
 
@@ -66,8 +68,8 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
 const MemorizedReviewsItem = memo(ReviewsItem);
 
 function Reviews ({currentOfferId}: ReviewsProps) {
-  const offerComments = useAppSelector((state) => state.comments);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const offerComments = useAppSelector(getComments);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const dispatch = useAppDispatch();
 
@@ -77,16 +79,21 @@ function Reviews ({currentOfferId}: ReviewsProps) {
     }
   }, [dispatch, currentOfferId]);
 
-  const reviewsAmount = offerComments.length;
-  const sortedComments = [...offerComments].sort((a, b) =>
-    new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
-  const commentsToDisplay: CommentsToDisplay = sortedComments
-    .slice(0, MAX_COMMENTS)
-    .map((comment, index) => ({
-      ...comment,
-      commentId: `comment_${index}`
-    }));
+  let commentsToDisplay: CommentsToDisplay = [];
+  let reviewsAmount = 0;
+
+  if (offerComments && offerComments.length > 0) {
+    reviewsAmount = offerComments?.length;
+    const sortedComments = [...offerComments].sort((a, b) =>
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+    commentsToDisplay = sortedComments
+      .slice(0, MAX_COMMENTS)
+      .map((comment, index) => ({
+        ...comment,
+        commentId: `comment_${index}`
+      }));
+  }
 
   return (
     <section className="offer__reviews reviews">

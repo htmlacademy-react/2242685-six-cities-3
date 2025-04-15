@@ -4,6 +4,7 @@ import { AuthorizationStatus, Page } from '../../const';
 import { handleFavoriteButtonClick, percentsRating } from '../../utils/utils';
 import { useAppSelector } from '../../hooks/state';
 import { memo } from 'react';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type CardProps = {
   offer: Offer;
@@ -11,7 +12,7 @@ type CardProps = {
 }
 
 function Card({offer, onCardHover}: CardProps) {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
   const location = useLocation();
   let pathname = location.pathname;

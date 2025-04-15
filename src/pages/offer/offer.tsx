@@ -5,9 +5,11 @@ import MemorizedReviews from './reviews';
 import Map from '../../components/map/map';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
-import { fetchOfferAction, fetchNearbyOffersAction } from '../../store/api-actions';
+import { fetchNearbyOffersAction, fetchFullOfferAction } from '../../store/api-actions';
 import OffersList from '../../components/offers-list/offers-list';
 import Page404 from '../page404/page404';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getFullOffer, getNearOffers, getOffers } from '../../store/app-data/selectors';
 
 const OFFER_IMGS_COUNT = 6;
 const MAP_HEIGHT = 579;
@@ -16,18 +18,18 @@ const NEAR_OFFERS_COUNT = 3;
 
 function Offer() {
   const params = useParams();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const currentOfferId = params.id;
-  const currentFullOffer = useAppSelector((state) => state.offer);
-  const nearbyOffers = useAppSelector((state) => state.nearOffers);
-  const offers = useAppSelector((state) => state.offers);
-  const currentOffer = offers.find((offer) => offer.id === currentOfferId);
+  const currentFullOffer = useAppSelector(getFullOffer);
+  const nearbyOffers = useAppSelector(getNearOffers);
+  const offers = useAppSelector(getOffers);
+  const currentOffer = offers?.find((offer) => offer.id === currentOfferId);
 
   useEffect(() => {
     if (currentOfferId) {
-      dispatch(fetchOfferAction(currentOfferId));
+      dispatch(fetchFullOfferAction(currentOfferId));
       dispatch(fetchNearbyOffersAction(currentOfferId));
     }
   }, [dispatch, currentOfferId]);

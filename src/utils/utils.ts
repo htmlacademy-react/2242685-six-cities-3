@@ -1,7 +1,7 @@
 import { Offer, Point } from '../types/types';
 import { store } from '../store';
-import { selectCity } from '../store/action';
-import { fetchFavoritesAction, fetchOfferAction, fetchOffersAction, setFavoriteStatus } from '../store/api-actions';
+import { selectCity } from '../store/app-params/app-params';
+import { fetchFavoritesAction, fetchFullOfferAction, fetchOffersAction, setFavoriteStatus } from '../store/api-actions';
 import { MouseEventHandler } from 'react';
 import { AuthorizationStatus, Page } from '../const';
 import { processErrorHandle } from '../services/process-error-handle';
@@ -46,7 +46,7 @@ export const handleFavoriteButtonClick = (
   store.dispatch(setFavoriteStatus([offerId, status]))
     .then(() => {
       store.dispatch(fetchFavoritesAction());
-      store.dispatch(fetchOfferAction(offerId));
+      store.dispatch(fetchFullOfferAction(offerId));
       store.dispatch(fetchOffersAction());
     })
     .catch((error) => {

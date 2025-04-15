@@ -13,10 +13,12 @@ import { useAppSelector } from '../../hooks/state.tsx';
 import LoadingScreen from '../loading-screen/loading-screen.tsx';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import { getAuthorizationStatus } from '../../store/user-process/selectors.ts';
+import { getOffersDataLoadingStatus } from '../../store/app-data/selectors.ts';
 
 export default function App() {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
 
   if (isOffersDataLoading) {
     return (

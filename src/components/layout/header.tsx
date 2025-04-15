@@ -1,16 +1,20 @@
 import { Link } from 'react-router-dom';
 import { Page, AuthorizationStatus } from '../../const';
-import { logoutAction } from '../../store/api-actions';
 import { useAppSelector, useAppDispatch } from '../../hooks/state';
 import { memo } from 'react';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getFavorites, getUserData } from '../../store/app-data/selectors';
+import { logoutAction } from '../../store/api-actions';
 
 function Header () {
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const email = useAppSelector((state) => state.userData?.email);
-  const avatarUrl = useAppSelector((state) => state.userData?.avatarUrl);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userData = useAppSelector(getUserData);
+  const email = userData?.email;
+  const avatarUrl = userData?.avatarUrl;
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-  const favoritesCount = useAppSelector((state) => state.favorites?.length);
+  const favorites = useAppSelector(getFavorites);
+  const favoritesCount = favorites?.length;
 
   return (
     <header className="header">
@@ -54,7 +58,7 @@ function Header () {
                       className="header__nav-link"
                       onClick={(evt) => {
                         evt.preventDefault();
-                        dispatch(logoutAction());
+                        dispatch(logoutAction);
                       } }
                       to={Page.Main}
                     >

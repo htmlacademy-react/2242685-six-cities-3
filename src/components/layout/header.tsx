@@ -59,7 +59,7 @@ function Header () {
                       className="header__nav-link"
                       onClick={(evt) => {
                         evt.preventDefault();
-                        dispatch(logoutAction);
+                        dispatch(logoutAction());
                       } }
                       to={Page.Main}
                     >

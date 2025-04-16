@@ -1,5 +1,4 @@
 import { useState, ReactEventHandler, Fragment, FormEventHandler } from 'react';
-// import { useDispatch } from 'react-redux';
 import { fetchCommentsAction, postCommentAction } from '../../store/api-actions';
 import { useParams } from 'react-router-dom';
 import { store } from '../../store';
@@ -78,7 +77,6 @@ function ReviewsForm() {
   const [rating, setRating] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {id} = useParams();
-  // const textareaRef = useRef<HTMLTextAreaElement>(null); // value={review}
   const isButtonDisabled = isLoading || rating === 0 || review.length < 50 || review.length > 300;
 
   const handleTextChange: TChangeHandler = (evt) => {
@@ -100,9 +98,6 @@ function ReviewsForm() {
         store.dispatch(fetchCommentsAction(id));
         setReview('');
         setRating(0);
-        // if (textareaRef.current) {
-        //   textareaRef.current.value = '';
-        // }
       })
       .catch((error) => {
         processErrorHandle(String(error));
@@ -111,7 +106,7 @@ function ReviewsForm() {
         setIsLoading(false);
       });
   };
-  // action="#"
+
   return (
     <form className="reviews__form form" method="post" onSubmit={handleReviewFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">

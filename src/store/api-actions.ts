@@ -106,7 +106,6 @@ export const loginAction = createAsyncThunk<
     const {token} = response.data;
 
     saveToken(token);
-    // dispatch(setUserData(response.data));
     dispatch(redirectToRoute(Page.Main));
   }
 );
@@ -120,7 +119,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
    async (_arg, {extra: api}) => {
      await api.delete(APIRoute.Logout);
      dropToken();
-     //  dispatch(setUserData(null));
    },
  );
 
@@ -151,6 +149,5 @@ export const postCommentAction = createAsyncThunk<
   'data/postComment',
   async ([offerId, comment], { extra: api }) => {
     await api.post<CommentToPost>(`${APIRoute.Comments}/${offerId}`, comment);
-    // dispatch(postComment);
   }
 );

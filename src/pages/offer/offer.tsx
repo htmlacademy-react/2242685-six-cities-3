@@ -1,13 +1,16 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { Point } from '../../types/types';
 import { handleFavoriteButtonClick, mapOffersToMapPoints, percentsRating } from '../../utils/utils';
-import Reviews from './reviews';
+import MemorizedReviews from './reviews';
 import Map from '../../components/map/map';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
-import { fetchOfferAction, fetchNearbyOffersAction } from '../../store/api-actions';
+import { fetchNearbyOffersAction, fetchFullOfferAction } from '../../store/api-actions';
 import OffersList from '../../components/offers-list/offers-list';
 import Page404 from '../page404/page404';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getFullOffer, getNearOffers, getOffers } from '../../store/app-data/selectors';
+import { Page } from '../../const';
 
 const OFFER_IMGS_COUNT = 6;
 const MAP_HEIGHT = 579;
@@ -16,18 +19,18 @@ const NEAR_OFFERS_COUNT = 3;
 
 function Offer() {
   const params = useParams();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const currentOfferId = params.id;
-  const currentFullOffer = useAppSelector((state) => state.offer);
-  const nearbyOffers = useAppSelector((state) => state.nearOffers);
-  const offers = useAppSelector((state) => state.offers);
-  const currentOffer = offers.find((offer) => offer.id === currentOfferId);
+  const currentFullOffer = useAppSelector(getFullOffer);
+  const nearbyOffers = useAppSelector(getNearOffers);
+  const offers = useAppSelector(getOffers);
+  const currentOffer = offers?.find((offer) => offer.id === currentOfferId);
 
   useEffect(() => {
     if (currentOfferId) {
-      dispatch(fetchOfferAction(currentOfferId));
+      dispatch(fetchFullOfferAction(currentOfferId));
       dispatch(fetchNearbyOffersAction(currentOfferId));
     }
   }, [dispatch, currentOfferId]);
@@ -73,7 +76,7 @@ function Offer() {
               <button
                 className={`offer__bookmark-button ${currentFullOffer.isFavorite ? 'offer__bookmark-button--active' : ''} button`}
                 type="button"
-                onClick={handleFavoriteButtonClick(currentFullOffer.id, Number(!currentFullOffer.isFavorite), authorizationStatus, navigate)}
+                onClick={handleFavoriteButtonClick(currentFullOffer.id, currentFullOffer.isFavorite, authorizationStatus, navigate)}
               >
                 <svg className="offer__bookmark-icon" width={31} height={33}>
                   <use xlinkHref="#icon-bookmark" />
@@ -135,7 +138,7 @@ function Offer() {
               </div>
             </div>
 
-            <Reviews currentOfferId={currentOfferId} />
+            <MemorizedReviews currentOfferId={currentOfferId} />
 
           </div>
         </div>
@@ -154,7 +157,10 @@ function Offer() {
           <div className="near-places__list places__list">
 
             {nearbyOffers !== null && (
-              <OffersList offers={nearbyOffers.slice(0, NEAR_OFFERS_COUNT)} />
+              <OffersList
+                offers={nearbyOffers.slice(0, NEAR_OFFERS_COUNT)}
+                originalPage={Page.Offer}
+              />
             )}
 
           </div>

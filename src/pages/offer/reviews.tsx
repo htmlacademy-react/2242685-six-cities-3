@@ -1,10 +1,12 @@
 import { Comment, CommentsToDisplay } from '../../types/types';
 import { percentsRating } from '../../utils/utils';
 import ReviewsForm from './reviews-form';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { fetchCommentsAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
 import { AuthorizationStatus } from '../../const';
+import { getComments } from '../../store/app-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 const MAX_COMMENTS = 10;
 
@@ -63,9 +65,11 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
   );
 }
 
-export default function Reviews ({currentOfferId}: ReviewsProps) {
-  const offerComments = useAppSelector((state) => state.comments);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+const MemorizedReviewsItem = memo(ReviewsItem);
+
+function Reviews ({currentOfferId}: ReviewsProps) {
+  const offerComments = useAppSelector(getComments);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const dispatch = useAppDispatch();
 
@@ -75,16 +79,21 @@ export default function Reviews ({currentOfferId}: ReviewsProps) {
     }
   }, [dispatch, currentOfferId]);
 
-  const reviewsAmount = offerComments.length;
-  const sortedComments = [...offerComments].sort((a, b) =>
-    new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
-  const commentsToDisplay: CommentsToDisplay = sortedComments
-    .slice(0, MAX_COMMENTS)
-    .map((comment, index) => ({
-      ...comment,
-      commentId: `comment_${index}`
-    }));
+  let commentsToDisplay: CommentsToDisplay = [];
+  let reviewsAmount = 0;
+  // есть смысл это в селектор перенести, чтобы не хранить логику в компоненте
+  if (offerComments && offerComments.length > 0) {
+    reviewsAmount = offerComments?.length;
+    const sortedComments = [...offerComments].sort((a, b) =>
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+    commentsToDisplay = sortedComments
+      .slice(0, MAX_COMMENTS)
+      .map((comment, index) => ({
+        ...comment,
+        commentId: `comment_${index}` // nanoid. запрос -> ответ -> преобразование (nanoid) -> запись в redux
+      }));
+  }
 
   return (
     <section className="offer__reviews reviews">
@@ -93,7 +102,7 @@ export default function Reviews ({currentOfferId}: ReviewsProps) {
       </h2>
       <ul className="reviews__list">
         {commentsToDisplay.map((comment) => (
-          <ReviewsItem key={comment.commentId} comment={comment} />
+          <MemorizedReviewsItem key={comment.commentId} comment={comment} />
         ))}
       </ul>
 
@@ -102,3 +111,7 @@ export default function Reviews ({currentOfferId}: ReviewsProps) {
     </section>
   );
 }
+
+const MemorizedReviews = memo(Reviews);
+
+export default MemorizedReviews;

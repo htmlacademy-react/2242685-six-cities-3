@@ -75,3 +75,8 @@ export type CommentToPost = {
   comment: string;
   rating: number;
   }
+
+export type AppData = {
+    offers: Offers;
+    isOffersDataLoading: boolean;
+  };

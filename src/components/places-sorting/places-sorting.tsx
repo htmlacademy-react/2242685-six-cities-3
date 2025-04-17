@@ -1,12 +1,13 @@
 import { SortOrder } from '../../const';
-import { selectSortOrder } from '../../store/action';
+import { selectSortOrder } from '../../store/app-params/app-params';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
 import { useState } from 'react';
+import { getSortOrder } from '../../store/app-params/selectors';
 
 export default function PlacesSorting () {
   const sortOrders = Object.values(SortOrder);
   const dispatch = useAppDispatch();
-  const currentSortOrder = useAppSelector((state) => state.sortOrder);
+  const currentSortOrder = useAppSelector(getSortOrder);
   const [isSortOrderListOpen, setIsSortOrderListOpen] = useState(false);
 
   const handleSortTypeClick = () => {

@@ -1,5 +1,5 @@
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { createAPI } from '../services/api';
+// import { createAPI } from '../services/api';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import { Action } from 'redux';
@@ -9,9 +9,10 @@ import { checkAuthAction, fetchOffersAction, loginAction, logoutAction } from '.
 import { APIRoute } from '../const';
 import { redirectToRoute } from './action';
 import { AuthData } from '../types/auth-data';
+import { api } from '.';
 
 describe('Async actions', () => {
-  const axios = createAPI();
+  const axios = api;
   const mockAxiosAdapter = new MockAdapter(axios);
   const middleware = [thunk.withExtraArgument(axios)];
   const mockStoreCreator = configureMockStore<State, Action<string>, AppThunkDispatch>(middleware);

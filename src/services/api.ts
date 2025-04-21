@@ -42,6 +42,12 @@ export const createAPI = (): AxiosInstance => {
         const detailMessage = (error.response.data);
 
         processErrorHandle(detailMessage.message);
+      } else if (error.request) {
+        // Ошибка сети или тайм-аут
+        processErrorHandle('Network error or timeout');
+      } else {
+        // Другие ошибки
+        processErrorHandle(error.message);
       }
 
       throw error;

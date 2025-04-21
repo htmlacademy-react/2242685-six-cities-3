@@ -1,5 +1,4 @@
-import { useState, ReactEventHandler, Fragment, FormEventHandler, useRef } from 'react';
-// import { useDispatch } from 'react-redux';
+import { useState, ReactEventHandler, Fragment, FormEventHandler } from 'react';
 import { fetchCommentsAction, postCommentAction } from '../../store/api-actions';
 import { useParams } from 'react-router-dom';
 import { store } from '../../store';
@@ -76,9 +75,9 @@ function ReviewsRatingForm ({onStarClick}: RatingItemProps) {
 function ReviewsForm() {
   const [review, setReview] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
-  const [isFormLocked, setIsFormLocked] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {id} = useParams();
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const isButtonDisabled = isLoading || rating === 0 || review.length < 50 || review.length > 300;
 
   const handleTextChange: TChangeHandler = (evt) => {
     const {value} = evt.currentTarget;
@@ -92,32 +91,29 @@ function ReviewsForm() {
 
   const handleReviewFormSubmit: FormEventHandler<HTMLFormElement> = (evt) => {
     evt.preventDefault();
-    setIsFormLocked(true);
+    setIsLoading(true);
 
     store.dispatch(postCommentAction([id, {comment: review, rating}]))
       .then(() => {
         store.dispatch(fetchCommentsAction(id));
         setReview('');
         setRating(0);
-        if (textareaRef.current) {
-          textareaRef.current.value = '';
-        }
       })
       .catch((error) => {
         processErrorHandle(String(error));
       })
       .finally(() => {
-        setIsFormLocked(false);
+        setIsLoading(false);
       });
   };
-  // action="#"
+
   return (
     <form className="reviews__form form" method="post" onSubmit={handleReviewFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
 
-      {!isFormLocked && <ReviewsRatingForm onStarClick={handleRatingChange} />}
+      {!isLoading && <ReviewsRatingForm onStarClick={handleRatingChange} />}
 
       <textarea
         className="reviews__textarea form__textarea"
@@ -126,8 +122,8 @@ function ReviewsForm() {
         placeholder="Tell how was your stay, what you like and what can be improved"
         defaultValue={''}
         onChange={handleTextChange}
-        disabled={isFormLocked}
-        ref={textareaRef}
+        disabled={isLoading}
+        value={review}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -138,9 +134,9 @@ function ReviewsForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isFormLocked || rating === 0 || review.length < 50 || review.length > 300}
+          disabled={isButtonDisabled}
         >
-          {isFormLocked ? 'Loading...' : 'Submit'}
+          {isLoading ? 'Loading...' : 'Submit'}
         </button>
       </div>
     </form>

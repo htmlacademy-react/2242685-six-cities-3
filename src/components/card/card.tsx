@@ -3,14 +3,17 @@ import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { AuthorizationStatus, Page } from '../../const';
 import { handleFavoriteButtonClick, percentsRating } from '../../utils/utils';
 import { useAppSelector } from '../../hooks/state';
+import { memo } from 'react';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type CardProps = {
   offer: Offer;
   onCardHover?: (offerId: string) => void;
+  originalPage: Page;
 }
 
-function Card({offer, onCardHover}: CardProps) {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+function Card({offer, onCardHover, originalPage}: CardProps) {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
   const location = useLocation();
   let pathname = location.pathname;
@@ -27,8 +30,8 @@ function Card({offer, onCardHover}: CardProps) {
   let imageWidth = 260;
   let imageHeight = 200;
 
-  switch (pathname) {
-    case '': //Page.Main
+  switch (originalPage) {
+    case Page.Main:
       articleClassName = `cities__card ${articleClassName}`;
       divImageClassName = `cities__image-wrapper ${divImageClassName}`;
       imageWidth = 260;
@@ -81,7 +84,7 @@ function Card({offer, onCardHover}: CardProps) {
           <button
             className={`place-card__bookmark-button ${offer.isFavorite && authorizationStatus === AuthorizationStatus.Auth ? 'place-card__bookmark-button--active' : ''} button`}
             type="button"
-            onClick={handleFavoriteButtonClick(offer.id, Number(!offer.isFavorite), authorizationStatus, navigate)}
+            onClick={handleFavoriteButtonClick(offer.id, offer.isFavorite, authorizationStatus, navigate)}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
@@ -104,4 +107,6 @@ function Card({offer, onCardHover}: CardProps) {
   );
 }
 
-export default Card;
+const MemorizedCard = memo(Card);
+
+export default MemorizedCard;

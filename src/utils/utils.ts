@@ -1,7 +1,7 @@
 import { Offer, Point } from '../types/types';
 import { store } from '../store';
-import { selectCity } from '../store/action';
-import { fetchFavoritesAction, fetchOfferAction, fetchOffersAction, setFavoriteStatus } from '../store/api-actions';
+import { selectCity } from '../store/app-params/app-params';
+import { fetchFavoritesAction, fetchFullOfferAction, fetchOffersAction, setFavoriteStatus } from '../store/api-actions';
 import { MouseEventHandler } from 'react';
 import { AuthorizationStatus, Page } from '../const';
 import { processErrorHandle } from '../services/process-error-handle';
@@ -32,7 +32,7 @@ export function getRandomIntFromRange(min: number, max: number) {
 
 export const handleFavoriteButtonClick = (
   offerId: string | undefined,
-  status: number,
+  isFavorite: boolean,
   authorizationStatus: AuthorizationStatus,
   navigate: (path: string) => void,
 ): MouseEventHandler<HTMLButtonElement> => (event) => {
@@ -42,16 +42,13 @@ export const handleFavoriteButtonClick = (
     navigate(Page.Login);
     return;
   }
+  const status = Number(!isFavorite);
 
   store.dispatch(setFavoriteStatus([offerId, status]))
     .then(() => {
-      const promises = [
-        store.dispatch(fetchFavoritesAction()),
-        store.dispatch(fetchOfferAction(offerId)),
-        store.dispatch(fetchOffersAction()), // оптимизировать
-      ];
-
-      return Promise.all(promises);
+      store.dispatch(fetchFavoritesAction());
+      store.dispatch(fetchFullOfferAction(offerId));
+      store.dispatch(fetchOffersAction());
     })
     .catch((error) => {
       processErrorHandle(String(error));

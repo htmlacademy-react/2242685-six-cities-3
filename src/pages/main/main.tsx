@@ -1,12 +1,14 @@
 import { Offer } from '../../types/types';
-import OffersList from '../../components/offers-list/offers-list';
+import MemorizedOffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { mapOffersToMapPoints } from '../../utils/utils';
-import Cities from '../../components/cities/cities';
-import { CITIES, SortOrder } from '../../const';
+import MemorizedCities from '../../components/cities/cities';
+import { CITIES, Page, SortOrder } from '../../const';
 import { useAppSelector } from '../../hooks/state';
 import PlacesSorting from '../../components/places-sorting/places-sorting';
+import { getOffers } from '../../store/app-data/selectors';
+import { getCityName, getSortOrder } from '../../store/app-params/selectors';
 
 const MAP_HEIGHT = 1000;
 
@@ -34,11 +36,9 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
   const selectedCity = cityOffers[0].city;
   const points = mapOffersToMapPoints(cityOffers);
 
-  const handleCardHover = (offerId: string | undefined) => {
-    const currentOffer = cityOffers.find((offer) => offer.id === offerId);
-
-    setSelectedOfferId(currentOffer?.id);
-  };
+  const handleCardHover = useCallback((offerId: string | undefined) => {
+    setSelectedOfferId(offerId);
+  }, []);
 
   return (
     <div className="cities__places-container container">
@@ -48,9 +48,10 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
 
         <PlacesSorting />
 
-        <OffersList
+        <MemorizedOffersList
           offers={cityOffers}
           onCardHover={handleCardHover}
+          originalPage={Page.Main}
         />
 
       </section>
@@ -66,25 +67,25 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
 };
 
 export default function Main() {
-  const offers = useAppSelector((state) => state.offers);
-  const selectedSortOrder = useAppSelector((state) => state.sortOrder);
-  const cityName = useAppSelector((state) => state.cityName);
-  const defaultSortCityOffers = offers.filter((offer) => offer.city.name === cityName);
+  const offers = useAppSelector(getOffers);
+  const selectedSortOrder = useAppSelector(getSortOrder);
+  const cityName = useAppSelector(getCityName);
+  const defaultSortCityOffers = offers?.filter((offer) => offer.city.name === cityName);
 
-  let cityOffers = offers.filter((offer) => offer.city.name === cityName);
+  let cityOffers = offers?.filter((offer) => offer.city.name === cityName);
 
   switch (selectedSortOrder) {
     case SortOrder.Popular:
-      cityOffers = defaultSortCityOffers.slice();
+      cityOffers = defaultSortCityOffers?.slice();
       break;
     case SortOrder.PriceHighToLow:
-      cityOffers.sort((a, b) => b.price - a.price);
+      cityOffers?.sort((a, b) => b.price - a.price);
       break;
     case SortOrder.PriceLowToHigh:
-      cityOffers.sort((a, b) => a.price - b.price);
+      cityOffers?.sort((a, b) => a.price - b.price);
       break;
     case SortOrder.TopRatedFirst:
-      cityOffers.sort((a, b) => b.rating - a.rating);
+      cityOffers?.sort((a, b) => b.rating - a.rating);
       break;
   }
 
@@ -92,11 +93,11 @@ export default function Main() {
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
 
-      <Cities cities={CITIES} />
+      <MemorizedCities cities={CITIES} />
 
       <div className="cities">
 
-        {cityOffers.length > 0 ? (
+        {cityOffers && cityOffers.length > 0 ? (
           <CitiesPlaces cityOffers={cityOffers} cityName={cityName} />
         ) : (
           <NoCitiesPlaces />

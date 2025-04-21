@@ -1,15 +1,23 @@
+import { useAppSelector } from '../../hooks/state';
+import { getFavorites } from '../../store/app-data/selectors';
+import FavoritesEmpty from './favorites-empty';
 import FavoritesList from './favorites-list';
 import { Link } from 'react-router-dom';
 
 function Favorites() {
+  const favorites = useAppSelector(getFavorites);
+  // console.log('Favorites:', favorites);
+  const mainNoFavoritesClassname = favorites?.length === 0 ? 'page__main--favorites-empty' : '';
+  const sectionNoFavoritesClassname = favorites?.length === 0 ? 'favorites--empty' : '';
 
   return (
     <>
-      <main className="page__main page__main--favorites">
+      <main className={`page__main page__main--favorites ${mainNoFavoritesClassname}`}>
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList />
+          <section className={`favorites ${sectionNoFavoritesClassname}`}>
+            {favorites?.length === 0 ?
+              <FavoritesEmpty /> :
+              <FavoritesList />}
           </section>
         </div>
       </main>

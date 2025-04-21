@@ -3,14 +3,13 @@ import { CITIES } from '../../const';
 import { Page } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
 import { selectCity } from '../../store/app-params/app-params';
-import { memo } from 'react';
 import { getCityName } from '../../store/app-params/selectors';
 
 type citiesProps = {
   cities: typeof CITIES;
 }
 
-function Cities ({cities}: citiesProps) {
+export default function Cities ({cities}: citiesProps) {
   const dispatch = useAppDispatch();
   const selectedCityName = useAppSelector(getCityName);
 
@@ -42,7 +41,3 @@ function Cities ({cities}: citiesProps) {
     </div>
   );
 }
-
-const MemorizedCities = memo(Cities);
-
-export default MemorizedCities;

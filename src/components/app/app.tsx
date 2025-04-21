@@ -32,7 +32,7 @@ export default function App() {
         <Route path={Page.Main} element={<MainLayout />}>
           <Route index element={<Main />} />
         </Route>
-        <Route path={Page.Main} element={<Layout />}>
+        <Route element={<Layout />}>
           <Route path={Page.Favorites} element={
             <PrivateRoute authorizationStatus={authorizationStatus}>
               <Favorites />
@@ -42,7 +42,7 @@ export default function App() {
           <Route path={`${Page.Offer}/:id`} element={<Offer />} />
           <Route path="*" element={<Page404 />} />
         </Route>
-        <Route path={Page.Main} element={<LoginLayout />}>
+        <Route path={Page.Login} element={<LoginLayout />}>
           <Route path={Page.Login} element={<Login />} />
         </Route>
       </Routes>

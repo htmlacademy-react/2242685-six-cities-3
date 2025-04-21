@@ -50,8 +50,11 @@ export default function FavoritesList () {
     .filter((name, index, self) => self.indexOf(name) === index);
 
   return (
-    <ul className="favorites__list">
-      {uniqueCityNames.map((cityName) => <FavoritesLocationsItems key={cityName} favoriteOffers={favoriteOffers} cityName={cityName} />)}
-    </ul>
+    <>
+      <h1 className="favorites__title">Saved listing</h1>
+      <ul className="favorites__list">
+        {uniqueCityNames.map((cityName) => <FavoritesLocationsItems key={cityName} favoriteOffers={favoriteOffers} cityName={cityName} />)}
+      </ul>
+    </>
   );
 }

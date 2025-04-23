@@ -24,14 +24,17 @@ export default function Login() {
     }
   }, [authorizationStatus, navigate]);
 
+  const validatePassword = (value: string): boolean => {
+    const hasLetter = /[a-zA-Z]/.test(value);
+    const hasDigit = /\d/.test(value);
+    return hasLetter && hasDigit;
+  };
+
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     // Проверка пароля перед отправкой
-    const hasLetter = /[a-zA-Z]/.test(password);
-    const hasDigit = /\d/.test(password);
-
-    if (!hasLetter || !hasDigit) {
+    if (!validatePassword(password)) {
       setPasswordError(PASSWORD_ERROR_TEXT);
       return;
     }
@@ -55,10 +58,7 @@ export default function Login() {
     setPassword(value);
 
     // Проверка пароля
-    const hasLetter = /[a-zA-Z]/.test(value);
-    const hasDigit = /\d/.test(value);
-
-    if (!hasLetter || !hasDigit) {
+    if (!validatePassword(value)) {
       setPasswordError(PASSWORD_ERROR_TEXT);
     } else {
       setPasswordError('');

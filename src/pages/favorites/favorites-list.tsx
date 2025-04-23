@@ -2,7 +2,7 @@ import { Offers } from '../../types/types';
 import MemorizedCard from '../../components/card/card';
 import { useAppSelector } from '../../hooks/state';
 import { Link } from 'react-router-dom';
-import { Page } from '../../const';
+import { CardViewType, Page } from '../../const';
 import { handleCityClick } from '../../utils/utils';
 import { getFavorites } from '../../store/app-data/selectors';
 
@@ -14,7 +14,7 @@ type FavoritesPlacesProps = {
 function FavoritesPlaces ({favoriteOffers, cityName}: FavoritesPlacesProps) {
   return (
     favoriteOffers.filter((offer) => offer.city.name === cityName).map((offer) =>
-      (<MemorizedCard key={offer.id} offer={offer} originalPage={Page.Favorites} />))
+      (<MemorizedCard key={offer.id} offer={offer} cardViewType={CardViewType.Favorites} />))
   );
 }
 
@@ -46,8 +46,8 @@ export default function FavoritesList () {
     return null;
   }
 
-  const uniqueCityNames = favoriteOffers.map((offer) => offer.city.name)
-    .filter((name, index, self) => self.indexOf(name) === index);
+  const uniqueCityNames = [...new Set(favoriteOffers.map((offer) => offer.city.name))];
+
 
   return (
     <>

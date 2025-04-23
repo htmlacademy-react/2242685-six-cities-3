@@ -48,3 +48,14 @@ export enum NameSpace {
   App = 'APP',
   User = 'USER',
 }
+
+export enum CardViewType {
+  Main = 'MAIN',
+  Favorites = 'FAVORITES',
+  Offer = 'OFFER'
+}
+
+export enum TileLayerParam {
+  Argument = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+  Attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+}

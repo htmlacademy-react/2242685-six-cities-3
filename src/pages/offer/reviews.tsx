@@ -67,7 +67,6 @@ const MemorizedReviewsItem = memo(ReviewsItem);
 
 function Reviews ({currentOfferId}: ReviewsProps) {
   const commentsToDisplay = useAppSelector(getFormattedComments);
-  // const offerComments = useAppSelector(getComments);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const dispatch = useAppDispatch();

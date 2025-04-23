@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 
 function Favorites() {
   const favorites = useAppSelector(getFavorites);
-  // console.log('Favorites:', favorites);
   const mainNoFavoritesClassname = favorites?.length === 0 ? 'page__main--favorites-empty' : '';
   const sectionNoFavoritesClassname = favorites?.length === 0 ? 'favorites--empty' : '';
 

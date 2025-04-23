@@ -4,7 +4,7 @@ import Map from '../../components/map/map';
 import { useCallback, useState } from 'react';
 import { mapOffersToMapPoints } from '../../utils/utils';
 import Cities from '../../components/cities/cities';
-import { CITIES, Page, SortOrder } from '../../const';
+import { CardViewType, CITIES, SortOrder } from '../../const';
 import { useAppSelector } from '../../hooks/state';
 import PlacesSorting from '../../components/places-sorting/places-sorting';
 import { getOffers } from '../../store/app-data/selectors';
@@ -51,7 +51,7 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
         <MemorizedOffersList
           offers={cityOffers}
           onCardHover={handleCardHover}
-          originalPage={Page.Main}
+          cardViewType={CardViewType.Main}
         />
 
       </section>

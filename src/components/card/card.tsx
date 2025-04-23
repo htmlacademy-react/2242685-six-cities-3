@@ -1,6 +1,6 @@
 import { Offer } from '../../types/types';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
-import { AuthorizationStatus, Page } from '../../const';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthorizationStatus, Page, CardViewType } from '../../const';
 import { handleFavoriteButtonClick, percentsRating } from '../../utils/utils';
 import { useAppSelector } from '../../hooks/state';
 import { memo } from 'react';
@@ -9,19 +9,12 @@ import { getAuthorizationStatus } from '../../store/user-process/selectors';
 type CardProps = {
   offer: Offer;
   onCardHover?: (offerId: string) => void;
-  originalPage: Page;
+  cardViewType: CardViewType;
 }
 
-function Card({offer, onCardHover, originalPage}: CardProps) {
+function Card({offer, onCardHover, cardViewType}: CardProps) {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
-  const location = useLocation();
-  let pathname = location.pathname;
-  const slashIndex = pathname.indexOf('/');
-
-  if (slashIndex !== -1) {
-    pathname = pathname.substring(0, slashIndex);
-  }
 
   const offerLink = `${Page.Offer}/${offer.id}`;
 
@@ -30,20 +23,20 @@ function Card({offer, onCardHover, originalPage}: CardProps) {
   let imageWidth = 260;
   let imageHeight = 200;
 
-  switch (originalPage) {
-    case Page.Main:
+  switch (cardViewType) {
+    case CardViewType.Main:
       articleClassName = `cities__card ${articleClassName}`;
       divImageClassName = `cities__image-wrapper ${divImageClassName}`;
       imageWidth = 260;
       imageHeight = 200;
       break;
-    case Page.Favorites:
+    case CardViewType.Favorites:
       articleClassName = `favorites__card ${articleClassName}`;
       divImageClassName = `favorites__image-wrapper ${divImageClassName}`;
       imageWidth = 150;
       imageHeight = 110;
       break;
-    case Page.Offer:
+    case CardViewType.Offer:
       articleClassName = `near-places__card ${articleClassName}`;
       divImageClassName = `near-places__image-wrapper ${divImageClassName}`;
       imageWidth = 260;

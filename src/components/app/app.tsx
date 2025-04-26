@@ -4,7 +4,7 @@ import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
 import Offer from '../../pages/offer/offer';
-import Page404 from '../../pages/page404/page404';
+import Page404 from '../../pages/page-404/page-404.tsx';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 import LoginLayout from '../layout/login-layout';

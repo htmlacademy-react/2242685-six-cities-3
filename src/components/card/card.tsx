@@ -9,10 +9,11 @@ import { getAuthorizationStatus } from '../../store/user-process/selectors';
 type CardProps = {
   offer: Offer;
   onCardHover?: (offerId: string) => void;
+  onMouseLeave?: () => void;
   cardViewType: CardViewType;
 }
 
-function Card({offer, onCardHover, cardViewType}: CardProps) {
+function Card({offer, onCardHover, onMouseLeave, cardViewType}: CardProps) {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
 
@@ -49,6 +50,7 @@ function Card({offer, onCardHover, cardViewType}: CardProps) {
       className={articleClassName}
       id={offer.id}
       onMouseOver={() => onCardHover?.(offer.id)}
+      onMouseLeave={onMouseLeave}
     >
       {
         offer.isPremium ?

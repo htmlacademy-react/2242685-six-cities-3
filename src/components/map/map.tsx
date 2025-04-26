@@ -6,6 +6,8 @@ import 'leaflet/dist/leaflet.css';
 import { City, Point } from '../../types/types';
 
 const MAP_HEIGHT = 806;
+const ICON_WIDTH = 23.2;
+const ICON_HEIGHT = 36.06;
 
 type MapProps = {
   city: City;
@@ -17,14 +19,14 @@ type MapProps = {
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconSize: [ICON_WIDTH, ICON_HEIGHT],
+  iconAnchor: [ICON_WIDTH / 2, ICON_HEIGHT]
 });
 
 const currentCustomIcon = new Icon({
   iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconSize: [ICON_WIDTH, ICON_HEIGHT],
+  iconAnchor: [ICON_WIDTH / 2, ICON_HEIGHT]
 });
 
 function Map(props: MapProps) {

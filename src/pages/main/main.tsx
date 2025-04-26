@@ -40,6 +40,10 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
     setSelectedOfferId(offerId);
   }, []);
 
+  const handleMouseLeave = useCallback(() => {
+    setSelectedOfferId(undefined);
+  }, []);
+
   return (
     <div className="cities__places-container container">
       <section className="cities__places places">
@@ -51,6 +55,7 @@ const CitiesPlaces = ({cityOffers, cityName}: citiesPlacesProps) => {
         <MemorizedOffersList
           offers={cityOffers}
           onCardHover={handleCardHover}
+          onMouseLeave={handleMouseLeave}
           cardViewType={CardViewType.Main}
         />
 

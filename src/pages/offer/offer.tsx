@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
 import { fetchNearbyOffersAction, fetchFullOfferAction } from '../../store/api-actions';
 import OffersList from '../../components/offers-list/offers-list';
-import Page404 from '../page404/page404';
+import Page404 from '../page-404/page-404';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getFullOffer, getNearOffers, getOffers } from '../../store/app-data/selectors';
 import { CardViewType } from '../../const';

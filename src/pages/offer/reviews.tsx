@@ -5,7 +5,7 @@ import { memo, useEffect } from 'react';
 import { fetchCommentsAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/state';
 import { AuthorizationStatus } from '../../const';
-import { getFormattedComments } from '../../store/app-data/selectors';
+import { getComments, getFormattedComments } from '../../store/app-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type ReviewsProps = {
@@ -66,6 +66,7 @@ function ReviewsItem ({comment}: ReviewsItemProps) {
 const MemorizedReviewsItem = memo(ReviewsItem);
 
 function Reviews ({currentOfferId}: ReviewsProps) {
+  const comments = useAppSelector(getComments);
   const commentsToDisplay = useAppSelector(getFormattedComments);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
@@ -77,7 +78,7 @@ function Reviews ({currentOfferId}: ReviewsProps) {
     }
   }, [dispatch, currentOfferId]);
 
-  const reviewsAmount = commentsToDisplay?.length || 0;
+  const reviewsAmount = comments?.length || 0;
 
   return (
     <section className="offer__reviews reviews">
